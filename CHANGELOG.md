@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/wize-works/jobsight-app/compare/v1.4.0...v1.5.0) (2025-05-02)
+
+
+### Features
+
+* Update theme names and configurations in CSS and JavaScript files ([1f46694](https://github.com/wize-works/jobsight-app/commit/1f46694434b9f81d0eb50f59519f2c092663040f))
+
 # [1.4.0](https://github.com/wize-works/jobsight-app/compare/v1.3.0...v1.4.0) (2025-05-02)
 
 
