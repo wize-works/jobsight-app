@@ -39,13 +39,33 @@ const EquipmentTable = ({
         switch (status?.toLowerCase()) {
             case 'active':
             case 'available':
-                return <span className="flex w-2 h-2 sm:w-3 sm:h-3 bg-success rounded-full mr-1 sm:mr-2"></span>;
+                return (
+                    <div class="inline-grid *:[grid-area:1/1]">
+                        <div class="status status-success animate-ping"></div>
+                        <div class="status status-success"></div>
+                    </div>
+                );
             case 'in use':
-                return <span className="flex w-2 h-2 sm:w-3 sm:h-3 bg-primary rounded-full mr-1 sm:mr-2"></span>;
+                return (
+                    <div class="inline-grid *:[grid-area:1/1]">
+                        <div class="status status-info animate-ping"></div>
+                        <div class="status status-info"></div>
+                    </div>
+                );
             case 'maintenance':
-                return <span className="flex w-2 h-2 sm:w-3 sm:h-3 bg-warning rounded-full mr-1 sm:mr-2"></span>;
+                return (
+                    <div class="inline-grid *:[grid-area:1/1]">
+                        <div class="status status-warning animate-ping"></div>
+                        <div class="status status-warning"></div>
+                    </div>
+                );
             case 'repair':
-                return <span className="flex w-2 h-2 sm:w-3 sm:h-3 bg-error rounded-full mr-1 sm:mr-2"></span>;
+                return (
+                    <div class="inline-grid *:[grid-area:1/1]">
+                        <div class="status status-error animate-ping"></div>
+                        <div class="status status-error"></div>
+                    </div>
+                );
             default:
                 return <span className="flex w-2 h-2 sm:w-3 sm:h-3 bg-muted rounded-full mr-1 sm:mr-2"></span>;
         }
@@ -55,7 +75,7 @@ const EquipmentTable = ({
         switch (status?.toLowerCase()) {
             case 'active':
             case 'available': return 'text-success';
-            case 'in use': return 'text-primary';
+            case 'in use': return 'text-info';
             case 'maintenance': return 'text-warning';
             case 'repair': return 'text-error';
             default: return 'text-muted-foreground';
@@ -93,9 +113,9 @@ const EquipmentTable = ({
                                         <div className="text-xs text-muted-foreground">{item.id}</div>
                                     </td>
                                     <td>
-                                        <div className="flex items-center">
+                                        <div className="">
                                             {getStatusIndicator(item.status)}
-                                            <span className={`text-xs sm:text-sm ${getStatusClass(item.status)}`}>
+                                            <span className={`text-sm sm:text-sm ms-2 `}>
                                                 {item.status}
                                             </span>
                                         </div>

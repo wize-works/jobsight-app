@@ -25,13 +25,16 @@ const ProjectsTable = ({ projects, loading }) => {
                                 <td className="font-medium">{project.name}</td>
                                 <td className="hidden sm:table-cell">{project.client}</td>
                                 <td>
-                                    <div className={`badge ${project.status === 'active' ? 'badge-success' :
-                                        project.status === 'completed' ? 'badge-primary' :
-                                            project.status === 'on hold' ? 'badge-warning' :
-                                                project.status === 'planning' ? 'badge-info' :
-                                                    'badge-ghost'
-                                        }`}>
-                                        {project.status}
+                                    <div className="flex items-center gap-2">
+                                        <span
+                                            className={`status ${project.status === 'active' ? 'status-info' :
+                                                project.status === 'completed' ? 'status-success' :
+                                                    project.status === 'on hold' ? 'status-warning' :
+                                                        project.status === 'planning' ? 'status-primary' :
+                                                            'status-neutral'
+                                                }`}
+                                        ></span>
+                                        <span className="capitalize">{project.status}</span>
                                     </div>
                                 </td>
                                 <td className="hidden md:table-cell">

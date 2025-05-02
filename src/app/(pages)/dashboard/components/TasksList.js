@@ -47,9 +47,11 @@ const TasksList = ({
 
     const getPriorityClass = (priority) => {
         switch (priority?.toLowerCase()) {
-            case 'urgent': return 'text-error';
-            case 'high': return 'text-warning';
-            default: return 'text-muted-foreground';
+            case 'urgent': return 'badge badge-error';
+            case 'high': return 'badge badge-warning';
+            case 'normal': return 'badge badge-info';
+            case 'low': return 'badge badge-success';
+            default: return 'badge badge-ghost';
         }
     };
 
@@ -105,7 +107,7 @@ const TasksList = ({
                                         </span>
                                     </td>
                                     <td className="hidden sm:table-cell">
-                                        <span className={`${getPriorityClass(task.priority)}`}>
+                                        <span className={getPriorityClass(task.priority)}>
                                             {task.priority && `${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}`}
                                         </span>
                                     </td>

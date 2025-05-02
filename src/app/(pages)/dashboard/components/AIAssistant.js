@@ -21,8 +21,8 @@ const AIAssistant = ({ suggestions = [], insight = '', loading = false }) => {
     }
 
     return (
-        <div className="card h-full col-span-1 lg:col-span-1">
-            <div className="card-header p-3 sm:p-4 lg:p-5">
+        <div className="">
+            <div className="p-3 sm:p-4 lg:p-5">
                 <div className="flex items-center">
                     <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/20 flex items-center justify-center mr-2 sm:mr-3">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="sm:w-6 sm:h-6">
@@ -33,7 +33,7 @@ const AIAssistant = ({ suggestions = [], insight = '', loading = false }) => {
                     <h2 className="text-lg sm:text-xl font-semibold">AI Assistant</h2>
                 </div>
             </div>
-            <div className="p-3 sm:p-4 lg:p-5">
+            <div className="card bg-base-100 shadow-lg p-3 sm:p-4 lg:p-5">
                 <div className="bg-muted/50 p-3 sm:p-4 rounded-lg mb-3 sm:mb-4">
                     <p className="text-xs sm:text-sm">{insight || 'No insights available at the moment.'}</p>
                 </div>

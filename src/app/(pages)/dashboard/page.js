@@ -241,36 +241,22 @@ const Dashboard = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6">
-                    <div className="lg:col-span-2">
-                        <div className="card bg-base-100 shadow-lg">
-                            <div className="card-body p-3 sm:p-4 lg:p-6">
-                                <FinancialOverview
-                                    data={financialData}
-                                    loading={isLoading}
-                                />
-                            </div>
-                        </div>
-                    </div>
+                    <FinancialOverview
+                        data={financialData}
+                        loading={isLoading}
+                    />
 
-                    <div className="card bg-base-100 shadow-lg">
-                        <div className="card-body p-3 sm:p-4 lg:p-6">
-                            <AIAssistant
-                                suggestions={aiSuggestions}
-                                insight="Based on current progress, Riverside Apartments project is ahead of schedule by 2 days. Material costs are 3% under budget."
-                                loading={isLoading}
-                            />
-                        </div>
-                    </div>
-                </div>
+                    <RecentActivity
+                        activities={activities}
+                        onViewAll={() => console.log("View all activities")}
+                        loading={isLoading}
+                    />
 
-                <div className="card bg-base-100 shadow-lg">
-                    <div className="card-body p-3 sm:p-4 lg:p-6">
-                        <RecentActivity
-                            activities={activities}
-                            onViewAll={() => console.log("View all activities")}
-                            loading={isLoading}
-                        />
-                    </div>
+                    <AIAssistant
+                        suggestions={aiSuggestions}
+                        insight="Based on current progress, Riverside Apartments project is ahead of schedule by 2 days. Material costs are 3% under budget."
+                        loading={isLoading}
+                    />
                 </div>
             </div>
         </main>
