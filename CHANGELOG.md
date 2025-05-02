@@ -1,3 +1,11 @@
+# [1.7.0](https://github.com/wize-works/jobsight-app/compare/v1.6.0...v1.7.0) (2025-05-02)
+
+
+### Features
+
+* Refactor dashboard components for improved layout and responsiveness ([dc42e69](https://github.com/wize-works/jobsight-app/commit/dc42e69e4cef9ca159bcf637c8f7b0e7a9f7bbf7))
+* Update EquipmentTable and TasksList components for improved layout and structure ([4ed9175](https://github.com/wize-works/jobsight-app/commit/4ed9175eaf1527ede811dad027896b92d8c25945))
+
 # [1.6.0](https://github.com/wize-works/jobsight-app/compare/v1.5.0...v1.6.0) (2025-05-02)
 
 
