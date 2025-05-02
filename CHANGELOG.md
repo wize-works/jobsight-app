@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/wize-works/jobsight-app/compare/v1.2.0...v1.3.0) (2025-05-02)
+
+
+### Features
+
+* Add AI Assistant, Equipment, Financial, and Task Services with Mock Data and API Functions ([a3fc441](https://github.com/wize-works/jobsight-app/commit/a3fc441c24d675cc4ca9b3aa1624627c78a23886))
+
 # [1.2.0](https://github.com/wize-works/jobsight-app/compare/v1.1.0...v1.2.0) (2025-05-02)
 
 
