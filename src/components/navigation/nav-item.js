@@ -10,7 +10,7 @@ export const NavItem = ({ icon, text, isActive, isCollapsed, hasChildren, isNew,
                 <i className={`${icon} fa-lg flex-none ${!isCollapsed ? "mr-3" : ""}`} />
                 <span className={`flex-1 text-left ${isCollapsed ? "hidden" : ""}`}>{text}</span>
                 {isNew && <span className={`badge badge-xs badge-info absolute -top-1 right-0 text-2xs ${isCollapsed ? "hidden" : ""}`}>New</span>}
-                {hasChildren && <i className={`fa-light fa-chevron-right w-3 h-3 ${isCollapsed ? "hidden" : ""}`} />}
+                {hasChildren && <i className={`far fa-chevron-right w-3 h-3 ${isCollapsed ? "hidden" : ""}`} />}
             </Link>
         </li>
     )

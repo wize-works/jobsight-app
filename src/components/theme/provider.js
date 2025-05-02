@@ -7,7 +7,7 @@ export function ThemeProvider({ children, ...props }) {
             attribute="data-theme"
             defaultTheme="light"
             enableSystem={false}
-            themes={["daisylight", "daisydark"]}
+            themes={["light", "dark"]}
             storageKey="theme"
             enableColorScheme={true}
             {...props}
