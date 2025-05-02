@@ -7,28 +7,34 @@ const TasksList = ({
 }) => {
     if (loading) {
         return (
-            <div className="card h-full">
-                <div className="card-header p-5">
-                    <div className="flex justify-between items-center">
-                        <div className="animate-pulse h-6 bg-muted-foreground/20 w-32 rounded"></div>
-                        <div className="animate-pulse h-8 bg-muted-foreground/20 w-24 rounded"></div>
-                    </div>
+            <>
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
+                    <div className="animate-pulse h-5 sm:h-6 bg-muted-foreground/20 w-24 sm:w-32 rounded"></div>
+                    <div className="animate-pulse h-7 sm:h-8 bg-muted-foreground/20 w-20 sm:w-24 rounded"></div>
                 </div>
-                <div className="p-5">
-                    {[...Array(4)].map((_, i) => (
-                        <div key={i} className="mb-4 pb-4 border-b last:border-0 last:mb-0 last:pb-0">
-                            <div className="flex items-start gap-3">
-                                <div className="animate-pulse h-5 w-5 bg-muted-foreground/20 rounded mt-1"></div>
-                                <div className="flex-1">
-                                    <div className="animate-pulse h-5 bg-muted-foreground/20 w-4/5 rounded mb-2"></div>
-                                    <div className="animate-pulse h-4 bg-muted-foreground/20 w-3/5 rounded"></div>
-                                </div>
-                                <div className="animate-pulse h-8 w-20 bg-muted-foreground/20 rounded"></div>
-                            </div>
-                        </div>
-                    ))}
+                <div className="overflow-x-auto bg-base-100 rounded-lg shadow-lg">
+                    <table className="table table-zebra w-full">
+                        <thead>
+                            <tr>
+                                <th className="w-10"></th>
+                                <th>Task</th>
+                                <th className="hidden sm:table-cell">Priority</th>
+                                <th className="hidden md:table-cell">Due Time</th>
+                                <th className="w-20"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {[...Array(4)].map((_, i) => (
+                                <tr key={i}>
+                                    <td colSpan="5" className="text-center p-4">
+                                        <div className="animate-pulse h-4 bg-muted-foreground/20 w-full rounded"></div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-            </div>
+            </>
         );
     }
 
@@ -36,8 +42,6 @@ const TasksList = ({
     const sortedTasks = [...tasks].sort((a, b) => {
         if (a.priority === 'urgent' && b.priority !== 'urgent') return -1;
         if (a.priority !== 'urgent' && b.priority === 'urgent') return 1;
-
-        // Then sort by due date (earliest first)
         return new Date(a.dueDate) - new Date(b.dueDate);
     });
 
@@ -55,55 +59,72 @@ const TasksList = ({
     };
 
     return (
-        <div className="card h-full">
-            <div className="card-header p-5">
-                <div className="flex justify-between items-center">
-                    <h2 className="text-xl font-semibold">Today&apos;s Tasks</h2>
-                    <button onClick={onViewAll} className="btn btn-sm btn-outline">View All</button>
-                </div>
+        <div className="flex flex-col">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4">
+                <h2 className="text-base sm:text-lg font-semibold">Today&apos;s Tasks</h2>
+                <button className="btn btn-primary btn-sm w-full sm:w-auto" onClick={onViewAll}>View All Tasks</button>
             </div>
-            <div className="p-5">
-                {sortedTasks.length === 0 ? (
-                    <div className="text-center py-6 text-muted-foreground">
-                        <p>No tasks due today</p>
-                        <button
-                            className="btn btn-sm btn-primary mt-3"
-                            onClick={() => console.log("Add new task")}
-                        >
-                            Add New Task
-                        </button>
-                    </div>
-                ) : (
-                    sortedTasks.map((task) => (
-                        <div key={task.id} className="mb-4 pb-4 border-b last:border-0 last:mb-0 last:pb-0">
-                            <div className="flex items-start gap-3">
-                                <input
-                                    type="checkbox"
-                                    className="checkbox mt-1"
-                                    checked={task.status === 'completed'}
-                                    onChange={() => onMarkComplete(task.id)}
-                                />
-                                <div className="flex-1">
-                                    <h3 className={`font-medium ${task.status === 'completed' ? 'line-through text-muted-foreground' : ''}`}>
-                                        {task.title}
-                                    </h3>
-                                    <div className="flex items-center text-sm mt-1">
-                                        <span className={`mr-3 ${getPriorityClass(task.priority)}`}>
-                                            {task.priority && `${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)} Priority`}
+            <div className="overflow-x-auto bg-base-100 rounded-lg shadow-lg">
+                <table className="table table-zebra w-full">
+                    <thead>
+                        <tr>
+                            <th className="w-10"></th>
+                            <th>Task</th>
+                            <th className="hidden sm:table-cell">Priority</th>
+                            <th className="hidden md:table-cell">Due Time</th>
+                            <th className="w-20"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {sortedTasks.length === 0 ? (
+                            <tr>
+                                <td colSpan="5" className="text-center p-4">
+                                    <p className="text-muted-foreground">No tasks due today</p>
+                                    <button
+                                        className="btn btn-sm btn-primary mt-2"
+                                        onClick={() => console.log("Add new task")}
+                                    >
+                                        Add New Task
+                                    </button>
+                                </td>
+                            </tr>
+                        ) : (
+                            sortedTasks.map((task) => (
+                                <tr key={task.id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            className="checkbox checkbox-sm"
+                                            checked={task.status === 'completed'}
+                                            onChange={() => onMarkComplete(task.id)}
+                                        />
+                                    </td>
+                                    <td className="font-medium">
+                                        <span className={task.status === 'completed' ? 'line-through text-muted-foreground' : ''}>
+                                            {task.title}
                                         </span>
-                                        <span className="text-muted-foreground">Due {formatDueTime(task.dueDate)}</span>
-                                    </div>
-                                </div>
-                                <button
-                                    className="btn btn-sm btn-ghost"
-                                    onClick={() => onEdit(task.id)}
-                                >
-                                    Edit
-                                </button>
-                            </div>
-                        </div>
-                    ))
-                )}
+                                    </td>
+                                    <td className="hidden sm:table-cell">
+                                        <span className={`${getPriorityClass(task.priority)}`}>
+                                            {task.priority && `${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}`}
+                                        </span>
+                                    </td>
+                                    <td className="hidden md:table-cell text-muted-foreground">
+                                        {formatDueTime(task.dueDate)}
+                                    </td>
+                                    <td>
+                                        <button
+                                            className="btn btn-ghost btn-sm"
+                                            onClick={() => onEdit(task.id)}
+                                        >
+                                            Edit
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

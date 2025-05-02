@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { createContext, useContext, useState } from "react";
 
 
@@ -12,6 +12,26 @@ export const useSidebar = () => useContext(SidebarContext);
 
 export function SidebarProvider({ children }) {
     const [isCollapsed, setIsCollapsed] = useState(false)
+
+    useEffect(() => {
+        // Function to check if the device is mobile
+        const checkMobile = () => {
+            return window.innerWidth < 768; // 768px is the 'md' breakpoint in Tailwind
+        };
+
+        // Set initial state based on screen size
+        setIsCollapsed(checkMobile());
+
+        // Add resize listener
+        const handleResize = () => {
+            setIsCollapsed(checkMobile());
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const toggleSidebar = () => {
         console.log("Sidebar toggled");
