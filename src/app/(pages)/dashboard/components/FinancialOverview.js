@@ -1,17 +1,17 @@
 const FinancialOverview = ({ data = {}, loading = false }) => {
     if (loading) {
         return (
-            <div className="card h-full col-span-1 lg:col-span-1">
-                <div className="card-header p-5">
-                    <div className="animate-pulse h-6 bg-muted-foreground/20 w-40 rounded"></div>
+            <div className="card h-full col-span-1 lg:col-span-2">
+                <div className="card-header p-3 sm:p-4 lg:p-5">
+                    <div className="animate-pulse h-5 sm:h-6 bg-muted-foreground/20 w-32 sm:w-40 rounded"></div>
                 </div>
-                <div className="p-5">
+                <div className="p-3 sm:p-4 lg:p-5">
                     {[...Array(3)].map((_, i) => (
-                        <div key={i} className="mb-5">
-                            <div className="animate-pulse h-5 bg-muted-foreground/20 w-24 rounded mb-2"></div>
+                        <div key={i} className="mb-4 sm:mb-5">
+                            <div className="animate-pulse h-4 sm:h-5 bg-muted-foreground/20 w-20 sm:w-24 rounded mb-2"></div>
                             <div className="flex justify-between items-baseline mb-2">
-                                <div className="animate-pulse h-8 bg-muted-foreground/20 w-28 rounded"></div>
-                                <div className="animate-pulse h-6 bg-muted-foreground/20 w-16 rounded"></div>
+                                <div className="animate-pulse h-6 sm:h-8 bg-muted-foreground/20 w-24 sm:w-28 rounded"></div>
+                                <div className="animate-pulse h-4 sm:h-6 bg-muted-foreground/20 w-12 sm:w-16 rounded"></div>
                             </div>
                             <div className="animate-pulse h-2 bg-muted-foreground/20 w-full rounded"></div>
                         </div>
@@ -40,11 +40,11 @@ const FinancialOverview = ({ data = {}, loading = false }) => {
 
     const getChangeIcon = (change) => {
         return change >= 0 ? (
-            <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-2 h-2 sm:w-3 sm:h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
             </svg>
         ) : (
-            <svg className="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-2 h-2 sm:w-3 sm:h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
             </svg>
         );
@@ -57,57 +57,57 @@ const FinancialOverview = ({ data = {}, loading = false }) => {
     const profitPercentage = maxValue > 0 ? (profit / maxValue) * 100 : 0;
 
     return (
-        <div className="card h-full col-span-1 lg:col-span-1">
-            <div className="card-header p-5">
-                <h2 className="text-xl font-semibold">Financial Overview</h2>
+        <div className="card h-full col-span-1 lg:col-span-2">
+            <div className="card-header p-3 sm:p-4 lg:p-5">
+                <h2 className="text-lg sm:text-xl font-semibold">Financial Overview</h2>
             </div>
-            <div className="p-5">
-                <div className="mb-5">
-                    <div className="text-sm text-muted-foreground mb-1">Revenue</div>
+            <div className="p-3 sm:p-4 lg:p-5">
+                <div className="mb-4 sm:mb-5">
+                    <div className="text-xs sm:text-sm text-muted-foreground mb-1">Revenue</div>
                     <div className="flex justify-between items-baseline mb-2">
-                        <div className="text-2xl font-bold">{formatCurrency(revenue)}</div>
-                        <div className={`flex items-center text-sm ${getChangeColorClass(revenueChange)}`}>
+                        <div className="text-xl sm:text-2xl font-bold">{formatCurrency(revenue)}</div>
+                        <div className={`flex items-center text-xs sm:text-sm ${getChangeColorClass(revenueChange)}`}>
                             {getChangeIcon(revenueChange)}
                             {Math.abs(revenueChange)}%
                         </div>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-2">
+                    <div className="w-full bg-muted rounded-full h-1.5 sm:h-2">
                         <div
-                            className="bg-success h-2 rounded-full"
+                            className="bg-success h-1.5 sm:h-2 rounded-full transition-all duration-300"
                             style={{ width: `${revenuePercentage}%` }}
                         ></div>
                     </div>
                 </div>
 
-                <div className="mb-5">
-                    <div className="text-sm text-muted-foreground mb-1">Expenses</div>
+                <div className="mb-4 sm:mb-5">
+                    <div className="text-xs sm:text-sm text-muted-foreground mb-1">Expenses</div>
                     <div className="flex justify-between items-baseline mb-2">
-                        <div className="text-2xl font-bold">{formatCurrency(expenses)}</div>
-                        <div className={`flex items-center text-sm ${getChangeColorClass(-expensesChange)}`}>
+                        <div className="text-xl sm:text-2xl font-bold">{formatCurrency(expenses)}</div>
+                        <div className={`flex items-center text-xs sm:text-sm ${getChangeColorClass(-expensesChange)}`}>
                             {getChangeIcon(-expensesChange)}
                             {Math.abs(expensesChange)}%
                         </div>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-2">
+                    <div className="w-full bg-muted rounded-full h-1.5 sm:h-2">
                         <div
-                            className="bg-error h-2 rounded-full"
+                            className="bg-error h-1.5 sm:h-2 rounded-full transition-all duration-300"
                             style={{ width: `${expensesPercentage}%` }}
                         ></div>
                     </div>
                 </div>
 
                 <div>
-                    <div className="text-sm text-muted-foreground mb-1">Profit</div>
+                    <div className="text-xs sm:text-sm text-muted-foreground mb-1">Profit</div>
                     <div className="flex justify-between items-baseline mb-2">
-                        <div className="text-2xl font-bold">{formatCurrency(profit)}</div>
-                        <div className={`flex items-center text-sm ${getChangeColorClass(profitChange)}`}>
+                        <div className="text-xl sm:text-2xl font-bold">{formatCurrency(profit)}</div>
+                        <div className={`flex items-center text-xs sm:text-sm ${getChangeColorClass(profitChange)}`}>
                             {getChangeIcon(profitChange)}
                             {Math.abs(profitChange)}%
                         </div>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-2">
+                    <div className="w-full bg-muted rounded-full h-1.5 sm:h-2">
                         <div
-                            className="bg-primary h-2 rounded-full"
+                            className="bg-primary h-1.5 sm:h-2 rounded-full transition-all duration-300"
                             style={{ width: `${profitPercentage}%` }}
                         ></div>
                     </div>

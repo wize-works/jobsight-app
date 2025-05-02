@@ -3,31 +3,27 @@ import PropTypes from 'prop-types';
 
 const ProjectsTable = ({ projects, loading }) => {
     return (
-        <div className="overflow-x-auto bg-base-100 rounded-lg shadow-lg">
-            <div className="flex justify-between items-center p-4 bg-base-200 rounded-t-lg">
-                <h2 className="text-lg font-semibold">Recent Projects</h2>
-                <button className="btn btn-primary btn-sm" onClick={() => alert('Add new project functionality here!')}>Add New Project</button>
-            </div>
-            <table className="table w-full">
+        <div className="overflow-x-auto">
+            <table className="table table-zebra w-full">
                 <thead>
                     <tr>
-                        <th className="">Project</th>
-                        <th className="">Client</th>
-                        <th className="">Status</th>
-                        <th className="">Progress</th>
-                        <th className="">Due Date</th>
+                        <th className="whitespace-nowrap">Project</th>
+                        <th className="hidden sm:table-cell whitespace-nowrap">Client</th>
+                        <th className="whitespace-nowrap">Status</th>
+                        <th className="hidden md:table-cell whitespace-nowrap">Progress</th>
+                        <th className="hidden lg:table-cell whitespace-nowrap">Due Date</th>
                     </tr>
                 </thead>
                 <tbody>
                     {loading ? (
                         <tr>
-                            <td colSpan="5" className="text-center">Loading...</td>
+                            <td colSpan="5" className="text-center p-4">Loading...</td>
                         </tr>
                     ) : (
                         projects.map((project, index) => (
-                            <tr key={index} className="hover:bg-base-200 hover:shadow-md">
-                                <td>{project.name}</td>
-                                <td>{project.client}</td>
+                            <tr key={index} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
+                                <td className="font-medium">{project.name}</td>
+                                <td className="hidden sm:table-cell">{project.client}</td>
                                 <td>
                                     <div className={`badge ${project.status === 'active' ? 'badge-success' :
                                         project.status === 'completed' ? 'badge-primary' :
@@ -38,10 +34,13 @@ const ProjectsTable = ({ projects, loading }) => {
                                         {project.status}
                                     </div>
                                 </td>
-                                <td>
-                                    <progress className="progress progress-primary w-24" value={project.completion} max="100"></progress>
+                                <td className="hidden md:table-cell">
+                                    <div className="flex items-center gap-2">
+                                        <progress className="progress progress-primary w-24" value={project.completion} max="100"></progress>
+                                        <span className="text-sm">{project.completion}%</span>
+                                    </div>
                                 </td>
-                                <td>{new Date(project.dueDate).toLocaleDateString()}</td>
+                                <td className="hidden lg:table-cell whitespace-nowrap">{new Date(project.dueDate).toLocaleDateString()}</td>
                             </tr>
                         ))
                     )}

@@ -177,11 +177,10 @@ const Dashboard = () => {
     };
 
     return (
-        <main className="flex-1 overflow-x-auto p-4 lg:p-6 bg-base-200">
-
+        <main className="flex-1 overflow-x-auto p-2 sm:p-4 lg:p-6 bg-base-200">
             {/* Use skeleton loaders or static layout to prevent layout shifts */}
             <div className="animate-fadeIn">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6">
                     <StatCard
                         title="Active Projects"
                         value={isLoading ? "-" : `${projects.length}`}
@@ -212,45 +211,75 @@ const Dashboard = () => {
                     />
                 </div>
 
-                <ProjectsTable
-                    projects={projects}
-                    loading={isLoading}
-                />
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <TasksList
-                        tasks={tasksDueToday}
-                        onMarkComplete={handleMarkCompleteTask}
-                        onEdit={handleEditTask}
-                        onViewAll={navigateToTasks}
-                        loading={isLoading}
-                    />
-
-                    <EquipmentTable
-                        equipment={equipment.slice(0, 4)}
-                        onManageEquipment={navigateToEquipment}
-                        loading={isLoading}
-                    />
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
+                    <h2 className="text-base sm:text-lg font-semibold">Recent Projects</h2>
+                    <button className="btn btn-primary btn-sm w-full sm:w-auto" onClick={() => alert('Add new project functionality here!')}>Add New Project</button>
+                </div>
+                <div className="card bg-base-100 shadow-lg mb-4 sm:mb-6">
+                    <div className="card-body p-3 sm:p-4 lg:p-6">
+                        <ProjectsTable
+                            projects={projects}
+                            loading={isLoading}
+                        />
+                    </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-                    <FinancialOverview
-                        data={financialData}
-                        loading={isLoading}
-                    />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6">
+                    <div className="card bg-base-100 shadow-lg">
+                        <div className="card-body p-3 sm:p-4 lg:p-6">
+                            <TasksList
+                                tasks={tasksDueToday}
+                                onMarkComplete={handleMarkCompleteTask}
+                                onEdit={handleEditTask}
+                                onViewAll={navigateToTasks}
+                                loading={isLoading}
+                            />
+                        </div>
+                    </div>
 
-                    <AIAssistant
-                        suggestions={aiSuggestions}
-                        insight="Based on current progress, Riverside Apartments project is ahead of schedule by 2 days. Material costs are 3% under budget."
-                        loading={isLoading}
-                    />
+                    <div className="card bg-base-100 shadow-lg">
+                        <div className="card-body p-3 sm:p-4 lg:p-6">
+                            <EquipmentTable
+                                equipment={equipment.slice(0, 4)}
+                                onManageEquipment={navigateToEquipment}
+                                loading={isLoading}
+                            />
+                        </div>
+                    </div>
                 </div>
 
-                <RecentActivity
-                    activities={activities}
-                    onViewAll={() => console.log("View all activities")}
-                    loading={isLoading}
-                />
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6">
+                    <div className="lg:col-span-2">
+                        <div className="card bg-base-100 shadow-lg">
+                            <div className="card-body p-3 sm:p-4 lg:p-6">
+                                <FinancialOverview
+                                    data={financialData}
+                                    loading={isLoading}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="card bg-base-100 shadow-lg">
+                        <div className="card-body p-3 sm:p-4 lg:p-6">
+                            <AIAssistant
+                                suggestions={aiSuggestions}
+                                insight="Based on current progress, Riverside Apartments project is ahead of schedule by 2 days. Material costs are 3% under budget."
+                                loading={isLoading}
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="card bg-base-100 shadow-lg">
+                    <div className="card-body p-3 sm:p-4 lg:p-6">
+                        <RecentActivity
+                            activities={activities}
+                            onViewAll={() => console.log("View all activities")}
+                            loading={isLoading}
+                        />
+                    </div>
+                </div>
             </div>
         </main>
     );
