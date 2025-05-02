@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/wize-works/jobsight-app/compare/v1.5.0...v1.6.0) (2025-05-02)
+
+
+### Features
+
+* Refactor ProjectsTable and StatCard components for improved layout and functionality ([7400952](https://github.com/wize-works/jobsight-app/commit/74009527ecede31ce68de13e1dad09003f7aeb06))
+
 # [1.5.0](https://github.com/wize-works/jobsight-app/compare/v1.4.0...v1.5.0) (2025-05-02)
 
 
