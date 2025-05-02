@@ -39,13 +39,13 @@ export const Sidebar = () => {
         <>
             {/* Backdrop for mobile */}
             {isMobile && !isCollapsed && (
-                <div 
+                <div
                     className="fixed inset-0 bg-black/50 z-40 lg:hidden"
                     onClick={toggleSidebar}
                 />
             )}
 
-            <aside 
+            <aside
                 className={`fixed lg:static bg-base-100 border-r border-gray-200 transition-all duration-300 ease-in-out flex flex-col h-full z-50
                     ${isCollapsed ? "w-16" : "w-64"}
                     ${isMobile ? (isCollapsed ? "-translate-x-full" : "translate-x-0") : ""}
@@ -77,8 +77,8 @@ export const Sidebar = () => {
 
                     {/* Navigation sections */}
                     <NavSection title="Main" isCollapsed={isCollapsed}>
-                        <NavItem key="dashboard" icon="fa-regular fa-rectangles-mixed" text="Dashboard" isActive={activeSection === "dashboard"} isCollapsed={isCollapsed} />
-                        <NavItem key="projects" icon="fa-regular fa-building" text="Projects" isCollapsed={isCollapsed} isActive={activeSection === "projects"} />
+                        <NavItem href="/" key="dashboard" icon="fa-regular fa-rectangles-mixed" text="Dashboard" isActive={activeSection === "dashboard"} isCollapsed={isCollapsed} />
+                        <NavItem href="/projects" key="projects" icon="fa-regular fa-building" text="Projects" isCollapsed={isCollapsed} isActive={activeSection === "projects"} />
                         <NavItem key="logs" icon="fa-regular fa-clipboard-list" text="Daily Logs" isCollapsed={isCollapsed} />
                         <NavItem key="invoicing" icon="fa-regular fa-file-invoice-dollar" text="Invoicing" isCollapsed={isCollapsed} isNew={true} />
                         <NavItem key="equipment" icon="fa-regular fa-truck-field" text="Equipment" isCollapsed={isCollapsed} />

@@ -1,13 +1,13 @@
 const FinancialOverview = ({ data = {}, loading = false }) => {
     if (loading) {
         return (
-            <div className="card h-full col-span-1 lg:col-span-2">
-                <div className="card-header p-3 sm:p-4 lg:p-5">
+            <div className="flex flex-col h-full">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
                     <div className="animate-pulse h-5 sm:h-6 bg-muted-foreground/20 w-32 sm:w-40 rounded"></div>
                 </div>
-                <div className="p-3 sm:p-4 lg:p-5">
+                <div className="p-4 sm:p-5 bg-base-100 rounded-lg shadow-lg flex-1">
                     {[...Array(3)].map((_, i) => (
-                        <div key={i} className="mb-4 sm:mb-5">
+                        <div key={i} className="mb-4 sm:mb-5 last:mb-0">
                             <div className="animate-pulse h-4 sm:h-5 bg-muted-foreground/20 w-20 sm:w-24 rounded mb-2"></div>
                             <div className="flex justify-between items-baseline mb-2">
                                 <div className="animate-pulse h-6 sm:h-8 bg-muted-foreground/20 w-24 sm:w-28 rounded"></div>
@@ -57,12 +57,12 @@ const FinancialOverview = ({ data = {}, loading = false }) => {
     const profitPercentage = maxValue > 0 ? (profit / maxValue) * 100 : 0;
 
     return (
-        <div className="card h-full col-span-1 lg:col-span-2">
-            <div className="card-header p-3 sm:p-4 lg:p-5">
-                <h2 className="text-lg sm:text-xl font-semibold">Financial Overview</h2>
+        <div className="flex flex-col h-full">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
+                <h2 className="text-base sm:text-lg font-semibold">Financial Overview</h2>
             </div>
-            <div className="p-3 sm:p-4 lg:p-5">
-                <div className="mb-4 sm:mb-5">
+            <div className="p-4 sm:p-5 bg-base-100 rounded-lg shadow-lg flex-1">
+                <div className="mb-6">
                     <div className="text-xs sm:text-sm text-muted-foreground mb-1">Revenue</div>
                     <div className="flex justify-between items-baseline mb-2">
                         <div className="text-xl sm:text-2xl font-bold">{formatCurrency(revenue)}</div>
@@ -71,15 +71,15 @@ const FinancialOverview = ({ data = {}, loading = false }) => {
                             {Math.abs(revenueChange)}%
                         </div>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-1.5 sm:h-2">
+                    <div className="w-full bg-muted rounded-full h-2 sm:h-2.5">
                         <div
-                            className="bg-success h-1.5 sm:h-2 rounded-full transition-all duration-300"
+                            className="bg-success h-2 sm:h-2.5 rounded-full transition-all duration-300"
                             style={{ width: `${revenuePercentage}%` }}
                         ></div>
                     </div>
                 </div>
 
-                <div className="mb-4 sm:mb-5">
+                <div className="mb-6">
                     <div className="text-xs sm:text-sm text-muted-foreground mb-1">Expenses</div>
                     <div className="flex justify-between items-baseline mb-2">
                         <div className="text-xl sm:text-2xl font-bold">{formatCurrency(expenses)}</div>
@@ -88,9 +88,9 @@ const FinancialOverview = ({ data = {}, loading = false }) => {
                             {Math.abs(expensesChange)}%
                         </div>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-1.5 sm:h-2">
+                    <div className="w-full bg-muted rounded-full h-2 sm:h-2.5">
                         <div
-                            className="bg-error h-1.5 sm:h-2 rounded-full transition-all duration-300"
+                            className="bg-error h-2 sm:h-2.5 rounded-full transition-all duration-300"
                             style={{ width: `${expensesPercentage}%` }}
                         ></div>
                     </div>
@@ -105,9 +105,9 @@ const FinancialOverview = ({ data = {}, loading = false }) => {
                             {Math.abs(profitChange)}%
                         </div>
                     </div>
-                    <div className="w-full bg-muted rounded-full h-1.5 sm:h-2">
+                    <div className="w-full bg-muted rounded-full h-2 sm:h-2.5">
                         <div
-                            className="bg-primary h-1.5 sm:h-2 rounded-full transition-all duration-300"
+                            className="bg-primary h-2 sm:h-2.5 rounded-full transition-all duration-300"
                             style={{ width: `${profitPercentage}%` }}
                         ></div>
                     </div>

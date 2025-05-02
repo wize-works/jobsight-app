@@ -4,7 +4,7 @@
     prefersdark: false;
     color-scheme: light;
     --color-primary: #FF9933;
-    --color-primary-content: #1B1C1E;
+    --color-primary-content: #F9FAFB;
 
     --color-secondary: #006699;
     --color-secondary-content: #FFFFFF;
@@ -29,6 +29,6 @@
     --color-warning: #FBBD23;
     --color-warning-content: #1B1C1E;
 
-    --color-error: #F87272;
-    --color-error-content: #1B1C1E;
+    --color-error: #DD1C1A;
+    --color-error-content: #F9FAFB;
 }

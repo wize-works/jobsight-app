@@ -1,25 +1,30 @@
 const RecentActivity = ({ activities = [], onViewAll = () => { }, loading = false }) => {
     if (loading) {
         return (
-            <div className="card mb-4 sm:mb-6">
-                <div className="card-header p-3 sm:p-4 lg:p-5">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
-                        <div className="animate-pulse h-5 sm:h-6 bg-muted-foreground/20 w-32 sm:w-40 rounded"></div>
-                        <div className="animate-pulse h-7 sm:h-8 bg-muted-foreground/20 w-20 sm:w-24 rounded"></div>
-                    </div>
+            <div className="flex flex-col">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
+                    <div className="animate-pulse h-5 sm:h-6 bg-muted-foreground/20 w-32 sm:w-40 rounded"></div>
+                    <div className="animate-pulse h-7 sm:h-8 bg-muted-foreground/20 w-24 sm:w-32 rounded"></div>
                 </div>
-                <div className="p-3 sm:p-4 lg:p-5">
-                    {[...Array(4)].map((_, i) => (
-                        <div key={i} className="mb-3 sm:mb-4 last:mb-0 pb-3 sm:pb-4 last:pb-0 border-b last:border-0">
-                            <div className="flex items-start">
-                                <div className="animate-pulse h-8 w-8 sm:h-10 sm:w-10 bg-muted-foreground/20 rounded-full mr-3 sm:mr-4"></div>
-                                <div className="flex-1">
-                                    <div className="animate-pulse h-3 sm:h-4 bg-muted-foreground/20 w-4/5 mb-2 rounded"></div>
-                                    <div className="animate-pulse h-2 sm:h-3 bg-muted-foreground/20 w-20 sm:w-24 rounded"></div>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+                <div className="overflow-x-auto bg-base-100 rounded-lg shadow-lg">
+                    <table className="table table-zebra w-full">
+                        <thead>
+                            <tr>
+                                <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground">Activity</th>
+                                <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground hidden sm:table-cell">User</th>
+                                <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground hidden md:table-cell">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {[...Array(4)].map((_, i) => (
+                                <tr key={i}>
+                                    <td colSpan="3" className="text-center p-4">
+                                        <div className="animate-pulse h-4 bg-muted-foreground/20 w-full rounded"></div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         );
@@ -108,37 +113,51 @@ const RecentActivity = ({ activities = [], onViewAll = () => { }, loading = fals
     };
 
     return (
-        <div className="card mb-4 sm:mb-6">
-            <div className="card-header p-3 sm:p-4 lg:p-5">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
-                    <h2 className="text-lg sm:text-xl font-semibold">Recent Activity</h2>
-                    <button onClick={onViewAll} className="btn btn-sm btn-outline w-full sm:w-auto">View All</button>
-                </div>
+        <div className="flex flex-col">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
+                <h2 className="text-base sm:text-lg font-semibold">Recent Activity</h2>
+                <button onClick={onViewAll} className="btn btn-primary btn-sm w-full sm:w-auto">View All</button>
             </div>
-            <div className="p-3 sm:p-4 lg:p-5">
-                {activities.length === 0 ? (
-                    <div className="text-center py-4 sm:py-6 text-muted-foreground">
-                        <p>No recent activities</p>
-                    </div>
-                ) : (
-                    activities.map((activity) => (
-                        <div key={activity.id} className="mb-3 sm:mb-4 last:mb-0 pb-3 sm:pb-4 last:pb-0 border-b last:border-0">
-                            <div className="flex items-start">
-                                {getActivityIcon(activity.type)}
-                                <div className="ml-3 sm:ml-4 flex-1 min-w-0">
-                                    <p className="text-xs sm:text-sm truncate">
-                                        <span className="font-medium">{activity.user}</span>{' '}
-                                        {activity.action}{' '}
-                                        <span className="font-medium">{activity.subject}</span>
-                                    </p>
-                                    <p className="text-xs text-muted-foreground mt-1">
+            <div className="overflow-x-auto bg-base-100 rounded-lg shadow-lg">
+                <table className="table table-zebra w-full">
+                    <thead>
+                        <tr>
+                            <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground">Activity</th>
+                            <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground hidden sm:table-cell">User</th>
+                            <th className="text-left text-xs sm:text-sm font-medium text-muted-foreground hidden md:table-cell">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {activities.length === 0 ? (
+                            <tr>
+                                <td colSpan="3" className="text-center p-4">
+                                    <p className="text-muted-foreground">No recent activities</p>
+                                </td>
+                            </tr>
+                        ) : (
+                            activities.map((activity) => (
+                                <tr key={activity.id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
+                                    <td>
+                                        <div className="flex items-center">
+                                            {getActivityIcon(activity.type)}
+                                            <div className="ml-3 sm:ml-4">
+                                                <div className="font-medium text-sm sm:text-base truncate">
+                                                    {activity.action} <span className="font-medium">{activity.subject}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td className="hidden sm:table-cell">
+                                        <span className="text-sm font-medium">{activity.user}</span>
+                                    </td>
+                                    <td className="text-muted-foreground text-xs sm:text-sm hidden md:table-cell">
                                         {formatTimeAgo(activity.timestamp)}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                )}
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
