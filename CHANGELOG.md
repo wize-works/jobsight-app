@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/wize-works/jobsight-app/compare/v1.7.0...v1.8.0) (2025-05-02)
+
+
+### Features
+
+* Refactor dashboard components for improved layout and styling ([ab663e3](https://github.com/wize-works/jobsight-app/commit/ab663e32065908c43fba3bb83f89a9eea100c583))
+
 # [1.7.0](https://github.com/wize-works/jobsight-app/compare/v1.6.0...v1.7.0) (2025-05-02)
 
 
