@@ -23,19 +23,18 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/cluster-issuer: wizeworks-encrypt
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - api.wize.works
+        - app.jobsight.co
       secretName: jobsight-app-tls
   rules:
-    - host: api.wize.works
+    - host: app.jobsight.co
       http:
         paths:
-          - path: /jobsight-app(/|$)(.*)
+          - path: /
             pathType: Prefix
             backend:
               service:
