@@ -1,0 +1,31 @@
+query FindProjects($filter: ProjectFilter!, $sort: ProjectSort!, $paging: ProjectPaging!) {
+    findProjects(filter: $filter, sort: $sort, paging: $paging) {
+          count
+        data {
+              name
+            description
+            client
+            projectType
+            address
+            city
+            state
+            zipCode
+            latitude
+            longitude
+            startDate
+            endDate
+            actualEndDate
+            budget
+            currency
+            contingency
+            spent
+            status
+            progress
+            createdAt
+            updatedAt
+            createdBy
+            organizationId
+            _id
+      }
+    }
+  }
