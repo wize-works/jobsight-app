@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/wize-works/jobsight-app/compare/v1.1.0...v1.2.0) (2025-05-02)
+
+
+### Features
+
+* enhance dashboard and project card components ([f3c0608](https://github.com/wize-works/jobsight-app/commit/f3c060810f6d64b2bed02f2f7c6e2126a44c5687))
+
 # [1.1.0](https://github.com/wize-works/jobsight-app/compare/v1.0.0...v1.1.0) (2025-05-02)
 
 
