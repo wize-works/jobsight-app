@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/sidebar/collapsible";
 import { SidebarProvider } from "@/components/sidebar/provider";
+import { ThemeProvider } from "@/components/theme/provider";
+import { ToastProvider } from "@/components/ui/toast";
 import Header from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import Script from "next/script";
@@ -24,18 +26,22 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
             <Script src="https://kit.fontawesome.com/40c3b5129c.js" crossOrigin="anonymous" />
-            <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen bg-base-100`} >
-                <SidebarProvider>
-                    <Sidebar />
-                    <div className="flex-1 flex flex-col bg-base-200 min-h-screen pb-auto">
-                        <Header />
-                        {children}
-                        <Footer />
-                    </div>
-                </SidebarProvider>
+            <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen`} >
+                <ThemeProvider>
+                    <SidebarProvider>
+                        <ToastProvider>
+                            <Sidebar />
+                            <div className="flex-1 flex flex-col bg-base-100 min-h-screen pb-auto">
+                                <Header />
+                                {children}
+                                <Footer />
+                            </div>
+                        </ToastProvider>
+                    </SidebarProvider>
+                </ThemeProvider>
             </body>
-        </html>
+        </html >
     );
 }
