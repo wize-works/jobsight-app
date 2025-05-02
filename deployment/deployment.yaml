@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jobsight-app
+  namespace: wizeworks
+  labels:
+    app: jobsight-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: jobsight-app
+  template:
+    metadata:
+      labels:
+        app: jobsight-app
+    spec:
+      containers:
+      - name: jobsight-app
+        image: ${ACR_NAME}.azurecr.io/jobsight-app:${IMAGE_TAG}
+        ports:
+        - containerPort: 3000
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1000
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: MONGO_URI
+          value: "${MONGO_URI}"
+        - name: SENTRY_DSN
+          value: "${SENTRY_DSN}"
+        - name: DB_NAME
+          value: "${DB_NAME}"
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
