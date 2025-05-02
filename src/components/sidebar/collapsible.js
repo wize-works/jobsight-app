@@ -21,12 +21,12 @@ export const Sidebar = () => {
 
     return (
         <aside className={`bg-base-100 border-r border-gray-200 transition-all duration-300 ease-in-out flex flex-col ${isCollapsed ? "w-16" : "w-64"}`}>
-            <div className="flex items-center h-16 px-4 border-b border-gray-200">
+            <div className="flex items-center h-16 px-2 border-b border-gray-200">
                 {/* Full logo - visible when not collapsed */}
                 <div className={`flex-1 ${isCollapsed ? "hidden" : "block"}`}>
                     <Link href="/" className="flex items-center">
                         <span className="text-primary text-2xl font-semibold flex items-center">
-                            <Image src="/logo.png" alt="Logo" width={32} height={32} className="mr-2" />
+                            <div className="h-12 w-12 bg-primary/10 flex items-center justify-center rounded-lg mr-4"><Image src="/logo.png" alt="Logo" width={32} height={32} className="m-auto" /></div>
                             Job<span className="text-secondary">Sight</span>
                         </span>
                     </Link>
@@ -35,7 +35,7 @@ export const Sidebar = () => {
                 {/* Icon only - visible when collapsed */}
                 <div className={`flex-1 ${isCollapsed ? "block" : "hidden"} text-center`}>
                     <Link href="/" className="mx-auto inline-flex">
-                        <i className="fa-regular fa-chart-simple w-5 h-5 text-blue-500" />
+                        <div className="h-12 w-12 bg-primary/10 flex items-center justify-center rounded-lg mr-4"><Image src="/logo.png" alt="Logo" width={32} height={32} className="m-auto" /></div>
                     </Link>
                 </div>
             </div>

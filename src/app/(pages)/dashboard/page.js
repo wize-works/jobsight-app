@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/layout/header";
-import StatCards from "./components/StatCard";
+import StatCard from "./components/StatCard";
 import ProjectsTable from "./components/ProjectsTable";
 import TasksList from "./components/TasksList";
 import EquipmentTable from "./components/EquipmentTable";
@@ -181,13 +181,36 @@ const Dashboard = () => {
 
             {/* Use skeleton loaders or static layout to prevent layout shifts */}
             <div className="animate-fadeIn">
-                <StatCards
-                    activeProjects={projects.filter(p => p.status === 'active').length}
-                    tasksDueToday={tasksDueToday.length}
-                    monthlyRevenue={financialSummary.revenue || 0}
-                    equipmentStatus={equipmentStatusPercentage}
-                    loading={isLoading}
-                />
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <StatCard
+                        title="Active Projects"
+                        value={isLoading ? "-" : `${projects.length}`}
+                        change={8}
+                        color="primary"
+                        icon={<i className="far fa-building fa-lg" />}
+                    />
+                    <StatCard
+                        title="Tasks Due Today"
+                        value={isLoading ? "-" : `${tasksDueToday.length}`}
+                        change={-2}
+                        color="secondary"
+                        icon={<i className="far fa-tasks fa-lg" />}
+                    />
+                    <StatCard
+                        title="Equipment Issues"
+                        value={isLoading ? "-" : `${Math.round((equipment.filter(e => e.inUse).length / equipment.length) * 100)}%`}
+                        change={5}
+                        color="accent"
+                        icon={<i className="far fa-tools fa-lg" />}
+                    />
+                    <StatCard
+                        title="Monthly Revenue"
+                        value={isLoading ? "-" : `$${financialData.revenue.toLocaleString()}`}
+                        change={12}
+                        color="neutral"
+                        icon={<i className="far fa-chart-line fa-lg" />}
+                    />
+                </div>
 
                 <ProjectsTable
                     projects={projects}
