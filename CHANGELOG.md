@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/wize-works/jobsight-app/compare/v1.3.0...v1.4.0) (2025-05-02)
+
+
+### Features
+
+* Update AKS deployment configuration and service definitions ([bac83c8](https://github.com/wize-works/jobsight-app/commit/bac83c83074da26989ec41b39efe77b89650d955))
+
 # [1.3.0](https://github.com/wize-works/jobsight-app/compare/v1.2.0...v1.3.0) (2025-05-02)
 
 
