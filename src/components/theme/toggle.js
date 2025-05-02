@@ -24,7 +24,7 @@ export function ThemeToggle() {
         if (theme === "dark" || (theme === "system" && resolvedTheme === "dark")) {
             return <i className="w-5 h-5 fa-light fa-moon" />
         } else if (theme === "light" || (theme === "system" && resolvedTheme === "light")) {
-            return <i className="w-5 h-5 fa-light fa-moon" />
+            return <i className="w-5 h-5 fa-light fa-sun" />
         } else {
             return <i className="w-5 h-5 fa-light fa-desktop" />
         }
@@ -44,7 +44,7 @@ export function ThemeToggle() {
                 </li>
                 <li className={theme === "dark" ? "active" : ""}>
                     <a onClick={() => setTheme("dark")}>
-                        <i className="w-4 h-4 mr-2 fa-light fa-sun" />
+                        <i className="w-4 h-4 mr-2 fa-light fa-moon" />
                         Dark
                     </a>
                 </li>

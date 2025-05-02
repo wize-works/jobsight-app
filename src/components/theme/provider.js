@@ -1,7 +1,18 @@
 "use client"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
-import { ThemeProviderProps } from "next-themes"
 
 export function ThemeProvider({ children, ...props }) {
-    return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+    return (
+        <NextThemesProvider
+            attribute="data-theme"
+            defaultTheme="light"
+            enableSystem={false}
+            themes={["daisylight", "daisydark"]}
+            storageKey="theme"
+            enableColorScheme={true}
+            {...props}
+        >
+            {children}
+        </NextThemesProvider>
+    )
 }
