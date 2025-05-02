@@ -11,7 +11,7 @@ export default async function Dashboard() {
                 <div>
                     <h1 className="text-2xl font-bold mb-2">Dashboard Overview</h1>
                     <p className="text-base-content/70">
-                        Welcome back! Here&apos;s what’s happening across your projects today.
+                        Welcome back! Here&apos;s what's happening across your projects today.
                     </p>
                 </div>
                 {/* <TimeToggle onChange={(val) => console.log('Switched to', val)} /> */}
@@ -51,23 +51,30 @@ export default async function Dashboard() {
                     color="info"
                 />
             </div>
-            <div>
 
-
-                {/* Active Projects */}
-                <div className="mb-8">
-                    <h2 className="text-xl font-bold mb-4">Active Projects</h2>
-                    <div className="overflow-x-auto">
-                        <div className="flex gap-4">
-                            {activeProjects.length === 0 && <p>No active projects found.</p>}
-                            {activeProjects.map((project) => (
-                                <ProjectCard key={project._id} project={project} />
-                            ))}
-                        </div>
-                    </div>
+            {/* Active Projects Section */}
+            <div className="mb-12">
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-xl font-bold">Active Projects</h2>
+                    <a href="/projects" className="btn btn-sm btn-outline btn-primary">
+                        View All <i className="fas fa-arrow-right ml-2"></i>
+                    </a>
                 </div>
 
+                {activeProjects.length === 0 ? (
+                    <div className="text-center py-8 bg-base-200 rounded-lg">
+                        <i className="fas fa-clipboard text-3xl text-base-content/40 mb-2"></i>
+                        <p className="text-base-content/70">No active projects found</p>
+                        <a href="/projects/new" className="btn btn-sm btn-primary mt-4">Create Project</a>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                        {activeProjects.map((project) => (
+                            <ProjectCard key={project._id} project={project} />
+                        ))}
+                    </div>
+                )}
             </div>
-        </div >
+        </div>
     );
 }
