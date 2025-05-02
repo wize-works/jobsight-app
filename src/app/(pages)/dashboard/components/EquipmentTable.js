@@ -5,7 +5,7 @@ const EquipmentTable = ({
 }) => {
     if (loading) {
         return (
-            <>
+            <div className="flex flex-col">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
                     <div className="animate-pulse h-5 sm:h-6 bg-muted-foreground/20 w-32 sm:w-40 rounded"></div>
                     <div className="animate-pulse h-7 sm:h-8 bg-muted-foreground/20 w-24 sm:w-32 rounded"></div>
@@ -31,7 +31,7 @@ const EquipmentTable = ({
                         </tbody>
                     </table>
                 </div>
-            </>
+            </div>
         );
     }
 
@@ -63,7 +63,7 @@ const EquipmentTable = ({
     };
 
     return (
-        <>
+        <div className="flex flex-col">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
                 <h2 className="text-base sm:text-lg font-semibold">Equipment Status</h2>
                 <button className="btn btn-primary btn-sm w-full sm:w-auto" onClick={onManageEquipment}>Manage Equipment</button>
@@ -115,7 +115,7 @@ const EquipmentTable = ({
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     );
 };
 

@@ -225,27 +225,19 @@ const Dashboard = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6">
-                    <div className="card bg-base-100 shadow-lg">
-                        <div className="card-body p-3 sm:p-4 lg:p-6">
-                            <TasksList
-                                tasks={tasksDueToday}
-                                onMarkComplete={handleMarkCompleteTask}
-                                onEdit={handleEditTask}
-                                onViewAll={navigateToTasks}
-                                loading={isLoading}
-                            />
-                        </div>
-                    </div>
+                    <TasksList
+                        tasks={tasksDueToday}
+                        onMarkComplete={handleMarkCompleteTask}
+                        onEdit={handleEditTask}
+                        onViewAll={navigateToTasks}
+                        loading={isLoading}
+                    />
 
-                    <div className="card bg-base-100 shadow-lg">
-                        <div className="card-body p-3 sm:p-4 lg:p-6">
-                            <EquipmentTable
-                                equipment={equipment.slice(0, 4)}
-                                onManageEquipment={navigateToEquipment}
-                                loading={isLoading}
-                            />
-                        </div>
-                    </div>
+                    <EquipmentTable
+                        equipment={equipment.slice(0, 4)}
+                        onManageEquipment={navigateToEquipment}
+                        loading={isLoading}
+                    />
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-4 sm:mb-6">

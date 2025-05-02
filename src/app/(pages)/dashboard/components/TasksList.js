@@ -59,9 +59,9 @@ const TasksList = ({
     };
 
     return (
-        <>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
-                <h2 className="text-base sm:text-lg font-semibold">Today's Tasks</h2>
+        <div className="flex flex-col">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4">
+                <h2 className="text-base sm:text-lg font-semibold">Today&apos;s Tasks</h2>
                 <button className="btn btn-primary btn-sm w-full sm:w-auto" onClick={onViewAll}>View All Tasks</button>
             </div>
             <div className="overflow-x-auto bg-base-100 rounded-lg shadow-lg">
@@ -126,7 +126,7 @@ const TasksList = ({
                     </tbody>
                 </table>
             </div>
-        </>
+        </div>
     );
 };
 
