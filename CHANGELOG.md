@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/wize-works/jobsight-app/compare/v1.8.0...v1.9.0) (2025-05-03)
+
+
+### Features
+
+* Implement team messaging feature with conversation and message handling ([fa46870](https://github.com/wize-works/jobsight-app/commit/fa46870f7e19e0ce67c202a9159de003d1c54a75))
+
 # [1.8.0](https://github.com/wize-works/jobsight-app/compare/v1.7.0...v1.8.0) (2025-05-02)
 
 
