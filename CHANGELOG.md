@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/wize-works/jobsight-app/compare/v1.9.0...v1.10.0) (2025-05-03)
+
+
+### Features
+
+* Enhance TasksPage with improved task loading and filtering logic ([e0e8f88](https://github.com/wize-works/jobsight-app/commit/e0e8f88c55d3208b1065abb3102590f09b7174d6))
+
 # [1.9.0](https://github.com/wize-works/jobsight-app/compare/v1.8.0...v1.9.0) (2025-05-03)
 
 
