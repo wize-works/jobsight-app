@@ -10,6 +10,8 @@ const TaskFilter = ({
     sortBy = 'dueDate',
     sortOrder = 'asc',
     onToggleSort = () => { },
+    viewMode = 'list',
+    setViewMode = () => { },
     loading = false
 }) => {
     const handleSearchChange = (e) => {
@@ -64,7 +66,7 @@ const TaskFilter = ({
                 )}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
+            <div className="flex flex-col sm:flex-row justify-between gap-3 sm:items-center">
                 {/* Filter dropdowns */}
                 <div className="flex-1 flex flex-col sm:flex-row gap-3">
                     <div className="form-control w-full sm:max-w-[200px]">
@@ -104,31 +106,53 @@ const TaskFilter = ({
                     </div>
                 </div>
 
-                {/* Sort buttons */}
-                <div className="flex gap-2 self-end">
-                    <button
-                        className={`btn btn-sm btn-ghost ${sortBy === 'dueDate' ? 'text-primary' : ''}`}
-                        onClick={() => onToggleSort('dueDate')}
-                        disabled={loading}
-                    >
-                        Due Date <i className={`fas ${getSortIcon('dueDate')} ml-1`}></i>
-                    </button>
+                <div className="flex flex-wrap gap-3 items-end">
+                    {/* Sort buttons */}
+                    <div className="flex gap-2">
+                        <button
+                            className={`btn btn-sm btn-ghost ${sortBy === 'dueDate' ? 'text-primary' : ''}`}
+                            onClick={() => onToggleSort('dueDate')}
+                            disabled={loading}
+                        >
+                            Due Date <i className={`fas ${getSortIcon('dueDate')} ml-1`}></i>
+                        </button>
 
-                    <button
-                        className={`btn btn-sm btn-ghost ${sortBy === 'priority' ? 'text-primary' : ''}`}
-                        onClick={() => onToggleSort('priority')}
-                        disabled={loading}
-                    >
-                        Priority <i className={`fas ${getSortIcon('priority')} ml-1`}></i>
-                    </button>
+                        <button
+                            className={`btn btn-sm btn-ghost ${sortBy === 'priority' ? 'text-primary' : ''}`}
+                            onClick={() => onToggleSort('priority')}
+                            disabled={loading}
+                        >
+                            Priority <i className={`fas ${getSortIcon('priority')} ml-1`}></i>
+                        </button>
 
-                    <button
-                        className={`btn btn-sm btn-ghost ${sortBy === 'title' ? 'text-primary' : ''}`}
-                        onClick={() => onToggleSort('title')}
-                        disabled={loading}
-                    >
-                        Title <i className={`fas ${getSortIcon('title')} ml-1`}></i>
-                    </button>
+                        <button
+                            className={`btn btn-sm btn-ghost ${sortBy === 'title' ? 'text-primary' : ''}`}
+                            onClick={() => onToggleSort('title')}
+                            disabled={loading}
+                        >
+                            Title <i className={`fas ${getSortIcon('title')} ml-1`}></i>
+                        </button>
+                    </div>
+
+                    {/* View mode toggle */}
+                    <div className="btn-group self-end">
+                        <button
+                            className={`btn btn-sm ${viewMode === 'grid' ? 'btn-active' : ''}`}
+                            onClick={() => setViewMode('grid')}
+                            disabled={loading}
+                            aria-label="Grid view"
+                        >
+                            <i className="fas fa-th-large"></i>
+                        </button>
+                        <button
+                            className={`btn btn-sm ${viewMode === 'list' ? 'btn-active' : ''}`}
+                            onClick={() => setViewMode('list')}
+                            disabled={loading}
+                            aria-label="List view"
+                        >
+                            <i className="fas fa-list"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
 

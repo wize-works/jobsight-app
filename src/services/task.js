@@ -196,7 +196,7 @@ export const createTask = async (taskData) => {
     };
 
     // In a real app, this would be persisted to the backend
-    // mockTasks.push(newTask);
+    mockTasks.push(newTask);
 
     return newTask;
 };
@@ -224,7 +224,7 @@ export const updateTask = async (id, taskData) => {
     };
 
     // In a real app, this would update the backend
-    // mockTasks[taskIndex] = updatedTask;
+    mockTasks[taskIndex] = updatedTask;
 
     return updatedTask;
 };
@@ -245,7 +245,7 @@ export const deleteTask = async (id) => {
     }
 
     // In a real app, this would delete from the backend
-    // mockTasks.splice(taskIndex, 1);
+    mockTasks.splice(taskIndex, 1);
 
     return true;
 };
