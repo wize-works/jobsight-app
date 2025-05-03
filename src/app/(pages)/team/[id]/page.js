@@ -397,12 +397,12 @@ const TeamMemberDetailPage = () => {
                         <div className="avatar">
                             <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
                                 {member.profileImage ? (
-                                    <Image 
-                                        src={member.profileImage} 
-                                        alt={member.name} 
-                                        width={96} 
-                                        height={96} 
-                                        className="rounded-full" 
+                                    <Image
+                                        src={member.profileImage}
+                                        alt={member.name}
+                                        width={96}
+                                        height={96}
+                                        className="rounded-full"
                                     />
                                 ) : (
                                     <span className="text-primary text-3xl font-semibold">
