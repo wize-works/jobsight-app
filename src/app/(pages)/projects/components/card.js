@@ -44,7 +44,7 @@ const ProjectCard = ({ project }) => {
     const statusLabel = status ? status.replace(/_/g, ' ') : 'Unknown';
 
     return (
-        <Link href={`/projects/${id}`} className="block w-full max-w-sm transition-transform duration-300 hover:-translate-y-1">
+        <Link href={`/projects/${id}`} className="block w-full max-w-sm transition-transform duration-300 hover:-translate-y-1 mx-auto">
             <div className="card bg-white shadow-md border-l-4 border-primary hover:shadow-lg transition-all duration-300 h-full">
                 <div className="card-body p-5">
                     <div className="flex justify-between items-start">

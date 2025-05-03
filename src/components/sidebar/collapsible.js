@@ -17,7 +17,6 @@ const NavSection = ({ title, isCollapsed, children }) => {
 
 export const Sidebar = () => {
     const { isCollapsed, toggleSidebar } = useSidebar();
-    const [activeSection] = useState("dashboard");
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -77,24 +76,24 @@ export const Sidebar = () => {
 
                     {/* Navigation sections */}
                     <NavSection title="Main" isCollapsed={isCollapsed}>
-                        <NavItem href="/" key="dashboard" icon="fa-regular fa-rectangles-mixed" text="Dashboard" isActive={activeSection === "dashboard"} isCollapsed={isCollapsed} />
-                        <NavItem href="/projects" key="projects" icon="fa-regular fa-building" text="Projects" isCollapsed={isCollapsed} isActive={activeSection === "projects"} />
-                        <NavItem key="logs" icon="fa-regular fa-clipboard-list" text="Daily Logs" isCollapsed={isCollapsed} />
-                        <NavItem key="invoicing" icon="fa-regular fa-file-invoice-dollar" text="Invoicing" isCollapsed={isCollapsed} isNew={true} />
-                        <NavItem key="equipment" icon="fa-regular fa-truck-field" text="Equipment" isCollapsed={isCollapsed} />
-                        <NavItem key="team" icon="fa-regular fa-user-group" text="Team" isCollapsed={isCollapsed} />
-                        <NavItem key="tasks" icon="fa-regular fa-list-check" text="Tasks" isCollapsed={isCollapsed} />
+                        <NavItem href="/dashboard" key="dashboard" icon="fa-regular fa-rectangles-mixed" text="Dashboard" isCollapsed={isCollapsed} />
+                        <NavItem href="/projects" key="projects" icon="fa-regular fa-building" text="Projects" isCollapsed={isCollapsed} />
+                        <NavItem href="/logs" key="logs" icon="fa-regular fa-clipboard-list" text="Daily Logs" isCollapsed={isCollapsed} />
+                        <NavItem href="/invoicing" key="invoicing" icon="fa-regular fa-file-invoice-dollar" text="Invoicing" isCollapsed={isCollapsed} isNew={true} />
+                        <NavItem href="/equipment" key="equipment" icon="fa-regular fa-truck-field" text="Equipment" isCollapsed={isCollapsed} />
+                        <NavItem href="/team" key="team" icon="fa-regular fa-user-group" text="Team" isCollapsed={isCollapsed} />
+                        <NavItem href="/tasks" key="tasks" icon="fa-regular fa-list-check" text="Tasks" isCollapsed={isCollapsed} />
                     </NavSection>
 
                     <NavSection title="TOOLS" isCollapsed={isCollapsed}>
-                        <NavItem key="Analytics" icon="fa-regular fa-chart-line" text="Analytics" isCollapsed={isCollapsed} />
-                        <NavItem key="ai" icon="fa-regular fa-robot" text="AI Assistant" isCollapsed={isCollapsed} />
+                        <NavItem href="/analytics" key="Analytics" icon="fa-regular fa-chart-line" text="Analytics" isCollapsed={isCollapsed} />
+                        <NavItem href="/ai-assistant" key="ai" icon="fa-regular fa-robot" text="AI Assistant" isCollapsed={isCollapsed} />
                     </NavSection>
 
                     <div className="mt-6 px-2">
                         <ul className="space-y-2">
-                            <NavItem key="settings" icon="fa-regular fa-gear" text="Settings" isCollapsed={isCollapsed} />
-                            <NavItem key="help" icon="fa-regular fa-circle-question" text="Help & Support" isCollapsed={isCollapsed} />
+                            <NavItem href="/settings" key="settings" icon="fa-regular fa-gear" text="Settings" isCollapsed={isCollapsed} />
+                            <NavItem href="/help" key="help" icon="fa-regular fa-circle-question" text="Help & Support" isCollapsed={isCollapsed} />
                         </ul>
                     </div>
                 </div>
@@ -104,13 +103,15 @@ export const Sidebar = () => {
                     <div className="flex-shrink-0">
                         <div className="avatar">
                             <div className="w-8 rounded-full">
-                                <Image src="/mystical-forest-spirit.png" alt="User avatar" width={32} height={32} className="rounded-full" />
+                                <div className="w-8 h-8 flex items-center justify-center bg-primary/10 rounded-full">
+                                    <i className="far fa-user"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className="ml-3">
-                        <p className="text-sm font-medium">Denish N</p>
-                        <p className="text-xs text-gray-500">@withden</p>
+                        <p className="text-sm font-medium">Brandon</p>
+                        <p className="text-xs text-gray-500">@JobSight</p>
                     </div>
                 </div>
 

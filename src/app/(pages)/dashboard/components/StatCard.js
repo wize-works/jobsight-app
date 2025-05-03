@@ -42,7 +42,7 @@ const StatCard = ({ title, value, change, icon, color }) => {
                         {icon}
                     </div>
                 </div>
-                <div className={`text-2xl sm:text-3xl lg:text-4xl font-bold my-1 sm:my-2 ${fgColorMap[color]}`}>{value}</div>
+                <div className={`py-0 text-2xl sm:text-3xl lg:text-4xl font-bold my-0 sm:my-2 ${fgColorMap[color]}`}>{value}</div>
                 <div className={`text-xs sm:text-sm ${change >= 0 ? 'text-success' : 'text-error'}`}>
                     {change >= 0 ? `+${change}` : change}% vs last month
                 </div>
