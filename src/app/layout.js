@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
                     <SidebarProvider>
                         <ToastProvider>
                             <Sidebar />
-                            <div className="flex-1 flex flex-col bg-base-100 min-h-screen pb-auto">
+                            <div className="flex-1 flex flex-col bg-base-200 min-h-screen pb-auto">
                                 <Header />
                                 {children}
                                 <Footer />

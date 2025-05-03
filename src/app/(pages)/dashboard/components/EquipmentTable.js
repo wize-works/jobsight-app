@@ -40,30 +40,30 @@ const EquipmentTable = ({
             case 'active':
             case 'available':
                 return (
-                    <div class="inline-grid *:[grid-area:1/1]">
-                        <div class="status status-success animate-ping"></div>
-                        <div class="status status-success"></div>
+                    <div className="inline-grid *:[grid-area:1/1]">
+                        <div className="status status-success animate-ping"></div>
+                        <div className="status status-success"></div>
                     </div>
                 );
             case 'in use':
                 return (
-                    <div class="inline-grid *:[grid-area:1/1]">
-                        <div class="status status-info animate-ping"></div>
-                        <div class="status status-info"></div>
+                    <div className="inline-grid *:[grid-area:1/1]">
+                        <div className="status status-info animate-ping"></div>
+                        <div className="status status-info"></div>
                     </div>
                 );
             case 'maintenance':
                 return (
-                    <div class="inline-grid *:[grid-area:1/1]">
-                        <div class="status status-warning animate-ping"></div>
-                        <div class="status status-warning"></div>
+                    <div className="inline-grid *:[grid-area:1/1]">
+                        <div className="status status-warning animate-ping"></div>
+                        <div className="status status-warning"></div>
                     </div>
                 );
             case 'repair':
                 return (
-                    <div class="inline-grid *:[grid-area:1/1]">
-                        <div class="status status-error animate-ping"></div>
-                        <div class="status status-error"></div>
+                    <div className="inline-grid *:[grid-area:1/1]">
+                        <div className="status status-error animate-ping"></div>
+                        <div className="status status-error"></div>
                     </div>
                 );
             default:
@@ -71,7 +71,7 @@ const EquipmentTable = ({
         }
     };
 
-    const getStatusClass = (status) => {
+    const getStatusclassName = (status) => {
         switch (status?.toLowerCase()) {
             case 'active':
             case 'available': return 'text-success';

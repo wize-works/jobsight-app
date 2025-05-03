@@ -145,10 +145,6 @@ const mockEquipment = [
 /**
  * Fetch equipment from the API
  * @param {Object} options - Query options
- * @param {string} options.status - Filter equipment by status
- * @param {string} options.type - Filter equipment by type
- * @param {string} options.location - Filter equipment by location
- * @param {string} options.projectId - Filter equipment by assigned project
  * @returns {Promise<Array>} - Promise resolving to an array of equipment
  */
 export const fetchEquipment = async (options = {}) => {
@@ -203,13 +199,33 @@ export const fetchEquipmentById = async (id) => {
 };
 
 /**
- * Update equipment status
+ * Create new equipment
+ * @param {Object} input - Equipment data
+ * @returns {Promise<Object>} - Promise resolving to the created equipment
+ */
+export const createEquipment = async (input) => {
+    // Simulating API call delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const newEquipment = {
+        id: `EQUIP-${String(mockEquipment.length + 1).padStart(3, '0')}`,
+        ...input,
+        lastUpdated: new Date().toISOString().split('T')[0]
+    };
+
+    // In a real app, this would be saved to the backend
+    // mockEquipment.push(newEquipment);
+
+    return newEquipment;
+};
+
+/**
+ * Update existing equipment
  * @param {string} id - Equipment ID
- * @param {string} status - New status
- * @param {Object} additionalData - Additional data to update
+ * @param {Object} input - Updated equipment data
  * @returns {Promise<Object>} - Promise resolving to the updated equipment
  */
-export const updateEquipmentStatus = async (id, status, additionalData = {}) => {
+export const updateEquipment = async (id, input) => {
     // Simulating API call delay
     await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -221,8 +237,7 @@ export const updateEquipmentStatus = async (id, status, additionalData = {}) => 
 
     const updatedEquipment = {
         ...mockEquipment[equipmentIndex],
-        ...additionalData,
-        status,
+        ...input,
         lastUpdated: new Date().toISOString().split('T')[0]
     };
 
@@ -230,67 +245,67 @@ export const updateEquipmentStatus = async (id, status, additionalData = {}) => 
     // mockEquipment[equipmentIndex] = updatedEquipment;
 
     return updatedEquipment;
+};
+
+/**
+ * Delete equipment
+ * @param {string} id - Equipment ID
+ * @returns {Promise<boolean>} - Promise resolving to true if successful
+ */
+export const deleteEquipment = async (id) => {
+    // Simulating API call delay
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    const equipmentIndex = mockEquipment.findIndex(e => e.id === id);
+
+    if (equipmentIndex === -1) {
+        throw new Error(`Equipment with ID ${id} not found`);
+    }
+
+    // In a real app, this would delete from the backend
+    // mockEquipment.splice(equipmentIndex, 1);
+
+    return true;
+};
+
+/**
+ * Update equipment status
+ * @param {string} id - Equipment ID
+ * @param {string} status - New status
+ * @param {Object} additionalData - Additional data to update
+ * @returns {Promise<Object>} - Promise resolving to the updated equipment
+ */
+export const updateEquipmentStatus = async (id, status, additionalData = {}) => {
+    return updateEquipment(id, { status, ...additionalData });
 };
 
 /**
  * Assign equipment to a project
  * @param {string} equipmentId - Equipment ID
  * @param {string} projectId - Project ID
- * @param {string} location - New location
- * @param {string} operator - Assigned operator
+ * @param {string} location - Location
+ * @param {string|null} operator - Operator name
  * @returns {Promise<Object>} - Promise resolving to the updated equipment
  */
 export const assignEquipment = async (equipmentId, projectId, location, operator = null) => {
-    // Simulating API call delay
-    await new Promise(resolve => setTimeout(resolve, 600));
-
-    const equipmentIndex = mockEquipment.findIndex(e => e.id === equipmentId);
-
-    if (equipmentIndex === -1) {
-        throw new Error(`Equipment with ID ${equipmentId} not found`);
-    }
-
-    const updatedEquipment = {
-        ...mockEquipment[equipmentIndex],
+    return updateEquipment(equipmentId, {
         assignedProject: projectId,
         location,
         operator,
-        status: 'in use',
-        lastUpdated: new Date().toISOString().split('T')[0]
-    };
-
-    // In a real app, this would update the backend
-    // mockEquipment[equipmentIndex] = updatedEquipment;
-
-    return updatedEquipment;
+        status: 'in use'
+    });
 };
 
 /**
  * Schedule maintenance for equipment
  * @param {string} equipmentId - Equipment ID
- * @param {string} maintenanceDate - Date of scheduled maintenance
+ * @param {string} maintenanceDate - Maintenance date
  * @param {string} notes - Maintenance notes
  * @returns {Promise<Object>} - Promise resolving to the updated equipment
  */
 export const scheduleMaintenance = async (equipmentId, maintenanceDate, notes) => {
-    // Simulating API call delay
-    await new Promise(resolve => setTimeout(resolve, 550));
-
-    const equipmentIndex = mockEquipment.findIndex(e => e.id === equipmentId);
-
-    if (equipmentIndex === -1) {
-        throw new Error(`Equipment with ID ${equipmentId} not found`);
-    }
-
-    const updatedEquipment = {
-        ...mockEquipment[equipmentIndex],
+    return updateEquipment(equipmentId, {
         nextMaintenance: maintenanceDate,
-        notes: notes || mockEquipment[equipmentIndex].notes,
-        lastUpdated: new Date().toISOString().split('T')[0]
-    };
-
-    // In a real app, this would update the backend
-    // mockEquipment[equipmentIndex] = updatedEquipment;
-
-    return updatedEquipment;
+        notes: notes
+    });
 };

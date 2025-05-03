@@ -1,6 +1,12 @@
-import Link from "next/link";
+"use client";
 
-export const NavItem = ({ icon, text, isActive, isCollapsed, hasChildren, isNew, href = "#" }) => {
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+export const NavItem = ({ icon, text, isActive: forcedActive, isCollapsed, hasChildren, isNew, href = "#" }) => {
+    const pathname = usePathname();
+    const isActive = forcedActive !== undefined ? forcedActive : pathname === href || pathname.startsWith(`${href}/`);
+
     return (
         <li>
             <Link
