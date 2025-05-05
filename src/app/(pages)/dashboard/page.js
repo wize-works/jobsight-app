@@ -17,7 +17,7 @@ import {
     fetchActivities,
     fetchAiSuggestions,
     updateTask
-} from "@/app/services";
+} from "@/services";
 import { useToast } from "@/hooks/use-toast";
 
 const Dashboard = () => {

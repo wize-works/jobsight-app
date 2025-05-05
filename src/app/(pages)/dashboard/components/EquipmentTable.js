@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { fetchEquipment } from "@/app/services/equipment";
+import { fetchEquipment } from "@/services/equipment";
 
 const EquipmentTable = ({
     onManageEquipment = () => { },

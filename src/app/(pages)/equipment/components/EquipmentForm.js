@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { createEquipment, updateEquipment, fetchEquipment } from '@/app/services/equipment';
+import { createEquipment, updateEquipment, fetchEquipment } from '@/services/equipment';
 import { useToast } from '@/hooks/use-toast';
 
 const EquipmentForm = ({ equipment, isEditing = false }) => {

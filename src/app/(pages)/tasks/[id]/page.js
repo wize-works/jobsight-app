@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { fetchTaskById, updateTask } from '@/app/services/task';
+import { fetchTaskById, updateTask } from '@/services/task';
 import { useToast } from '@/hooks/use-toast';
 
 // Components for the task detail view

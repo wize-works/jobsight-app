@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { fetchTaskById, updateTask } from '@/app/services/task';
+import { fetchTaskById, updateTask } from '@/services/task';
 import Link from 'next/link';
 
 const EditTaskPage = () => {

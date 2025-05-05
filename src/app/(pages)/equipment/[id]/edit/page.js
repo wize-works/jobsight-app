@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchEquipmentById } from '@/app/services/equipment';
+import { fetchEquipmentById } from '@/services/equipment';
 import { useToast } from '@/hooks/use-toast';
 import EquipmentForm from '../../components/EquipmentForm';
 

@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { fetchTasks, updateTask } from '@/app/services/task';
+import { fetchTasks, updateTask } from '@/services/task';
 import TaskList from './components/TaskList';
 import TaskFilter from './components/TaskFilter';
 import TaskStatsSummary from './components/TaskStatsSummary';

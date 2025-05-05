@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchEquipment } from '@/app/services/equipment';
+import { fetchEquipment } from '@/services/equipment';
 import { useToast } from '@/hooks/use-toast';
 import EquipmentCard from './components/EquipmentCard';
 
