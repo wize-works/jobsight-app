@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-const ProjectCard = ({ project }) => {
+export const ProjectCard = ({ project }) => {
     // Extract properties with fallbacks for missing data
     const {
         _id: id,

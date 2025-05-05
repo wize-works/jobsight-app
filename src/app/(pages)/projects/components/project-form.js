@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
-const ProjectForm = ({ project, onSubmit, isEdit = false }) => {
+export const ProjectForm = ({ project, onSubmit, isEdit = false }) => {
     const router = useRouter();
     const { toast } = useToast();
     const [isSubmitting, setIsSubmitting] = useState(false);
