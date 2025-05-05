@@ -1,3 +1,12 @@
+# [1.11.0](https://github.com/wize-works/jobsight-app/compare/v1.10.0...v1.11.0) (2025-05-05)
+
+
+### Features
+
+* Add GraphQL subscriptions, mutations, and queries for messaging, organization, project, and task models ([d11d4b9](https://github.com/wize-works/jobsight-app/commit/d11d4b9248c05c4140e108fcd0e25f49e12a2d80))
+* add log not found component and loading states for various log pages ([4f03eef](https://github.com/wize-works/jobsight-app/commit/4f03eef80b259660657249c8231fcc1b5a7540cc))
+* Refactor project pages to use server-side data fetching and modular components ([9faf8df](https://github.com/wize-works/jobsight-app/commit/9faf8dfae67dd83ca3b9989f8beb580f80a1697c))
+
 # [1.10.0](https://github.com/wize-works/jobsight-app/compare/v1.9.0...v1.10.0) (2025-05-03)
 
 
