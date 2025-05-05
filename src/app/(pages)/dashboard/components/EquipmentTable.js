@@ -1,8 +1,34 @@
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { fetchEquipment } from "@/services/equipment";
+
 const EquipmentTable = ({
-    equipment = [],
     onManageEquipment = () => { },
-    loading = false
 }) => {
+    const [equipment, setEquipment] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    // Updated to fetch real equipment data from the service
+    useEffect(() => {
+        const loadEquipment = async () => {
+            setLoading(true);
+            try {
+                const equipmentData = await fetchEquipment();
+                setEquipment(equipmentData);
+            } catch (error) {
+                toast({
+                    title: "Error",
+                    description: "Failed to load equipment",
+                    variant: "destructive",
+                });
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadEquipment();
+    }, []);
+
     if (loading) {
         return (
             <div className="flex flex-col">

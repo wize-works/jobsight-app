@@ -1,4 +1,3 @@
-import { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "@/components/sidebar/collapsible";
@@ -26,8 +25,6 @@ export const metadata = {
         shortcut: "/favicon.ico",
         apple: "/apple-touch-icon.png",
     },
-    manifest: "/site.webmanifest",
-    themeColor: "#ffffff",
     appleWebApp: {
         statusBarStyle: "default",
         title: "Wize Works - Job Site Management",

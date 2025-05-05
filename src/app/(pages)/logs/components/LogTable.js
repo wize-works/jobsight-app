@@ -54,7 +54,7 @@ const LogTable = ({ logs, loading }) => {
                             <tr key={log._id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
                                 <td className="font-medium whitespace-nowrap">{formatDate(log.date)}</td>
                                 <td>
-                                    <Link href={`/logs/${log._id}`} className="hover:text-primary transition-colors">
+                                    <Link href={`/projects/${log.projectId}`} className="hover:text-primary transition-colors">
                                         {log.projectName || 'Unnamed Project'}
                                     </Link>
                                 </td>
