@@ -18,10 +18,12 @@ export const ProjectCard = ({ project }) => {
 
     const getStatusColor = (status) => {
         switch (status) {
+            case 'planning':
+                return 'bg-info text-info-content';
             case 'in_progress':
-                return 'bg-primary text-primary-content';
-            case 'completed':
                 return 'bg-success text-success-content';
+            case 'completed':
+                return 'bg-neutral text-success-content';
             case 'pending':
                 return 'bg-warning text-warning-content';
             case 'archived':

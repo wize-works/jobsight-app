@@ -11,10 +11,8 @@
  * @returns {Promise<Object>} - The response data from the GraphQL API
  */
 export async function graphqlRequest(service, query, variables = {}) {
+    throw new Error('graphqlRequest is deprecated. Use executeGraphQL instead.');
     let apiUrl = `https://api.wize.works/${service}/graphql`;
-    if (service === 'wize-project') {
-        apiUrl = `http://localhost:3005/graphql`;
-    }
 
     try {
         const response = await fetch(apiUrl, {

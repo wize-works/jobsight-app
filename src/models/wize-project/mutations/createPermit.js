@@ -3,7 +3,7 @@ import { gql } from 'graphql-request';
 export const createPermit = gql`
 mutation CreatePermit($input: PermitInputInput!) {
     createPermit(input: $input) {
-          id
+        _id
         projectId
         type
         status

@@ -145,11 +145,13 @@ export const ProjectForm = ({ project, onSubmit, isEdit = false }) => {
                             onChange={handleChange}
                             className="select select-bordered w-full"
                         >
+                            <option value="new">New</option>
+                            <option value="approved">Approved</option>
                             <option value="planning">Planning</option>
-                            <option value="active">Active</option>
-                            <option value="on hold">On Hold</option>
+                            <option value="in_progress">In Progress</option>
+                            <option value="on_hold">On Hold</option>
                             <option value="completed">Completed</option>
-                            <option value="archived">Archived</option>
+                            <option value="cancelled">Cancelled</option>
                         </select>
                     </div>
 

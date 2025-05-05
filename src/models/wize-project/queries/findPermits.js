@@ -5,7 +5,7 @@ query FindPermits($filter: PermitFilter!, $sort: PermitSort!, $paging: PermitPag
     findPermits(filter: $filter, sort: $sort, paging: $paging) {
           count
         data {
-              id
+            _id
             projectId
             type
             status

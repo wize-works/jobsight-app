@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { createTask } from '@/services/task';
+import { createTask } from '@/app/services/task';
 
 const NewTaskPage = () => {
     const router = useRouter();

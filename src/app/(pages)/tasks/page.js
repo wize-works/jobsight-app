@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { fetchTasks, updateTask } from '@/services/task';
+import { fetchTasks, updateTask } from '@/app/services/task';
 import TaskList from './components/TaskList';
 import TaskFilter from './components/TaskFilter';
 import TaskStatsSummary from './components/TaskStatsSummary';
@@ -241,7 +241,7 @@ const TasksPage = memo(() => {
                     </div>
                     <h3 className="text-xl font-semibold mb-2">No tasks found</h3>
                     <p className="text-base-content/60 mb-6">There are no tasks matching your current filters</p>
-                    <button 
+                    <button
                         onClick={handleAddTask}
                         className="btn btn-primary"
                     >
@@ -257,7 +257,7 @@ const TasksPage = memo(() => {
                 {filteredTasks.map((task) => {
                     // Get priority color for left border
                     const getPriorityBorderColor = (priority) => {
-                        switch(priority?.toLowerCase()) {
+                        switch (priority?.toLowerCase()) {
                             case 'urgent': return 'border-error';
                             case 'high': return 'border-warning';
                             case 'normal': return 'border-info';
@@ -265,7 +265,7 @@ const TasksPage = memo(() => {
                             default: return 'border-primary';
                         }
                     };
-                    
+
                     // Get status badge color
                     const getStatusBadge = (status) => {
                         const statusColors = {
@@ -275,17 +275,17 @@ const TasksPage = memo(() => {
                             on_hold: 'bg-warning/20 text-warning',
                             cancelled: 'bg-error/20 text-error'
                         };
-                        
+
                         const colorClass = statusColors[status?.toLowerCase()] || 'bg-base-200 text-base-content';
                         const displayStatus = status?.replace(/_/g, ' ') || 'Unknown';
-                        
+
                         return (
                             <span className={`badge ${colorClass} capitalize text-xs px-2 py-1 rounded-md`}>
                                 {displayStatus}
                             </span>
                         );
                     };
-                    
+
                     // Format due date
                     const formatDueDate = (dateString) => {
                         if (!dateString) return 'No due date';
@@ -296,7 +296,7 @@ const TasksPage = memo(() => {
                             year: 'numeric'
                         });
                     };
-                    
+
                     // Check if task is overdue
                     const isOverdue = (dueDate) => {
                         if (!dueDate) return false;
@@ -304,13 +304,13 @@ const TasksPage = memo(() => {
                         const taskDue = new Date(dueDate);
                         return taskDue < now && task.status !== 'completed';
                     };
-                    
+
                     // Add overdue indicator
                     const overdueClass = isOverdue(task.dueDate) ? 'border-error' : '';
-                    
+
                     return (
-                        <div 
-                            key={task.id} 
+                        <div
+                            key={task.id}
                             onClick={() => handleTaskClick(task.id)}
                             className={`cursor-pointer transition-transform duration-300 hover:-translate-y-1 w-full mx-auto`}
                         >
@@ -322,30 +322,30 @@ const TasksPage = memo(() => {
                                         </h2>
                                         {getStatusBadge(task.status)}
                                     </div>
-                                    
+
                                     {task.projectName && (
                                         <div className="text-sm text-base-content/70 mb-2">
                                             <i className="fas fa-folder mr-1 opacity-70"></i> {task.projectName}
                                         </div>
                                     )}
-                                    
+
                                     {task.description && (
                                         <p className="text-sm text-base-content/80 mb-3 line-clamp-2">
                                             {task.description}
                                         </p>
                                     )}
-                                    
+
                                     <div className="mt-auto pt-2">
                                         <div className="flex justify-between items-center text-xs text-base-content/70">
                                             <div>
                                                 {task.assignedToName ? (
                                                     <>
-                                                        <i className="fas fa-user mr-1"></i> 
+                                                        <i className="fas fa-user mr-1"></i>
                                                         <span className="truncate max-w-[120px] sm:max-w-[100px]">{task.assignedToName}</span>
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <i className="fas fa-user-slash mr-1"></i> 
+                                                        <i className="fas fa-user-slash mr-1"></i>
                                                         <span>Unassigned</span>
                                                     </>
                                                 )}
@@ -354,7 +354,7 @@ const TasksPage = memo(() => {
                                                 <i className="fas fa-calendar-alt mr-1"></i> {formatDueDate(task.dueDate)}
                                             </div>
                                         </div>
-                                        
+
                                         {task.tags && task.tags.length > 0 && (
                                             <div className="flex flex-wrap gap-1 mt-2">
                                                 {task.tags.slice(0, 3).map((tag, index) => (
@@ -369,7 +369,7 @@ const TasksPage = memo(() => {
                                                 )}
                                             </div>
                                         )}
-                                        
+
                                         {/* Complete button */}
                                         {task.status !== 'completed' && (
                                             <div className="mt-3 text-right">

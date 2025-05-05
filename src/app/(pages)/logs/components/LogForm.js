@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchProjects } from '@/services';
+import { getProjects } from '@/services/project';
 import { useToast } from '@/hooks/use-toast';
+import status from 'daisyui/components/status';
 
 const LogForm = ({ log, onSubmit, isEdit = false }) => {
     const router = useRouter();
@@ -21,49 +22,57 @@ const LogForm = ({ log, onSubmit, isEdit = false }) => {
 
     const [formData, setFormData] = useState({
         projectId: '',
-        projectName: '',
         date: new Date().toISOString().split('T')[0],
-        author: '', // In a real app, this would be pre-filled with current user
-        weather: {
-            temperature: '',
-            conditions: '',
-            windSpeed: ''
-        },
+        submittedBy: '',
         summary: '',
         details: '',
         hours: {
             regular: '',
             overtime: ''
-        }
+        },
+        aiTranscription: '',
+        weather: {
+            temperature: '',
+            conditions: '',
+            windSpeed: ''
+        },
+        personnel: [],
+        equipment: [],
+        materials: [],
+        safetyIncidents: [],
+        qualityIssues: [],
     });
 
     // Load projects for the dropdown
     useEffect(() => {
         const loadProjects = async () => {
             try {
-                const projectsData = await fetchProjects();
-                setProjects(projectsData);
+                const filterOptions = {
+                    filter: {
+                        status: {
+                            in: ["in_progress", "completed"]
+                        }
+                    }
+                };
+
+                const projectsData = await getProjects(filterOptions);
+                setProjects(projectsData.data);
 
                 // If creating a new log and there are projects, pre-select the first one
                 if (!isEdit && projectsData.length > 0 && !formData.projectId) {
                     setFormData(prev => ({
                         ...prev,
-                        projectId: projectsData[0]._id,
+                        projectId: projectsData[0].id,
                         projectName: projectsData[0].name
                     }));
                 }
             } catch (error) {
-                console.error("Error loading projects:", error);
-                toast({
-                    title: "Error",
-                    description: "Failed to load projects list",
-                    variant: "destructive",
-                });
+                console.error('Error loading projects:', error);
             }
         };
 
         loadProjects();
-    }, [isEdit, toast, formData.projectId]);
+    }, [isEdit, formData.projectId]);
 
     // If editing an existing log, populate the form
     useEffect(() => {
@@ -191,51 +200,40 @@ const LogForm = ({ log, onSubmit, isEdit = false }) => {
             return;
         }
 
-        if (!formData.summary.trim()) {
-            toast({
-                title: "Validation Error",
-                description: "Summary is required",
-                variant: "destructive",
-            });
-            return;
-        }
-
         setIsSubmitting(true);
 
         try {
-            // Filter out empty array entries
-            const filteredPersonnel = personnel.filter(p => p.name.trim() !== '');
-            const filteredEquipment = equipment.filter(e => e.name.trim() !== '');
-            const filteredMaterials = materials.filter(m => m.name.trim() !== '');
-            const filteredTasks = tasks.filter(t => t.description.trim() !== '');
-
             // Prepare log data
             const logData = {
-                ...formData,
-                personnel: filteredPersonnel,
-                equipment: filteredEquipment,
-                materials: filteredMaterials,
-                tasks: filteredTasks,
+                projectId: formData.projectId,
+                date: formData.date,
+                summary: formData.summary,
+                details: formData.details,
+                hours: formData.hours,
+                // personnel,
+                // equipment,
+                // materials,
+                // //tasks,
                 safetyIncidents,
                 qualityIssues,
-                photos,
-                attachments,
-                approvals: log?.approvals || { requested: false, approved: false }
+                //photos,
+                //attachments,
+                //approvals: log?.approvals || { requested: false, approved: false }
             };
 
             await onSubmit(logData);
 
             toast({
                 title: `Log ${isEdit ? 'Updated' : 'Created'}`,
-                description: `The log ${isEdit ? 'has been updated' : 'has been created'} successfully.`,
+                description: `The log has been successfully ${isEdit ? 'updated' : 'created'}.`,
+                variant: "success",
             });
 
             router.push('/logs');
         } catch (error) {
-            console.error("Error submitting log:", error);
             toast({
                 title: "Error",
-                description: `Failed to ${isEdit ? 'update' : 'create'} log. Please try again.`,
+                description: "Failed to submit log",
                 variant: "destructive",
             });
         } finally {
@@ -273,569 +271,573 @@ const LogForm = ({ log, onSubmit, isEdit = false }) => {
     const severityOptions = ['low', 'medium', 'high'];
 
     return (
-        <div className="bg-base-100 rounded-lg shadow-lg p-4 sm:p-6">
-            <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="">
+            <form onSubmit={handleSubmit} className="">
                 {/* Project & Date Selection */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text font-medium">Project*</span>
-                        </label>
-                        <select
-                            name="projectId"
-                            value={formData.projectId}
-                            onChange={handleChange}
-                            className="select select-bordered w-full"
-                            required
-                        >
-                            {projects.length === 0 ? (
-                                <option value="">Loading projects...</option>
-                            ) : (
-                                <>
-                                    <option value="">Select a project</option>
-                                    {projects.map(project => (
-                                        <option key={project._id} value={project._id}>
-                                            {project.name}
-                                        </option>
-                                    ))}
-                                </>
-                            )}
-                        </select>
+                <div className='bg-base-100 rounded-lg shadow-lg p-4 sm:p-6 space-y-6'>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Project*</span>
+                            </label>
+                            <select
+                                name="projectId"
+                                value={formData.projectId}
+                                onChange={handleChange}
+                                className="select select-bordered w-full"
+                                required
+                            >
+                                {projects.length === 0 ? (
+                                    <option value="">Loading projects...</option>
+                                ) : (
+                                    <>
+                                        <option value="">Select a project</option>
+                                        {projects.map(project => (
+                                            <option key={project._id} value={project._id}>
+                                                {project.name}
+                                            </option>
+                                        ))}
+                                    </>
+                                )}
+                            </select>
+                        </div>
+
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Date*</span>
+                            </label>
+                            <input
+                                type="date"
+                                name="date"
+                                value={formData.date}
+                                onChange={handleChange}
+                                className="input input-bordered w-full"
+                                max={new Date().toISOString().split('T')[0]}
+                                required
+                            />
+                        </div>
+                    </div>
+                    {/* Author & Weather */}
+                    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Weather Condition</span>
+                            </label>
+                            <select
+                                name="weather.conditions"
+                                value={formData.weather.conditions}
+                                onChange={handleChange}
+                                className="select select-bordered w-full"
+                            >
+                                <option value="">Select condition</option>
+                                {weatherConditions.map(condition => (
+                                    <option key={condition} value={condition}>
+                                        {condition}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Temperature (°F)</span>
+                            </label>
+                            <input
+                                type="number"
+                                name="weather.temperature"
+                                value={formData.weather.temperature}
+                                onChange={handleChange}
+                                placeholder="e.g., 72"
+                                className="input input-bordered w-full"
+                            />
+                        </div>
+
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Wind Speed</span>
+                            </label>
+                            <input
+                                type="text"
+                                name="weather.windSpeed"
+                                value={formData.weather.windSpeed}
+                                onChange={handleChange}
+                                placeholder="e.g., 5 mph"
+                                className="input input-bordered w-full"
+                            />
+                        </div>
                     </div>
 
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text font-medium">Date*</span>
-                        </label>
-                        <input
-                            type="date"
-                            name="date"
-                            value={formData.date}
-                            onChange={handleChange}
-                            className="input input-bordered w-full"
-                            max={new Date().toISOString().split('T')[0]}
-                            required
-                        />
-                    </div>
-                </div>
+                    {/* Hours */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Regular Hours</span>
+                            </label>
+                            <input
+                                type="number"
+                                name="hours.regular"
+                                value={formData.hours.regular}
+                                onChange={handleChange}
+                                placeholder="0"
+                                className="input input-bordered w-full"
+                                min="0"
+                            />
+                        </div>
 
-                {/* Author & Weather */}
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-                    <div className="form-control w-full">
+                        <div className="form-control w-full">
+                            <label className="label">
+                                <span className="label-text font-medium">Overtime Hours</span>
+                            </label>
+                            <input
+                                type="number"
+                                name="hours.overtime"
+                                value={formData.hours.overtime}
+                                onChange={handleChange}
+                                placeholder="0"
+                                className="input input-bordered w-full"
+                                min="0"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Summary & Details */}
+                    <div className="form-control">
                         <label className="label">
-                            <span className="label-text font-medium">Author*</span>
+                            <span className="label-text font-medium">Summary*</span>
                         </label>
                         <input
                             type="text"
-                            name="author"
-                            value={formData.author}
+                            name="summary"
+                            value={formData.summary}
                             onChange={handleChange}
-                            placeholder="Your name"
+                            placeholder="Brief summary of today's activities"
                             className="input input-bordered w-full"
                             required
                         />
                     </div>
 
-                    <div className="form-control w-full">
+                    <div className="form-control">
                         <label className="label">
-                            <span className="label-text font-medium">Weather Condition</span>
+                            <span className="label-text font-medium">Details</span>
                         </label>
-                        <select
-                            name="weather.conditions"
-                            value={formData.weather.conditions}
+                        <textarea
+                            name="details"
+                            value={formData.details}
                             onChange={handleChange}
-                            className="select select-bordered w-full"
-                        >
-                            <option value="">Select condition</option>
-                            {weatherConditions.map(condition => (
-                                <option key={condition} value={condition}>
-                                    {condition}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text font-medium">Temperature (°F)</span>
-                        </label>
-                        <input
-                            type="number"
-                            name="weather.temperature"
-                            value={formData.weather.temperature}
-                            onChange={handleChange}
-                            placeholder="e.g., 72"
-                            className="input input-bordered w-full"
+                            placeholder="Detailed description of work performed"
+                            className="textarea textarea-bordered h-24"
                         />
                     </div>
-
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text font-medium">Wind Speed</span>
-                        </label>
-                        <input
-                            type="text"
-                            name="weather.windSpeed"
-                            value={formData.weather.windSpeed}
-                            onChange={handleChange}
-                            placeholder="e.g., 5 mph"
-                            className="input input-bordered w-full"
-                        />
-                    </div>
-                </div>
-
-                {/* Hours */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text font-medium">Regular Hours</span>
-                        </label>
-                        <input
-                            type="number"
-                            name="hours.regular"
-                            value={formData.hours.regular}
-                            onChange={handleChange}
-                            placeholder="0"
-                            className="input input-bordered w-full"
-                            min="0"
-                        />
-                    </div>
-
-                    <div className="form-control w-full">
-                        <label className="label">
-                            <span className="label-text font-medium">Overtime Hours</span>
-                        </label>
-                        <input
-                            type="number"
-                            name="hours.overtime"
-                            value={formData.hours.overtime}
-                            onChange={handleChange}
-                            placeholder="0"
-                            className="input input-bordered w-full"
-                            min="0"
-                        />
-                    </div>
-                </div>
-
-                {/* Summary & Details */}
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text font-medium">Summary*</span>
-                    </label>
-                    <input
-                        type="text"
-                        name="summary"
-                        value={formData.summary}
-                        onChange={handleChange}
-                        placeholder="Brief summary of today's activities"
-                        className="input input-bordered w-full"
-                        required
-                    />
-                </div>
-
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text font-medium">Details</span>
-                    </label>
-                    <textarea
-                        name="details"
-                        value={formData.details}
-                        onChange={handleChange}
-                        placeholder="Detailed description of work performed"
-                        className="textarea textarea-bordered h-24"
-                    />
                 </div>
 
                 {/* Personnel */}
-                <div className="card bg-base-200 p-4">
-                    <h3 className="text-lg font-semibold mb-4">Personnel</h3>
-                    {personnel.map((person, index) => (
-                        <div key={index} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg">
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Name</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={person.name}
-                                    onChange={(e) => handleArrayChange(index, 'personnel', 'name', e.target.value, setPersonnel)}
-                                    placeholder="Worker name"
-                                    className="input input-bordered w-full"
-                                />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Role</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={person.role}
-                                    onChange={(e) => handleArrayChange(index, 'personnel', 'role', e.target.value, setPersonnel)}
-                                    placeholder="Job role"
-                                    className="input input-bordered w-full"
-                                />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Hours</span>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveItem(index, setPersonnel)}
-                                        className="btn btn-ghost btn-xs text-error"
-                                    >
-                                        <i className="fas fa-trash"></i>
-                                    </button>
-                                </label>
-                                <input
-                                    type="number"
-                                    value={person.hours}
-                                    onChange={(e) => handleArrayChange(index, 'personnel', 'hours', e.target.value, setPersonnel)}
-                                    placeholder="0"
-                                    className="input input-bordered w-full"
-                                    min="0"
-                                />
-                            </div>
+                <div className='grid grid-cols-1 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-6 mt-6'>
+                    <div>
+                        <h3 className="text-lg font-semibold mb-4">Personnel</h3>
+                        <div className="card bg-base-100 p-4">
+                            {personnel.map((person, index) => (
+                                <div key={index} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg">
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Name</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={person.name}
+                                            onChange={(e) => handleArrayChange(index, 'personnel', 'name', e.target.value, setPersonnel)}
+                                            placeholder="Worker name"
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Role</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={person.role}
+                                            onChange={(e) => handleArrayChange(index, 'personnel', 'role', e.target.value, setPersonnel)}
+                                            placeholder="Job role"
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Hours</span>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveItem(index, setPersonnel)}
+                                                className="btn btn-ghost btn-xs text-error"
+                                            >
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            value={person.hours}
+                                            onChange={(e) => handleArrayChange(index, 'personnel', 'hours', e.target.value, setPersonnel)}
+                                            placeholder="0"
+                                            className="input input-bordered w-full"
+                                            min="0"
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                onClick={() => handleAddItem({ name: '', role: '', hours: '' }, setPersonnel)}
+                                className="btn btn-outline btn-sm mt-2"
+                            >
+                                <i className="fas fa-plus mr-2"></i> Add Person
+                            </button>
                         </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => handleAddItem({ name: '', role: '', hours: '' }, setPersonnel)}
-                        className="btn btn-outline btn-sm mt-2"
-                    >
-                        <i className="fas fa-plus mr-2"></i> Add Person
-                    </button>
-                </div>
+                    </div>
 
-                {/* Equipment */}
-                <div className="card bg-base-200 p-4">
-                    <h3 className="text-lg font-semibold mb-4">Equipment</h3>
-                    {equipment.map((item, index) => (
-                        <div key={index} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg">
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Name</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={item.name}
-                                    onChange={(e) => handleArrayChange(index, 'equipment', 'name', e.target.value, setEquipment)}
-                                    placeholder="Equipment name"
-                                    className="input input-bordered w-full"
-                                />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Hours Used</span>
-                                </label>
-                                <input
-                                    type="number"
-                                    value={item.hours}
-                                    onChange={(e) => handleArrayChange(index, 'equipment', 'hours', e.target.value, setEquipment)}
-                                    placeholder="0"
-                                    className="input input-bordered w-full"
-                                    min="0"
-                                />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Notes</span>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveItem(index, setEquipment)}
-                                        className="btn btn-ghost btn-xs text-error"
-                                    >
-                                        <i className="fas fa-trash"></i>
-                                    </button>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={item.notes}
-                                    onChange={(e) => handleArrayChange(index, 'equipment', 'notes', e.target.value, setEquipment)}
-                                    placeholder="Usage notes"
-                                    className="input input-bordered w-full"
-                                />
-                            </div>
+                    {/* Equipment */}
+                    <div>
+                        <h3 className="text-lg font-semibold mb-4">Equipment</h3>
+                        <div className="card bg-base-100 p-4">
+                            {equipment.map((item, index) => (
+                                <div key={index} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg">
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Name</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={item.name}
+                                            onChange={(e) => handleArrayChange(index, 'equipment', 'name', e.target.value, setEquipment)}
+                                            placeholder="Equipment name"
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Hours Used</span>
+                                        </label>
+                                        <input
+                                            type="number"
+                                            value={item.hours}
+                                            onChange={(e) => handleArrayChange(index, 'equipment', 'hours', e.target.value, setEquipment)}
+                                            placeholder="0"
+                                            className="input input-bordered w-full"
+                                            min="0"
+                                        />
+                                    </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Notes</span>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveItem(index, setEquipment)}
+                                                className="btn btn-ghost btn-xs text-error"
+                                            >
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={item.notes}
+                                            onChange={(e) => handleArrayChange(index, 'equipment', 'notes', e.target.value, setEquipment)}
+                                            placeholder="Usage notes"
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                onClick={() => handleAddItem({ name: '', hours: '', notes: '' }, setEquipment)}
+                                className="btn btn-outline btn-sm mt-2"
+                            >
+                                <i className="fas fa-plus mr-2"></i> Add Equipment
+                            </button>
                         </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => handleAddItem({ name: '', hours: '', notes: '' }, setEquipment)}
-                        className="btn btn-outline btn-sm mt-2"
-                    >
-                        <i className="fas fa-plus mr-2"></i> Add Equipment
-                    </button>
-                </div>
+                    </div>
+                    {/* Materials */}
+                    <div>
+                        <h3 className="text-lg font-semibold mb-4">Materials</h3>
+                        <div className="card bg-base-100 p-4">
+                            {materials.map((item, index) => (
+                                <div key={index} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg">
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Name</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={item.name}
+                                            onChange={(e) => handleArrayChange(index, 'materials', 'name', e.target.value, setMaterials)}
+                                            placeholder="Material name"
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Quantity</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={item.quantity}
+                                            onChange={(e) => handleArrayChange(index, 'materials', 'quantity', e.target.value, setMaterials)}
+                                            placeholder="e.g., 10 yards"
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+                                    <div className="form-control">
+                                        <label className="label">
+                                            <span className="label-text">Status</span>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveItem(index, setMaterials)}
+                                                className="btn btn-ghost btn-xs text-error"
+                                            >
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                        </label>
+                                        <select
+                                            value={item.status}
+                                            onChange={(e) => handleArrayChange(index, 'materials', 'status', e.target.value, setMaterials)}
+                                            className="select select-bordered w-full"
+                                        >
+                                            {materialStatuses.map(status => (
+                                                <option key={status} value={status}>
+                                                    {status}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                onClick={() => handleAddItem({ name: '', quantity: '', status: 'Used' }, setMaterials)}
+                                className="btn btn-outline btn-sm mt-2"
+                            >
+                                <i className="fas fa-plus mr-2"></i> Add Material
+                            </button>
+                        </div>
+                    </div>
 
-                {/* Materials */}
-                <div className="card bg-base-200 p-4">
-                    <h3 className="text-lg font-semibold mb-4">Materials</h3>
-                    {materials.map((item, index) => (
-                        <div key={index} className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg">
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Name</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={item.name}
-                                    onChange={(e) => handleArrayChange(index, 'materials', 'name', e.target.value, setMaterials)}
-                                    placeholder="Material name"
-                                    className="input input-bordered w-full"
-                                />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Quantity</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={item.quantity}
-                                    onChange={(e) => handleArrayChange(index, 'materials', 'quantity', e.target.value, setMaterials)}
-                                    placeholder="e.g., 10 yards"
-                                    className="input input-bordered w-full"
-                                />
-                            </div>
-                            <div className="form-control">
-                                <label className="label">
-                                    <span className="label-text">Status</span>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveItem(index, setMaterials)}
-                                        className="btn btn-ghost btn-xs text-error"
-                                    >
-                                        <i className="fas fa-trash"></i>
-                                    </button>
-                                </label>
-                                <select
-                                    value={item.status}
-                                    onChange={(e) => handleArrayChange(index, 'materials', 'status', e.target.value, setMaterials)}
-                                    className="select select-bordered w-full"
-                                >
-                                    {materialStatuses.map(status => (
-                                        <option key={status} value={status}>
-                                            {status}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                    {/* Tasks */}
+                    <div>
+                        <h3 className="text-lg font-semibold mb-4">Tasks</h3>
+                        <div className="card bg-base-100 p-4">
+                            {tasks.map((task, index) => (
+                                <div key={index} className="flex flex-col sm:flex-row gap-4 mb-4 p-3 bg-base-100 rounded-lg">
+                                    <div className="form-control flex-1">
+                                        <label className="label">
+                                            <span className="label-text">Description</span>
+                                        </label>
+                                        <input
+                                            type="text"
+                                            value={task.description}
+                                            onChange={(e) => handleArrayChange(index, 'tasks', 'description', e.target.value, setTasks)}
+                                            placeholder="Task description"
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+                                    <div className="form-control min-w-[200px]">
+                                        <label className="label">
+                                            <span className="label-text">Status</span>
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemoveItem(index, setTasks)}
+                                                className="btn btn-ghost btn-xs text-error"
+                                            >
+                                                <i className="fas fa-trash"></i>
+                                            </button>
+                                        </label>
+                                        <select
+                                            value={task.status}
+                                            onChange={(e) => handleArrayChange(index, 'tasks', 'status', e.target.value, setTasks)}
+                                            className="select select-bordered w-full"
+                                        >
+                                            {taskStatuses.map(status => (
+                                                <option key={status} value={status}>
+                                                    {status.replace(/_/g, ' ')}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                onClick={() => handleAddItem({ description: '', status: 'completed' }, setTasks)}
+                                className="btn btn-outline btn-sm mt-2"
+                            >
+                                <i className="fas fa-plus mr-2"></i> Add Task
+                            </button>
                         </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => handleAddItem({ name: '', quantity: '', status: 'Used' }, setMaterials)}
-                        className="btn btn-outline btn-sm mt-2"
-                    >
-                        <i className="fas fa-plus mr-2"></i> Add Material
-                    </button>
-                </div>
-
-                {/* Tasks */}
-                <div className="card bg-base-200 p-4">
-                    <h3 className="text-lg font-semibold mb-4">Tasks</h3>
-                    {tasks.map((task, index) => (
-                        <div key={index} className="flex flex-col sm:flex-row gap-4 mb-4 p-3 bg-base-100 rounded-lg">
-                            <div className="form-control flex-1">
-                                <label className="label">
-                                    <span className="label-text">Description</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={task.description}
-                                    onChange={(e) => handleArrayChange(index, 'tasks', 'description', e.target.value, setTasks)}
-                                    placeholder="Task description"
-                                    className="input input-bordered w-full"
-                                />
-                            </div>
-                            <div className="form-control min-w-[200px]">
-                                <label className="label">
-                                    <span className="label-text">Status</span>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemoveItem(index, setTasks)}
-                                        className="btn btn-ghost btn-xs text-error"
-                                    >
-                                        <i className="fas fa-trash"></i>
-                                    </button>
-                                </label>
-                                <select
-                                    value={task.status}
-                                    onChange={(e) => handleArrayChange(index, 'tasks', 'status', e.target.value, setTasks)}
-                                    className="select select-bordered w-full"
-                                >
-                                    {taskStatuses.map(status => (
-                                        <option key={status} value={status}>
-                                            {status.replace(/_/g, ' ')}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </div>
-                    ))}
-                    <button
-                        type="button"
-                        onClick={() => handleAddItem({ description: '', status: 'completed' }, setTasks)}
-                        className="btn btn-outline btn-sm mt-2"
-                    >
-                        <i className="fas fa-plus mr-2"></i> Add Task
-                    </button>
+                    </div>
                 </div>
 
                 {/* Safety Incidents */}
-                <div className="card bg-base-200 p-4">
-                    <h3 className="text-lg font-semibold mb-2">Safety Incidents</h3>
-                    <p className="text-sm mb-4">Report any safety incidents that occurred during work.</p>
+                <div className="grid grid-cols-3 gap-6 mt-6">
+                    <div>
+                        <h3 className="text-lg font-semibold mb-2">Safety Incidents</h3>
+                        <p className="text-sm mb-4">Report any safety incidents that occurred during work.</p>
+                        <div className="card bg-base-100 p-4">
 
-                    {safetyIncidents.length === 0 ? (
-                        <div className="alert mb-4">
-                            <i className="fas fa-info-circle"></i>
-                            <span>No safety incidents reported.</span>
+                            {safetyIncidents.length === 0 ? (
+                                <div className="alert mb-4">
+                                    <i className="fas fa-info-circle"></i>
+                                    <span>No safety incidents reported.</span>
+                                </div>
+                            ) : (
+                                safetyIncidents.map((incident, index) => (
+                                    <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg border-l-4 border-warning">
+                                        <div className="form-control">
+                                            <label className="label">
+                                                <span className="label-text">Description</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={incident.description}
+                                                onChange={(e) => handleArrayChange(index, 'safetyIncidents', 'description', e.target.value, setSafetyIncidents)}
+                                                placeholder="Incident description"
+                                                className="input input-bordered w-full"
+                                            />
+                                        </div>
+                                        <div className="form-control">
+                                            <label className="label">
+                                                <span className="label-text">Severity</span>
+                                            </label>
+                                            <select
+                                                value={incident.severity}
+                                                onChange={(e) => handleArrayChange(index, 'safetyIncidents', 'severity', e.target.value, setSafetyIncidents)}
+                                                className="select select-bordered w-full"
+                                            >
+                                                {severityOptions.map(severity => (
+                                                    <option key={severity} value={severity}>
+                                                        {severity}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="form-control">
+                                            <label className="label">
+                                                <span className="label-text">Action Taken</span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveItem(index, setSafetyIncidents)}
+                                                    className="btn btn-ghost btn-xs text-error"
+                                                >
+                                                    <i className="fas fa-trash"></i>
+                                                </button>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={incident.actionTaken}
+                                                onChange={(e) => handleArrayChange(index, 'safetyIncidents', 'actionTaken', e.target.value, setSafetyIncidents)}
+                                                placeholder="Action taken"
+                                                className="input input-bordered w-full"
+                                            />
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+
+                            <button
+                                type="button"
+                                onClick={handleAddSafetyIncident}
+                                className="btn btn-outline btn-warning btn-sm mt-2"
+                            >
+                                <i className="fas fa-plus mr-2"></i> Add Safety Incident
+                            </button>
                         </div>
-                    ) : (
-                        safetyIncidents.map((incident, index) => (
-                            <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg border-l-4 border-warning">
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Description</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={incident.description}
-                                        onChange={(e) => handleArrayChange(index, 'safetyIncidents', 'description', e.target.value, setSafetyIncidents)}
-                                        placeholder="Incident description"
-                                        className="input input-bordered w-full"
-                                    />
-                                </div>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Severity</span>
-                                    </label>
-                                    <select
-                                        value={incident.severity}
-                                        onChange={(e) => handleArrayChange(index, 'safetyIncidents', 'severity', e.target.value, setSafetyIncidents)}
-                                        className="select select-bordered w-full"
-                                    >
-                                        {severityOptions.map(severity => (
-                                            <option key={severity} value={severity}>
-                                                {severity}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Action Taken</span>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleRemoveItem(index, setSafetyIncidents)}
-                                            className="btn btn-ghost btn-xs text-error"
-                                        >
-                                            <i className="fas fa-trash"></i>
-                                        </button>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={incident.actionTaken}
-                                        onChange={(e) => handleArrayChange(index, 'safetyIncidents', 'actionTaken', e.target.value, setSafetyIncidents)}
-                                        placeholder="Action taken"
-                                        className="input input-bordered w-full"
-                                    />
-                                </div>
-                            </div>
-                        ))
-                    )}
+                    </div>
 
-                    <button
-                        type="button"
-                        onClick={handleAddSafetyIncident}
-                        className="btn btn-outline btn-warning btn-sm mt-2"
-                    >
-                        <i className="fas fa-plus mr-2"></i> Add Safety Incident
-                    </button>
-                </div>
+                    {/* Quality Issues */}
+                    <div>
+                        <h3 className="text-lg font-semibold mb-2">Quality Issues</h3>
+                        <p className="text-sm mb-4">Report any quality or workmanship issues identified.</p>
 
-                {/* Quality Issues */}
-                <div className="card bg-base-200 p-4">
-                    <h3 className="text-lg font-semibold mb-2">Quality Issues</h3>
-                    <p className="text-sm mb-4">Report any quality or workmanship issues identified.</p>
-
-                    {qualityIssues.length === 0 ? (
-                        <div className="alert mb-4">
-                            <i className="fas fa-info-circle"></i>
-                            <span>No quality issues reported.</span>
+                        <div className='card bg-base-100 p-4'>
+                            {qualityIssues.length === 0 ? (
+                                <div className="alert mb-4">
+                                    <i className="fas fa-info-circle"></i>
+                                    <span>No quality issues reported.</span>
+                                </div>
+                            ) : (
+                                qualityIssues.map((issue, index) => (
+                                    <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg border-l-4 border-info">
+                                        <div className="form-control">
+                                            <label className="label">
+                                                <span className="label-text">Description</span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={issue.description}
+                                                onChange={(e) => handleArrayChange(index, 'qualityIssues', 'description', e.target.value, setQualityIssues)}
+                                                placeholder="Issue description"
+                                                className="input input-bordered w-full"
+                                            />
+                                        </div>
+                                        <div className="form-control">
+                                            <label className="label">
+                                                <span className="label-text">Severity</span>
+                                            </label>
+                                            <select
+                                                value={issue.severity}
+                                                onChange={(e) => handleArrayChange(index, 'qualityIssues', 'severity', e.target.value, setQualityIssues)}
+                                                className="select select-bordered w-full"
+                                            >
+                                                {severityOptions.map(severity => (
+                                                    <option key={severity} value={severity}>
+                                                        {severity}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div className="form-control">
+                                            <label className="label">
+                                                <span className="label-text">Resolution</span>
+                                                <button
+                                                    type="button"
+                                                    onClick={() => handleRemoveItem(index, setQualityIssues)}
+                                                    className="btn btn-ghost btn-xs text-error"
+                                                >
+                                                    <i className="fas fa-trash"></i>
+                                                </button>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={issue.resolution}
+                                                onChange={(e) => handleArrayChange(index, 'qualityIssues', 'resolution', e.target.value, setQualityIssues)}
+                                                placeholder="Issue resolution"
+                                                className="input input-bordered w-full"
+                                            />
+                                        </div>
+                                    </div>
+                                ))
+                            )}
+                            <button
+                                type="button"
+                                onClick={handleAddQualityIssue}
+                                className="btn btn-outline btn-info btn-sm mt-2"
+                            >
+                                <i className="fas fa-plus mr-2"></i> Add Quality Issue
+                            </button>
                         </div>
-                    ) : (
-                        qualityIssues.map((issue, index) => (
-                            <div key={index} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4 p-3 bg-base-100 rounded-lg border-l-4 border-info">
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Description</span>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={issue.description}
-                                        onChange={(e) => handleArrayChange(index, 'qualityIssues', 'description', e.target.value, setQualityIssues)}
-                                        placeholder="Issue description"
-                                        className="input input-bordered w-full"
-                                    />
-                                </div>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Severity</span>
-                                    </label>
-                                    <select
-                                        value={issue.severity}
-                                        onChange={(e) => handleArrayChange(index, 'qualityIssues', 'severity', e.target.value, setQualityIssues)}
-                                        className="select select-bordered w-full"
-                                    >
-                                        {severityOptions.map(severity => (
-                                            <option key={severity} value={severity}>
-                                                {severity}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="form-control">
-                                    <label className="label">
-                                        <span className="label-text">Resolution</span>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleRemoveItem(index, setQualityIssues)}
-                                            className="btn btn-ghost btn-xs text-error"
-                                        >
-                                            <i className="fas fa-trash"></i>
-                                        </button>
-                                    </label>
-                                    <input
-                                        type="text"
-                                        value={issue.resolution}
-                                        onChange={(e) => handleArrayChange(index, 'qualityIssues', 'resolution', e.target.value, setQualityIssues)}
-                                        placeholder="Issue resolution"
-                                        className="input input-bordered w-full"
-                                    />
-                                </div>
+
+                    </div>
+                    {/* Attachments & Photos - In a real app, these would have file upload functionality */}
+                    <div>
+                        <h3 className="text-lg font-semibold mb-4">Photos & Attachments</h3>
+                        <p className="text-sm mb-2">This is a placeholder for photo and file uploading functionality.</p>
+                        <div className="card bg-base-100 p-4">
+
+                            <div className="alert">
+                                <i className="fas fa-info-circle"></i>
+                                <span>File upload functionality will be implemented in a future update.</span>
                             </div>
-                        ))
-                    )}
-
-                    <button
-                        type="button"
-                        onClick={handleAddQualityIssue}
-                        className="btn btn-outline btn-info btn-sm mt-2"
-                    >
-                        <i className="fas fa-plus mr-2"></i> Add Quality Issue
-                    </button>
-                </div>
-
-                {/* Attachments & Photos - In a real app, these would have file upload functionality */}
-                <div className="card bg-base-200 p-4">
-                    <h3 className="text-lg font-semibold mb-4">Photos & Attachments</h3>
-                    <p className="text-sm mb-2">This is a placeholder for photo and file uploading functionality.</p>
-
-                    <div className="alert">
-                        <i className="fas fa-info-circle"></i>
-                        <span>File upload functionality will be implemented in a future update.</span>
+                        </div>
                     </div>
                 </div>
+
 
                 {/* Form Actions */}
                 <div className="flex flex-col sm:flex-row sm:justify-end space-y-2 sm:space-y-0 sm:space-x-2 pt-4 border-t">

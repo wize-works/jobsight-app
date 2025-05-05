@@ -4,14 +4,20 @@ export const findDailyById = gql`
 query FindDailyById($id: ID!) {
     findDailyById(id: $id) {
           _id
-        id
         projectId
         date
         submittedBy
-        notes
+        summary
+        details
+        regularHours
+        overtimeHours
         aiTranscription
         weather
+        personnel
+        equipment
+        materials
         safetyIncidents
+        qualityIssues
         createdAt
         updatedAt
         createdBy

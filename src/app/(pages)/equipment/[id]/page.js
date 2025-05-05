@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchEquipmentById, updateEquipmentStatus, assignEquipment, scheduleMaintenance, deleteEquipment, fetchEquipment } from '@/services/equipment';
+import { fetchEquipmentById, updateEquipmentStatus, assignEquipment, scheduleMaintenance, deleteEquipment, fetchEquipment } from '@/app/services/equipment';
 import { useToast } from '@/hooks/use-toast';
 
 export default function EquipmentDetailPage({ params }) {

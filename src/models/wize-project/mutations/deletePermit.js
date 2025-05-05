@@ -3,7 +3,7 @@ import { gql } from 'graphql-request';
 export const deletePermit = gql`
 mutation DeletePermit($id: ID!) {
     deletePermit(id: $id) {
-          id
+        _id
         projectId
         type
         status

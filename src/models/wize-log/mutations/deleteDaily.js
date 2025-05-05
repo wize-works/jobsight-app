@@ -4,14 +4,20 @@ export const deleteDaily = gql`
 mutation DeleteDaily($id: ID!) {
     deleteDaily(id: $id) {
           _id
-        id
         projectId
         date
         submittedBy
-        notes
+        summary
+        details
+        regularHours
+        overtimeHours
         aiTranscription
         weather
+        personnel
+        equipment
+        materials
         safetyIncidents
+        qualityIssues
         createdAt
         updatedAt
         createdBy

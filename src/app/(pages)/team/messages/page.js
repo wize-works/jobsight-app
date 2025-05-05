@@ -277,27 +277,26 @@ const TeamMessagesPage = () => {
     // Fetch conversations on initial load
     useEffect(() => {
         const loadConversations = async () => {
+            setIsLoadingConversations(true);
             try {
                 const data = await fetchConversations();
-                // Sort by most recent message
                 const sortedData = [...data].sort((a, b) => {
                     return new Date(b.lastMessage?.timestamp || 0) - new Date(a.lastMessage?.timestamp || 0);
                 });
                 setConversations(sortedData);
-                setIsLoadingConversations(false);
             } catch (error) {
-                console.error("Error fetching conversations:", error);
                 toast({
                     title: "Error",
                     description: "Failed to load conversations",
                     variant: "destructive",
                 });
+            } finally {
                 setIsLoadingConversations(false);
             }
         };
 
         loadConversations();
-    }, [toast]);
+    }, []);
 
     // Fetch messages when a conversation is selected
     useEffect(() => {
