@@ -1,3 +1,10 @@
+# [1.15.0](https://github.com/wize-works/jobsight-app/compare/v1.14.0...v1.15.0) (2025-05-06)
+
+
+### Features
+
+* Add Clerk API keys to deployment configuration and remove unused organization models ([dda8bde](https://github.com/wize-works/jobsight-app/commit/dda8bde1515e20c309be1fa4dfddb0f83d20f8c1))
+
 # [1.14.0](https://github.com/wize-works/jobsight-app/compare/v1.13.0...v1.14.0) (2025-05-06)
 
 
