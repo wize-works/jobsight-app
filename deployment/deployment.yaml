@@ -34,6 +34,8 @@ spec:
           value: "${SENTRY_DSN}"
         - name: DB_NAME
           value: "${DB_NAME}"
+        - name: WIZE_API_KEY
+          value: "${WIZE_API_KEY}"
         resources:
           requests:
             memory: "128Mi"
