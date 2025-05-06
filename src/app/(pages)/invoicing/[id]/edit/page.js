@@ -147,7 +147,7 @@ const EditInvoicePage = ({ params }) => {
                 title: 'Success',
                 description: 'Invoice updated successfully'
             });
-            router.push(`/invoicing/${params.id}`);
+            router.push(`/invoicing/${params._id}`);
         } catch (error) {
             toast({
                 title: 'Error',
@@ -176,7 +176,7 @@ const EditInvoicePage = ({ params }) => {
                     <ul>
                         <li><Link href="/dashboard">Dashboard</Link></li>
                         <li><Link href="/invoicing">Invoicing</Link></li>
-                        <li><Link href={`/invoicing/${params.id}`}>Invoice {formData.invoiceNumber}</Link></li>
+                        <li><Link href={`/invoicing/${params._id}`}>Invoice {formData.invoiceNumber}</Link></li>
                         <li className="text-base-content/70">Edit</li>
                     </ul>
                 </div>
@@ -208,7 +208,7 @@ const EditInvoicePage = ({ params }) => {
                                     >
                                         <option value="">Select Project</option>
                                         {projects.map(project => (
-                                            <option key={project.id} value={project.id}>
+                                            <option key={project._id} value={project._id}>
                                                 {project.name}
                                             </option>
                                         ))}
@@ -228,7 +228,7 @@ const EditInvoicePage = ({ params }) => {
                                     >
                                         <option value="">Select Client</option>
                                         {clients.map(client => (
-                                            <option key={client.id} value={client.id}>
+                                            <option key={client._id} value={client._id}>
                                                 {client.name}
                                             </option>
                                         ))}
@@ -430,7 +430,7 @@ const EditInvoicePage = ({ params }) => {
                     </div>
 
                     <div className="flex justify-end gap-4">
-                        <Link href={`/invoicing/${params.id}`} className="btn btn-ghost">
+                        <Link href={`/invoicing/${params._id}`} className="btn btn-ghost">
                             Cancel
                         </Link>
                         <button

@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const onMessage_draftUpdated = gql`
 subscription OnMessage_draftUpdated {
     onMessage_draftUpdated {
-          _id
-        id
+        _id
         userId
         conversationId
         text

@@ -6,7 +6,6 @@ query FindAi_logs($filter: Ai_logFilter!, $sort: Ai_logSort!, $paging: Ai_logPag
           count
         data {
               _id
-            id
             userId
             projectId
             inputText

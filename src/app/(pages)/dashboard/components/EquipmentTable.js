@@ -136,10 +136,10 @@ const EquipmentTable = ({
                             </tr>
                         ) : (
                             equipment.map((item) => (
-                                <tr key={item.id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
+                                <tr key={item._id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
                                     <td>
                                         <div className="font-medium text-sm sm:text-base">{item.name}</div>
-                                        <div className="text-xs text-muted-foreground">{item.id}</div>
+                                        <div className="text-xs text-muted-foreground">{item._id}</div>
                                     </td>
                                     <td>
                                         <div className="">

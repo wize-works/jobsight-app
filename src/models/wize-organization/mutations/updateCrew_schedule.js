@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const updateCrew_schedule = gql`
 mutation UpdateCrew_schedule($id: String!, $input: Crew_scheduleInputInput!) {
     updateCrew_schedule(id: $id, input: $input) {
-          _id
-        id
+        _id
         projectId
         crewId
         shiftStart

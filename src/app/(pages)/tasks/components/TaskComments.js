@@ -82,7 +82,7 @@ const TaskComments = ({ taskId, comments: initialComments = [] }) => {
                 ) : (
                     <div className="space-y-4 mb-6">
                         {comments.map((comment) => (
-                            <div key={comment.id} className="flex gap-3">
+                            <div key={comment._id} className="flex gap-3">
                                 <div className="avatar placeholder flex-shrink-0">
                                     <div className="bg-neutral-focus text-neutral-content rounded-full w-10">
                                         <span>{comment.createdBy?.name?.charAt(0) || '?'}</span>

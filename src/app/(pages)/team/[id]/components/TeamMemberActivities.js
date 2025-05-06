@@ -108,7 +108,7 @@ const TeamMemberActivities = ({ activities = [], loading = false }) => {
             ) : (
                 <div className="space-y-4">
                     {activities.map((activity) => (
-                        <div key={activity.id} className="flex items-start">
+                        <div key={activity._id} className="flex items-start">
                             {getActivityIcon(activity.type)}
 
                             <div className="ml-4 flex-1">

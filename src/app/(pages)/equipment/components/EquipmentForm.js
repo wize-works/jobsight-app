@@ -40,23 +40,16 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
     const loadProjects = useCallback(async () => {
         try {
             setLoading(true);
-            // Note: In a real implementation, this should call a project service
-            // Currently using equipment service as a placeholder
             const projectsData = await getEquipments();
             // Ensure projects is always an array before setting state
             setProjects(Array.isArray(projectsData) ? projectsData : []);
         } catch (error) {
-            toast({
-                title: 'Error loading projects',
-                description: error.message || 'Could not load project list',
-                variant: 'destructive',
-            });
             // Set to empty array on error
             setProjects([]);
         } finally {
             setLoading(false);
         }
-    }, []); // Remove toast from dependencies
+    }, []);
 
     useEffect(() => {
         // If editing, populate the form with existing data
@@ -162,12 +155,12 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
 
             if (isEditing) {
                 // Update existing equipment
-                await updateExistingEquipment(equipment.id, payloadData);
+                await updateExistingEquipment(equipment._id, payloadData);
                 toast({
                     title: 'Equipment Updated',
                     description: `${formData.name} has been updated successfully`,
                 });
-                router.push(`/equipment/${equipment.id}`);
+                router.push(`/equipment/${equipment._id}`);
             } else {
                 // Create new equipment
                 const newEquipment = await createNewEquipment(payloadData);
@@ -175,7 +168,7 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
                     title: 'Equipment Added',
                     description: `${formData.name} has been added successfully`,
                 });
-                router.push(`/equipment/${newEquipment.id}`);
+                router.push(`/equipment/${newEquipment._id}`);
             }
         } catch (error) {
             toast({
@@ -190,7 +183,7 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
 
     const handleCancel = () => {
         if (isEditing && equipment) {
-            router.push(`/equipment/${equipment.id}`);
+            router.push(`/equipment/${equipment._id}`);
         } else {
             router.push('/equipment');
         }
@@ -370,7 +363,7 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
                                 >
                                     <option value="">Not Assigned</option>
                                     {Array.isArray(projects) && projects.map(project => (
-                                        <option key={project.id} value={project.id}>
+                                        <option key={project._id} value={project._id}>
                                             {project.name}
                                         </option>
                                     ))}

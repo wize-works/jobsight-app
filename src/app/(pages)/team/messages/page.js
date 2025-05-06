@@ -305,14 +305,14 @@ const TeamMessagesPage = () => {
         const loadMessages = async () => {
             setIsLoadingMessages(true);
             try {
-                const data = await getMessages(selectedConversation.id);
+                const data = await getMessages(selectedConversation._id);
                 setMessages(data);
                 setIsLoadingMessages(false);
 
                 // Mark conversation as read in the UI
                 setConversations(prevConversations =>
                     prevConversations.map(conv =>
-                        conv.id === selectedConversation.id
+                        conv._id === selectedConversation._id
                             ? { ...conv, unreadCount: 0 }
                             : conv
                     )
@@ -354,16 +354,16 @@ const TeamMessagesPage = () => {
             setMessages(prev => [...prev, tempMessage]);
 
             // Send message to API
-            const savedMessage = await sendMessage(selectedConversation.id, text);
+            const savedMessage = await sendMessage(selectedConversation._id, text);
 
             // Update messages with saved message (replacing temp)
             setMessages(prev => prev.map(msg =>
-                msg.id === tempMessage.id ? savedMessage : msg
+                msg._id === tempMessage._id ? savedMessage : msg
             ));
 
             // Update conversation list with new last message
             setConversations(prev => prev.map(conv =>
-                conv.id === selectedConversation.id
+                conv._id === selectedConversation._id
                     ? {
                         ...conv,
                         lastMessage: savedMessage
@@ -435,7 +435,7 @@ const TeamMessagesPage = () => {
 
                     <ConversationList
                         conversations={filteredConversations}
-                        selectedId={selectedConversation?.id}
+                        selectedId={selectedConversation?._id}
                         currentUserId={currentUserId}
                         loading={isLoadingConversations}
                         onSelect={handleSelectConversation}

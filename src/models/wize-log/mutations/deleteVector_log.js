@@ -4,7 +4,6 @@ export const deleteVector_log = gql`
 mutation DeleteVector_log($id: ID!) {
     deleteVector_log(id: $id) {
           _id
-        id
         logId
         embedding
         contentType

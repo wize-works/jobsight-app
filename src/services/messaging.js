@@ -33,6 +33,7 @@ import {
 
 import { executeGraphQL, deepClean } from '@/utils/execute';
 import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
+import { addDataContext } from '@/utils/userContext';
 
 const service = 'wize-messaging';
 
@@ -77,8 +78,10 @@ export const getConversationById = async (id) => {
  * @returns {Promise<Object>} - Created conversation
  */
 export const createNewConversation = async (conversationData) => {
-    await deepClean(conversationData);
-    const data = await executeGraphQL(service, createConversation, { input: conversationData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(conversationData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createConversation, { input: enrichedData });
     return data.createConversation;
 }
 
@@ -89,8 +92,10 @@ export const createNewConversation = async (conversationData) => {
  * @returns {Promise<Object>} - Updated conversation
  */
 export const updateExistingConversation = async (id, conversationData) => {
-    await deepClean(conversationData);
-    const data = await executeGraphQL(service, updateConversation, { id, input: conversationData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(conversationData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateConversation, { id, input: enrichedData });
     return data.updateConversation;
 }
 
@@ -145,8 +150,10 @@ export const getMessageById = async (id) => {
  * @returns {Promise<Object>} - Created message
  */
 export const createNewMessage = async (messageData) => {
-    await deepClean(messageData);
-    const data = await executeGraphQL(service, createMessage, { input: messageData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(messageData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createMessage, { input: enrichedData });
     return data.createMessage;
 }
 
@@ -157,19 +164,11 @@ export const createNewMessage = async (messageData) => {
  * @returns {Promise<Object>} - Updated message
  */
 export const updateExistingMessage = async (id, messageData) => {
-    await deepClean(messageData);
-    const data = await executeGraphQL(service, updateMessage, { id, input: messageData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(messageData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateMessage, { id, input: enrichedData });
     return data.updateMessage;
-}
-
-/**
- * Delete a message
- * @param {string} id - Message ID to delete
- * @returns {Promise<Object>} - Result of the deletion operation
- */
-export const deleteExistingMessage = async (id) => {
-    const data = await executeGraphQL(service, deleteMessage, { id });
-    return data.deleteMessage;
 }
 
 /* Message Draft Operations */
@@ -213,8 +212,10 @@ export const getMessageDraftById = async (id) => {
  * @returns {Promise<Object>} - Created message draft
  */
 export const createNewMessageDraft = async (draftData) => {
-    await deepClean(draftData);
-    const data = await executeGraphQL(service, createMessage_draft, { input: draftData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(draftData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createMessage_draft, { input: enrichedData });
     return data.createMessage_draft;
 }
 
@@ -225,19 +226,11 @@ export const createNewMessageDraft = async (draftData) => {
  * @returns {Promise<Object>} - Updated message draft
  */
 export const updateExistingMessageDraft = async (id, draftData) => {
-    await deepClean(draftData);
-    const data = await executeGraphQL(service, updateMessage_draft, { id, input: draftData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(draftData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateMessage_draft, { id, input: enrichedData });
     return data.updateMessage_draft;
-}
-
-/**
- * Delete a message draft
- * @param {string} id - Message draft ID to delete
- * @returns {Promise<Object>} - Result of the deletion operation
- */
-export const deleteExistingMessageDraft = async (id) => {
-    const data = await executeGraphQL(service, deleteMessage_draft, { id });
-    return data.deleteMessage_draft;
 }
 
 /* Message Status Operations */
@@ -281,8 +274,10 @@ export const getMessageStatusById = async (id) => {
  * @returns {Promise<Object>} - Created message status
  */
 export const createNewMessageStatus = async (statusData) => {
-    await deepClean(statusData);
-    const data = await executeGraphQL(service, createMessage_status, { input: statusData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(statusData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createMessage_status, { input: enrichedData });
     return data.createMessage_status;
 }
 
@@ -293,19 +288,11 @@ export const createNewMessageStatus = async (statusData) => {
  * @returns {Promise<Object>} - Updated message status
  */
 export const updateExistingMessageStatus = async (id, statusData) => {
-    await deepClean(statusData);
-    const data = await executeGraphQL(service, updateMessage_status, { id, input: statusData });
+    // Add user context (false = update only) 
+    const enrichedData = await addDataContext(statusData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateMessage_status, { id, input: enrichedData });
     return data.updateMessage_status;
-}
-
-/**
- * Delete a message status
- * @param {string} id - Message status ID to delete
- * @returns {Promise<Object>} - Result of the deletion operation
- */
-export const deleteExistingMessageStatus = async (id) => {
-    const data = await executeGraphQL(service, deleteMessage_status, { id });
-    return data.deleteMessage_status;
 }
 
 /* Messaging Preference Operations */
@@ -349,8 +336,10 @@ export const getMessagingPreferenceById = async (id) => {
  * @returns {Promise<Object>} - Created messaging preference
  */
 export const createNewMessagingPreference = async (preferenceData) => {
-    await deepClean(preferenceData);
-    const data = await executeGraphQL(service, createMessaging_preference, { input: preferenceData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(preferenceData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createMessaging_preference, { input: enrichedData });
     return data.createMessaging_preference;
 }
 
@@ -361,17 +350,9 @@ export const createNewMessagingPreference = async (preferenceData) => {
  * @returns {Promise<Object>} - Updated messaging preference
  */
 export const updateExistingMessagingPreference = async (id, preferenceData) => {
-    await deepClean(preferenceData);
-    const data = await executeGraphQL(service, updateMessaging_preference, { id, input: preferenceData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(preferenceData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateMessaging_preference, { id, input: enrichedData });
     return data.updateMessaging_preference;
-}
-
-/**
- * Delete a messaging preference
- * @param {string} id - Messaging preference ID to delete
- * @returns {Promise<Object>} - Result of the deletion operation
- */
-export const deleteExistingMessagingPreference = async (id) => {
-    const data = await executeGraphQL(service, deleteMessaging_preference, { id });
-    return data.deleteMessaging_preference;
 }

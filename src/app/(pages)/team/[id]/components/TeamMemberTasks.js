@@ -115,7 +115,7 @@ const TeamMemberTasks = ({ tasks = [], loading = false }) => {
                 <div className="divide-y divide-base-200">
                     {sortedTasks.map((task) => (
                         <div
-                            key={task.id}
+                            key={task._id}
                             className={`py-3 px-2 -mx-2 rounded-md ${task.status === 'completed' ? 'opacity-60' : 'hover:bg-base-200'} transition-colors`}
                         >
                             <div className="flex justify-between items-start mb-1">

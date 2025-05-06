@@ -33,7 +33,7 @@ export const ProjectDetailView = ({ project }) => {
         if (confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
             try {
                 // API call would go here
-                // await deleteProject(params.id);
+                // await deleteProject(params._id);
                 toast({
                     title: "Project Deleted",
                     description: "The project has been successfully deleted.",

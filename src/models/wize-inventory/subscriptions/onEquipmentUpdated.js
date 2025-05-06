@@ -4,7 +4,6 @@ export const onEquipmentUpdated = gql`
 subscription OnEquipmentUpdated {
     onEquipmentUpdated {
           _id
-        id
         name
         serialNumber
         assignedProjectId

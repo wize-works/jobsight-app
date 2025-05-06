@@ -5,8 +5,7 @@ query FindCrews($filter: CrewFilter!, $sort: CrewSort!, $paging: CrewPaging!) {
     findCrews(filter: $filter, sort: $sort, paging: $paging) {
           count
         data {
-              _id
-            id
+            _id
             name
             members
             createdAt

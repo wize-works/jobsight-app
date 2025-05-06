@@ -4,7 +4,6 @@ export const onAi_logCreated = gql`
 subscription OnAi_logCreated {
     onAi_logCreated {
           _id
-        id
         userId
         projectId
         inputText

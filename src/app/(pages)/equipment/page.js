@@ -27,18 +27,12 @@ export default function EquipmentPage() {
             // Ensure equipment is always an array
             setEquipment(Array.isArray(data) ? data : []);
         } catch (error) {
-            // Using toast inside the function without dependency
-            toast({
-                title: 'Error loading equipment',
-                description: error.message || 'Could not load equipment data',
-                variant: 'destructive',
-            });
             // Set equipment to empty array on error
             setEquipment([]);
         } finally {
             setLoading(false);
         }
-    }, [filters]); // Remove toast from dependencies
+    }, [filters]);
 
     useEffect(() => {
         loadEquipment();
@@ -237,7 +231,7 @@ export default function EquipmentPage() {
                 // Grid View
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
                     {equipment.map((item) => (
-                        <EquipmentCard key={item.id} equipment={item} />
+                        <EquipmentCard key={item._id} equipment={item} />
                     ))}
                 </div>
             ) : (
@@ -257,10 +251,10 @@ export default function EquipmentPage() {
                             </thead>
                             <tbody>
                                 {equipment.map((item) => (
-                                    <tr key={item.id} className="hover:bg-base-200 hover:shadow-sm transition-all duration-200">
+                                    <tr key={item._id} className="hover:bg-base-200 hover:shadow-sm transition-all duration-200">
                                         <td>
                                             <div className="font-medium">{item.name}</div>
-                                            <div className="text-xs text-muted-foreground">{item.id}</div>
+                                            <div className="text-xs text-muted-foreground">{item._id}</div>
                                         </td>
                                         <td>
                                             <div className="flex items-center">
@@ -282,7 +276,7 @@ export default function EquipmentPage() {
                                         <td className="text-right">
                                             <button
                                                 className="btn btn-ghost btn-sm"
-                                                onClick={() => handleViewEquipment(item.id)}
+                                                onClick={() => handleViewEquipment(item._id)}
                                             >
                                                 View
                                             </button>

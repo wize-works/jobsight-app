@@ -21,6 +21,7 @@ import {
 } from '@/models/wize-log/mutations';
 import { deepClean, executeGraphQL } from '@/utils/execute';
 import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
+import { addDataContext } from '@/utils/userContext';
 
 const service = 'wize-log';
 
@@ -68,8 +69,10 @@ export const getDailyLogById = async (id) => {
  * @returns {Promise<Object>} - Created daily log
  */
 export const createDailyLog = async (dailyLogData) => {
-    await deepClean(dailyLogData);
-    const data = await executeGraphQL(service, createDaily, { input: dailyLogData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(dailyLogData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createDaily, { input: enrichedData });
     return data.createDaily;
 }
 
@@ -80,8 +83,10 @@ export const createDailyLog = async (dailyLogData) => {
  * @returns {Promise<Object>} - Updated daily log
  */
 export const updateDailyLog = async (id, dailyLogData) => {
-    await deepClean(dailyLogData);
-    const data = await executeGraphQL(service, updateDaily, { id, input: dailyLogData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(dailyLogData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateDaily, { id, input: enrichedData });
     return data.updateDaily;
 }
 
@@ -137,7 +142,10 @@ export const getAiLogById = async (id) => {
  * @returns {Promise<Object>} - Created AI log
  */
 export const createAiLog = async (aiLogData) => {
-    const data = await executeGraphQL(createAi_log, { input: aiLogData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(aiLogData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createAi_log, { input: enrichedData });
     return data.createAi_log;
 }
 
@@ -148,7 +156,10 @@ export const createAiLog = async (aiLogData) => {
  * @returns {Promise<Object>} - Updated AI log
  */
 export const updateAiLog = async (id, aiLogData) => {
-    const data = await executeGraphQL(updateAi_log, { id, input: aiLogData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(aiLogData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateAi_log, { id, input: enrichedData });
     return data.updateAi_log;
 }
 
@@ -204,7 +215,10 @@ export const getVectorLogById = async (id) => {
  * @returns {Promise<Object>} - Created vector log
  */
 export const createVectorLog = async (vectorLogData) => {
-    const data = await executeGraphQL(createVector_log, { input: vectorLogData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(vectorLogData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createVector_log, { input: enrichedData });
     return data.createVector_log;
 }
 
@@ -215,16 +229,9 @@ export const createVectorLog = async (vectorLogData) => {
  * @returns {Promise<Object>} - Updated vector log
  */
 export const updateVectorLog = async (id, vectorLogData) => {
-    const data = await executeGraphQL(updateVector_log, { id, input: vectorLogData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(vectorLogData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateVector_log, { id, input: enrichedData });
     return data.updateVector_log;
-}
-
-/**
- * Delete a vector log
- * @param {string} id - Vector log ID to delete
- * @returns {Promise<Object>} - Result of the deletion operation
- */
-export const deleteVectorLog = async (id) => {
-    const data = await executeGraphQL(deleteVector_log, { id });
-    return data.deleteVector_log;
 }

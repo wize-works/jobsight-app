@@ -84,11 +84,11 @@ const TeamMemberList = ({ teamMembers = [], loading = false, viewMode = 'grid', 
     if (viewMode === 'grid') {
         return (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6 mt-6">
-                {teamMembers.map((member) => (
+                {teamMembers.map((member, index) => (
                     <TeamMemberCard
-                        key={member.id}
+                        key={index}
                         member={member}
-                        onClick={() => onMemberClick(member.id)}
+                        onClick={() => onMemberClick(member._id)}
                     />
                 ))}
             </div>
@@ -119,7 +119,7 @@ const TeamMemberList = ({ teamMembers = [], loading = false, viewMode = 'grid', 
                                 </tr>
                             ) : (
                                 teamMembers.map((member) => (
-                                    <tr key={member.id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
+                                    <tr key={member._id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
                                         <td className="font-medium">
                                             <div className="flex items-center">
                                                 <div className="avatar mr-3">
@@ -149,7 +149,7 @@ const TeamMemberList = ({ teamMembers = [], loading = false, viewMode = 'grid', 
                                         <td>
                                             <div className="flex gap-2">
                                                 <button
-                                                    onClick={() => onMemberClick(member.id)}
+                                                    onClick={() => onMemberClick(member._id)}
                                                     className="btn btn-sm btn-ghost"
                                                     aria-label="View team member"
                                                 >
@@ -158,7 +158,7 @@ const TeamMemberList = ({ teamMembers = [], loading = false, viewMode = 'grid', 
                                                 <button
                                                     className="btn btn-sm btn-ghost"
                                                     aria-label="Edit team member"
-                                                    onClick={() => onMemberClick(`${member.id}/edit`)}
+                                                    onClick={() => onMemberClick(`${member._id}/edit`)}
                                                 >
                                                     <i className="fas fa-pencil-alt"></i>
                                                 </button>

@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const onMediaUpdated = gql`
 subscription OnMediaUpdated {
     onMediaUpdated {
-          _id
-        id
+        _id
         projectId
         uploadedBy
         type

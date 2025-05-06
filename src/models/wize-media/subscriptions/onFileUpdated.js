@@ -3,7 +3,7 @@ import { gql } from 'graphql-request';
 export const onFileUpdated = gql`
 subscription OnFileUpdated {
     onFileUpdated {
-          _id
+        _id
         fileName
         mimeType
         url

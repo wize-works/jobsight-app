@@ -7,6 +7,8 @@ import { ToastProvider } from "@/components/ui/toast";
 import Header from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import Script from "next/script";
+import { ClerkProvider } from "@clerk/nextjs";
+import { syncUserWithDatabase } from "@/services/user";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -39,23 +41,28 @@ export const metadata = {
     description: "Job Site Management Software",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+    // Sync the user with database for authenticated users
+    await syncUserWithDatabase();
+    
     return (
         <html lang="en" suppressHydrationWarning>
             <Script src="https://kit.fontawesome.com/40c3b5129c.js" crossOrigin="anonymous" />
             <body className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen`} >
-                <ThemeProvider>
-                    <SidebarProvider>
-                        <ToastProvider>
-                            <Sidebar />
-                            <div className="flex-1 flex flex-col bg-base-200 min-h-screen pb-auto">
-                                <Header />
-                                {children}
-                                <Footer />
-                            </div>
-                        </ToastProvider>
-                    </SidebarProvider>
-                </ThemeProvider>
+                <ClerkProvider>
+                    <ThemeProvider>
+                        <SidebarProvider>
+                            <ToastProvider>
+                                <Sidebar />
+                                <div className="flex-1 flex flex-col bg-base-200 min-h-screen pb-auto">
+                                    <Header />
+                                    {children}
+                                    <Footer />
+                                </div>
+                            </ToastProvider>
+                        </SidebarProvider>
+                    </ThemeProvider>
+                </ClerkProvider>
             </body>
         </html >
     );

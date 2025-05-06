@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const findMessageById = gql`
 query FindMessageById($id: ID!) {
     findMessageById(id: $id) {
-          _id
-        id
+        _id
         conversationId
         senderId
         text

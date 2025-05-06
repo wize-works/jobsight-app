@@ -81,9 +81,9 @@ export const executeGraphQL = async (service, query, variables = {}) => {
         //console.log(`📡 API Request to ${service}:`, { query, variables });
 
         let API_URL = `https://api.wize.works/${service}/graphql`;
-        // if (service === 'wize-log') {
-        //     API_URL = `http://localhost:3001/graphql`;
-        // }
+        if (service === 'wize-task') {
+            API_URL = `http://localhost:3001/graphql`;
+        }
         const body = JSON.stringify({
             query: query,
             variables: variables, //deepClean(variables),
@@ -116,7 +116,6 @@ export const executeGraphQL = async (service, query, variables = {}) => {
             throw new Error(errors[0].message || 'GraphQL operation failed');
         }
 
-        //console.log('✅ API Success:', { service, data });
         return data;
     } catch (error) {
         console.error(`❌ ${service} service error:`, error);

@@ -1,0 +1,52 @@
+{
+    "database": "wize-identity",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "user_presence",
+    "metadata": {
+        "fields": {
+            "userId": {
+                "type": "string",
+                "required": true,
+                "primaryKey": true
+            },
+            "status": {
+                "type": "enum",
+                "values": [
+                    "online",
+                    "away",
+                    "offline"
+                ],
+                "default": "offline"
+            },
+            "lastActive": {
+                "type": "datetime"
+            },
+            "currentConversationId": {
+                "type": "uuid",
+                "description": "Indicates which conversation the user is currently viewing"
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

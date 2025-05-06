@@ -11,6 +11,7 @@ import {
 } from '@/models/wize-project/mutations';
 import { executeGraphQL, deepClean } from '@/utils/execute';
 import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
+import { addDataContext } from '@/utils/userContext';
 
 const service = 'wize-project';
 
@@ -55,8 +56,10 @@ export const getProjectById = async (id) => {
  * @returns {Promise<Object>} - Created project
  */
 export const createNewProject = async (projectData) => {
-    await deepClean(projectData);
-    const data = await executeGraphQL(service, createProject, { input: projectData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(projectData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createProject, { input: enrichedData });
     return data.createProject;
 }
 
@@ -67,8 +70,10 @@ export const createNewProject = async (projectData) => {
  * @returns {Promise<Object>} - Updated project
  */
 export const updateExistingProject = async (id, projectData) => {
-    await deepClean(projectData);
-    const data = await executeGraphQL(service, updateProject, { id, input: projectData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(projectData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateProject, { id, input: enrichedData });
     return data.updateProject;
 }
 
@@ -123,8 +128,10 @@ export const getPermitById = async (id) => {
  * @returns {Promise<Object>} - Created permit
  */
 export const createNewPermit = async (permitData) => {
-    await deepClean(permitData);
-    const data = await executeGraphQL(service, createPermit, { input: permitData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(permitData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createPermit, { input: enrichedData });
     return data.createPermit;
 }
 
@@ -135,8 +142,10 @@ export const createNewPermit = async (permitData) => {
  * @returns {Promise<Object>} - Updated permit
  */
 export const updateExistingPermit = async (id, permitData) => {
-    await deepClean(permitData);
-    const data = await executeGraphQL(service, updatePermit, { id, input: permitData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(permitData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updatePermit, { id, input: enrichedData });
     return data.updatePermit;
 }
 

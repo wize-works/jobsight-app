@@ -6,7 +6,6 @@ query FindInvoices($filter: InvoiceFilter!, $sort: InvoiceSort!, $paging: Invoic
           count
         data {
               _id
-            id
             projectId
             status
             lineItems

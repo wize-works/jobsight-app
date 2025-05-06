@@ -1,0 +1,165 @@
+{
+    "database": "wize-task",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "task",
+    "metadata": {
+        "fields": {
+            "projectId": {
+                "type": "string",
+                "required": true
+            },
+            "title": {
+                "type": "string",
+                "required": true
+            },
+            "description": {
+                "type": "string"
+            },
+            "status": {
+                "type": "enum",
+                "values": [
+                    "pending",
+                    "in_progress",
+                    "completed",
+                    "on_hold",
+                    "cancelled",
+                    "blocked"
+                ],
+                "default": "pending",
+                "required": true
+            },
+            "assignedTo": {
+                "type": "string",
+                "description": "Clerk user ID of the assigned user"
+            },
+            "assignedToName": {
+                "type": "string",
+                "description": "Name of the assigned user (for display purposes)"
+            },
+            "projectName": {
+                "type": "string",
+                "description": "Name of the associated project (for display purposes)"
+            },
+            "priority": {
+                "type": "enum",
+                "values": [
+                    "urgent",
+                    "high",
+                    "normal",
+                    "low"
+                ],
+                "default": "normal",
+                "required": true
+            },
+            "tags": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "description": "Task tags for categorization and filtering"
+            },
+            "subtasks": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "fields": {
+                        "title": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "completed": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                }
+            },
+            "attachments": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "fields": {
+                        "filename": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "url": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "size": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "estimatedHours": {
+                "type": "number"
+            },
+            "actualHours": {
+                "type": "number"
+            },
+            "comments": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "fields": {
+                        "id": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "content": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "createdBy": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "createdByName": {
+                            "type": "string"
+                        },
+                        "createdAt": {
+                            "type": "datetime",
+                            "required": true
+                        }
+                    }
+                }
+            },
+            "dueDate": {
+                "type": "date"
+            },
+            "isCritical": {
+                "type": "boolean",
+                "default": false,
+                "required": true
+            },
+            "orderIndex": {
+                "type": "number",
+                "required": true
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

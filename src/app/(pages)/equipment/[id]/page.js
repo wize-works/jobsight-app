@@ -3,7 +3,7 @@ import EquipmentDetail from './components/EquipmentDetail';
 import EquipmentNotFound from './components/EquipmentNotFound';
 
 export default async function EquipmentDetailPage({ params }) {
-    const id = params.id;
+    const id = params._id;
     let equipment = null;
     let projects = [];
 

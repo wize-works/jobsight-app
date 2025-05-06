@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const createSetting = gql`
 mutation CreateSetting($input: SettingInputInput!) {
     createSetting(input: $input) {
-          _id
-        id
+        _id
         organizationId
         timezone
         defaultProjectTemplateId

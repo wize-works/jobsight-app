@@ -206,7 +206,7 @@ const InvoicingPage = () => {
                                     </thead>
                                     <tbody>
                                         {filteredInvoices.map((invoice) => (
-                                            <tr key={invoice.id}>
+                                            <tr key={invoice._id}>
                                                 <td>{invoice.number}</td>
                                                 <td>{invoice.client}</td>
                                                 <td>{invoice.date}</td>
@@ -226,19 +226,19 @@ const InvoicingPage = () => {
                                                     <div className="flex gap-2">
                                                         <button
                                                             className="btn btn-ghost btn-sm"
-                                                            onClick={() => router.push(`/invoicing/${invoice.id}`)}
+                                                            onClick={() => router.push(`/invoicing/${invoice._id}`)}
                                                         >
                                                             <i className="fas fa-eye"></i>
                                                         </button>
                                                         <button
                                                             className="btn btn-ghost btn-sm"
-                                                            onClick={() => router.push(`/invoicing/${invoice.id}/edit`)}
+                                                            onClick={() => router.push(`/invoicing/${invoice._id}/edit`)}
                                                         >
                                                             <i className="fas fa-edit"></i>
                                                         </button>
                                                         <button
                                                             className="btn btn-ghost btn-sm text-error"
-                                                            onClick={() => handleDeleteInvoice(invoice.id)}
+                                                            onClick={() => handleDeleteInvoice(invoice._id)}
                                                         >
                                                             <i className="fas fa-trash"></i>
                                                         </button>

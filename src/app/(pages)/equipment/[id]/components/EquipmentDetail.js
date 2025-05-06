@@ -37,7 +37,7 @@ export default function EquipmentDetail({ equipment, projects }) {
     const handleUpdateStatus = async (statusData) => {
         try {
             const updatedEquipment = await updateExistingEquipment(
-                equipment.id,
+                equipment._id,
                 statusData
             );
 
@@ -60,7 +60,7 @@ export default function EquipmentDetail({ equipment, projects }) {
     const handleAssignEquipment = async (assignData) => {
         try {
             await updateExistingEquipment(
-                equipment.id,
+                equipment._id,
                 assignData
             );
 
@@ -83,7 +83,7 @@ export default function EquipmentDetail({ equipment, projects }) {
     const handleScheduleMaintenance = async (maintenanceData) => {
         try {
             await updateExistingEquipment(
-                equipment.id,
+                equipment._id,
                 {
                     nextMaintenance: maintenanceData.maintenanceDate,
                     lastMaintenance: new Date().toISOString(),
@@ -109,7 +109,7 @@ export default function EquipmentDetail({ equipment, projects }) {
 
     const handleDeleteEquipment = async () => {
         try {
-            await deleteExistingEquipment(equipment.id);
+            await deleteExistingEquipment(equipment._id);
 
             toast({
                 title: 'Equipment deleted',
@@ -127,11 +127,11 @@ export default function EquipmentDetail({ equipment, projects }) {
     };
 
     const handleEditEquipment = () => {
-        router.push(`/equipment/${equipment.id}/edit`);
+        router.push(`/equipment/${equipment._id}/edit`);
     };
 
     const projectName = equipment.assignedProject ?
-        (projects.find(p => p.id === equipment.assignedProject)?.name || 'Unknown Project') :
+        (projects.find(p => p._id === equipment.assignedProject)?.name || 'Unknown Project') :
         'None';
 
     return (
@@ -174,7 +174,7 @@ export default function EquipmentDetail({ equipment, projects }) {
                             <div>
                                 <div className="mb-4">
                                     <p className="text-sm text-muted-foreground">ID</p>
-                                    <p className="font-medium">{equipment.id}</p>
+                                    <p className="font-medium">{equipment._id}</p>
                                 </div>
                                 <div className="mb-4">
                                     <p className="text-sm text-muted-foreground">Type</p>

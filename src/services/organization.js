@@ -21,10 +21,166 @@ import {
     deleteSetting
 } from '@/models/wize-organization/mutations';
 
+// Import the organization-specific operations
+import {
+    getOrganizations,
+    getOrganizationById,
+    searchOrganizations,
+    getOrganizationsByTier
+} from '@/models/wize-organization/queries';
+
+import {
+    createOrganization,
+    updateOrganization,
+    toggleOrganizationStatus,
+    deleteOrganization,
+    updateSubscriptionTier
+} from '@/models/wize-organization/mutations';
+
 import { executeGraphQL, deepClean } from '@/utils/execute';
 import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
+import { addDataContext } from '@/utils/userContext';
 
 const service = 'wize-organization';
+
+/* Organization Operations */
+
+/**
+ * Get organizations with optional filtering, sorting and pagination
+ * @param {Object} options - Query options
+ * @param {Object} options.filter - Filtering criteria
+ * @param {Object} options.sort - Sorting criteria
+ * @param {Object} options.paging - Pagination options
+ * @returns {Promise<Array>} - List of organizations
+ */
+export const getOrgList = async (options = {}) => {
+    const filter = options.filter || {};
+    const sort = options.sort || { 'name': 'ASC' };
+    const paging = options.paging || { limit: 20, offset: 0 };
+
+    try {
+        const data = await getOrganizations({ limit: paging.limit, offset: paging.offset });
+        return data;
+    } catch (error) {
+        console.error('Error fetching organizations:', error);
+        throw error;
+    }
+}
+
+/**
+ * Get a single organization by ID
+ * @param {string} id - Organization ID
+ * @returns {Promise<Object>} - Organization details
+ */
+export const getOrgById = async (id) => {
+    try {
+        const data = await getOrganizationById({ id });
+        return data;
+    } catch (error) {
+        console.error(`Error fetching organization with ID ${id}:`, error);
+        throw error;
+    }
+}
+
+/**
+ * Search organizations by name or description
+ * @param {string} query - Search query
+ * @param {number} limit - Maximum number of results to return
+ * @returns {Promise<Array>} - List of matching organizations
+ */
+export const searchOrgs = async (query, limit = 20) => {
+    try {
+        const data = await searchOrganizations({ query, limit });
+        return data;
+    } catch (error) {
+        console.error('Error searching organizations:', error);
+        throw error;
+    }
+}
+
+/**
+ * Create a new organization
+ * @param {Object} orgData - Organization data
+ * @returns {Promise<Object>} - Created organization
+ */
+export const createNewOrg = async (orgData) => {
+    try {
+        // Add user and tenant context
+        const enrichedData = await addDataContext(orgData, true);
+        await deepClean(enrichedData);
+        const data = await createOrganization(enrichedData);
+        return data;
+    } catch (error) {
+        console.error('Error creating organization:', error);
+        throw error;
+    }
+}
+
+/**
+ * Update an existing organization
+ * @param {string} id - Organization ID
+ * @param {Object} updates - Fields to update
+ * @returns {Promise<Object>} - Updated organization
+ */
+export const updateExistingOrg = async (id, updates) => {
+    try {
+        // Add user context (false = update only)
+        const enrichedData = await addDataContext(updates, false);
+        await deepClean(enrichedData);
+        const data = await updateOrganization({ id, updates: enrichedData });
+        return data;
+    } catch (error) {
+        console.error(`Error updating organization with ID ${id}:`, error);
+        throw error;
+    }
+}
+
+/**
+ * Toggle an organization's active status
+ * @param {string} id - Organization ID
+ * @param {boolean} isActive - New active status
+ * @returns {Promise<Object>} - Updated organization
+ */
+export const toggleOrgStatus = async (id, isActive) => {
+    try {
+        const data = await toggleOrganizationStatus({ id, isActive });
+        return data;
+    } catch (error) {
+        console.error(`Error toggling status for organization with ID ${id}:`, error);
+        throw error;
+    }
+}
+
+/**
+ * Delete an organization
+ * @param {string} id - Organization ID
+ * @returns {Promise<boolean>} - Success indicator
+ */
+export const deleteExistingOrg = async (id) => {
+    try {
+        const result = await deleteOrganization({ id });
+        return result;
+    } catch (error) {
+        console.error(`Error deleting organization with ID ${id}:`, error);
+        throw error;
+    }
+}
+
+/**
+ * Update an organization's subscription tier
+ * @param {string} id - Organization ID
+ * @param {string} tier - New subscription tier
+ * @returns {Promise<Object>} - Updated organization
+ */
+export const updateOrgTier = async (id, tier) => {
+    try {
+        const data = await updateSubscriptionTier({ id, tier });
+        return data;
+    } catch (error) {
+        console.error(`Error updating tier for organization with ID ${id}:`, error);
+        throw error;
+    }
+}
 
 /* Crew Operations */
 
@@ -67,8 +223,10 @@ export const getCrewById = async (id) => {
  * @returns {Promise<Object>} - Created crew
  */
 export const createNewCrew = async (crewData) => {
-    await deepClean(crewData);
-    const data = await executeGraphQL(service, createCrew, { input: crewData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(crewData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createCrew, { input: enrichedData });
     return data.createCrew;
 }
 
@@ -79,8 +237,10 @@ export const createNewCrew = async (crewData) => {
  * @returns {Promise<Object>} - Updated crew
  */
 export const updateExistingCrew = async (id, crewData) => {
-    await deepClean(crewData);
-    const data = await executeGraphQL(service, updateCrew, { id, input: crewData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(crewData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateCrew, { id, input: enrichedData });
     return data.updateCrew;
 }
 
@@ -135,8 +295,10 @@ export const getCrewScheduleById = async (id) => {
  * @returns {Promise<Object>} - Created crew schedule
  */
 export const createNewCrewSchedule = async (scheduleData) => {
-    await deepClean(scheduleData);
-    const data = await executeGraphQL(service, createCrew_schedule, { input: scheduleData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(scheduleData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createCrew_schedule, { input: enrichedData });
     return data.createCrew_schedule;
 }
 
@@ -147,19 +309,11 @@ export const createNewCrewSchedule = async (scheduleData) => {
  * @returns {Promise<Object>} - Updated crew schedule
  */
 export const updateExistingCrewSchedule = async (id, scheduleData) => {
-    await deepClean(scheduleData);
-    const data = await executeGraphQL(service, updateCrew_schedule, { id, input: scheduleData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(scheduleData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateCrew_schedule, { id, input: enrichedData });
     return data.updateCrew_schedule;
-}
-
-/**
- * Delete a crew schedule
- * @param {string} id - Crew schedule ID to delete
- * @returns {Promise<Object>} - Result of the deletion operation
- */
-export const deleteExistingCrewSchedule = async (id) => {
-    const data = await executeGraphQL(service, deleteCrew_schedule, { id });
-    return data.deleteCrew_schedule;
 }
 
 /* Setting Operations */
@@ -203,8 +357,10 @@ export const getSettingById = async (id) => {
  * @returns {Promise<Object>} - Created setting
  */
 export const createNewSetting = async (settingData) => {
-    await deepClean(settingData);
-    const data = await executeGraphQL(service, createSetting, { input: settingData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(settingData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createSetting, { input: enrichedData });
     return data.createSetting;
 }
 
@@ -215,8 +371,10 @@ export const createNewSetting = async (settingData) => {
  * @returns {Promise<Object>} - Updated setting
  */
 export const updateExistingSetting = async (id, settingData) => {
-    await deepClean(settingData);
-    const data = await executeGraphQL(service, updateSetting, { id, input: settingData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(settingData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateSetting, { id, input: enrichedData });
     return data.updateSetting;
 }
 

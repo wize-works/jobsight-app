@@ -1,0 +1,50 @@
+{
+    "database": "wize-messaging",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "messaging_preference",
+    "metadata": {
+        "fields": {
+            "userId": {
+                "type": "string",
+                "required": true,
+                "primaryKey": true
+            },
+            "notificationSettings": {
+                "type": "json",
+                "default": {
+                    "desktop": true,
+                    "email": true,
+                    "mobile": true,
+                    "sound": true
+                }
+            },
+            "conversationSettings": {
+                "type": "json",
+                "description": "Per-conversation notification overrides",
+                "default": {}
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

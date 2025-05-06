@@ -144,7 +144,7 @@ const MessagePanel = ({
                 groups.push({
                     type: 'dateDivider',
                     date: message.timestamp,
-                    id: `date-${message.id}`
+                    id: `date-${message._id}`
                 });
             }
 
@@ -163,7 +163,7 @@ const MessagePanel = ({
                 // Start new group
                 currentGroup = {
                     type: 'messageGroup',
-                    id: `group-${message.id}`,
+                    id: `group-${message._id}`,
                     senderId: message.senderId,
                     senderName: message.senderName,
                     isSystemMessage: message.isSystemMessage,
@@ -195,7 +195,7 @@ const MessagePanel = ({
     const renderMessageGroup = (group) => {
         if (group.type === 'dateDivider') {
             return (
-                <div key={group.id} className="flex justify-center my-4">
+                <div key={group._id} className="flex justify-center my-4">
                     <div className="bg-base-300 text-base-content/60 px-3 py-1 text-xs rounded-full">
                         {formatMessageDate(group.date)}
                     </div>
@@ -208,7 +208,7 @@ const MessagePanel = ({
         // Display system messages differently
         if (group.isSystemMessage) {
             return (
-                <div key={group.id} className="flex justify-center my-3">
+                <div key={group._id} className="flex justify-center my-3">
                     <div className="bg-base-300/50 text-base-content/70 px-3 py-1 text-xs rounded-full">
                         {group.messages[0].text}
                     </div>
@@ -218,7 +218,7 @@ const MessagePanel = ({
 
         return (
             <div
-                key={group.id}
+                key={group._id}
                 className={`flex mb-3 ${isCurrentUser ? 'justify-end' : 'justify-start'}`}
             >
                 {!isCurrentUser && (
@@ -235,7 +235,7 @@ const MessagePanel = ({
                     <div className="flex flex-col">
                         {group.messages.map((message, i) => (
                             <div
-                                key={message.id}
+                                key={message._id}
                                 className={`
                   rounded-lg py-2 px-3 my-0.5
                   ${isCurrentUser

@@ -5,8 +5,7 @@ query FindMessage_statuses($filter: Message_statusFilter!, $sort: Message_status
     findMessage_statuses(filter: $filter, sort: $sort, paging: $paging) {
           count
         data {
-              _id
-            id
+            _id
             messageId
             userId
             isRead

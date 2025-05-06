@@ -6,7 +6,6 @@ query FindUsers($filter: UserFilter!, $sort: UserSort!, $paging: UserPaging!) {
           count
         data {
               _id
-            id
             organizationId
             role
             displayName

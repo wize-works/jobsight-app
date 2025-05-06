@@ -135,8 +135,8 @@ const RecentActivity = ({ activities = [], onViewAll = () => { }, loading = fals
                                 </td>
                             </tr>
                         ) : (
-                            activities.map((activity) => (
-                                <tr key={activity.id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
+                            activities.map((activity, index) => (
+                                <tr key={index} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
                                     <td>
                                         <div className="flex items-center">
                                             {getActivityIcon(activity.type)}

@@ -4,7 +4,6 @@ export const updateMedia = gql`
 mutation UpdateMedia($id: String!, $input: MediaInputInput!) {
     updateMedia(id: $id, input: $input) {
           _id
-        id
         projectId
         uploadedBy
         type

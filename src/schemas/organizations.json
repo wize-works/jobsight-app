@@ -1,0 +1,104 @@
+{
+    "database": "wize-organization",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "organization",
+    "metadata": {
+        "fields": {
+            "name": {
+                "type": "string",
+                "required": true,
+                "description": "Organization name"
+            },
+            "description": {
+                "type": "string",
+                "description": "Organization description"
+            },
+            "logoUrl": {
+                "type": "string",
+                "description": "URL to organization logo"
+            },
+            "website": {
+                "type": "string",
+                "description": "Organization website URL"
+            },
+            "industry": {
+                "type": "string",
+                "description": "Industry sector"
+            },
+            "address": {
+                "type": "object",
+                "properties": {
+                    "street": {
+                        "type": "string"
+                    },
+                    "city": {
+                        "type": "string"
+                    },
+                    "state": {
+                        "type": "string"
+                    },
+                    "postalCode": {
+                        "type": "string"
+                    },
+                    "country": {
+                        "type": "string"
+                    }
+                }
+            },
+            "contactEmail": {
+                "type": "string",
+                "description": "Primary contact email"
+            },
+            "contactPhone": {
+                "type": "string",
+                "description": "Primary contact phone number"
+            },
+            "settings": {
+                "type": "object",
+                "properties": {
+                    "timezone": {
+                        "type": "string",
+                        "default": "UTC"
+                    },
+                    "dateFormat": {
+                        "type": "string",
+                        "default": "MM/DD/YYYY"
+                    },
+                    "billingCycle": {
+                        "type": "string",
+                        "enum": [
+                            "weekly",
+                            "biweekly",
+                            "monthly"
+                        ],
+                        "default": "monthly"
+                    }
+                }
+            },
+            "subscriptionTier": {
+                "type": "enum",
+                "values": [
+                    "free",
+                    "basic",
+                    "professional",
+                    "enterprise"
+                ],
+                "default": "free",
+                "required": true
+            },
+            "isActive": {
+                "type": "boolean",
+                "default": true,
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            }
+        },
+        "tenantScoped": false
+    }
+}

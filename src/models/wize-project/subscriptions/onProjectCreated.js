@@ -3,7 +3,7 @@ import { gql } from 'graphql-request';
 export const onProjectCreated = gql`
 subscription OnProjectCreated {
     onProjectCreated {
-          id
+        _id
         name
         description
         status

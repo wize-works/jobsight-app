@@ -6,7 +6,6 @@ query FindVector_logs($filter: Vector_logFilter!, $sort: Vector_logSort!, $pagin
           count
         data {
               _id
-            id
             logId
             embedding
             contentType

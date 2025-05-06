@@ -28,7 +28,7 @@ const ProjectsTable = ({ projects = [], loading }) => {
                         </tr>
                     ) : (
                         safeProjects.map((project, index) => (
-                            <tr key={project.id || index} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
+                            <tr key={project._id || index} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
                                 <td className="font-medium">{project.name || 'Unnamed Project'}</td>
                                 <td className="hidden sm:table-cell">{project.client || 'No Client'}</td>
                                 <td>

@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const findConversationById = gql`
 query FindConversationById($id: ID!) {
     findConversationById(id: $id) {
-          _id
-        id
+        _id
         type
         name
         participants

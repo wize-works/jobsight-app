@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const createCrew = gql`
 mutation CreateCrew($input: CrewInputInput!) {
     createCrew(input: $input) {
-          _id
-        id
+        _id
         name
         members
         createdAt

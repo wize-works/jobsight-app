@@ -4,7 +4,6 @@ export const deleteAi_log = gql`
 mutation DeleteAi_log($id: ID!) {
     deleteAi_log(id: $id) {
           _id
-        id
         userId
         projectId
         inputText

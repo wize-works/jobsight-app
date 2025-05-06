@@ -4,7 +4,6 @@ export const onVector_logUpdated = gql`
 subscription OnVector_logUpdated {
     onVector_logUpdated {
           _id
-        id
         logId
         embedding
         contentType

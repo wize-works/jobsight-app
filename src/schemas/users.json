@@ -1,0 +1,51 @@
+{
+    "database": "wize-identity",
+    "clientApp": "jobsight-app",
+    "table": "user",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "string",
+                "required": true,
+                "primaryKey": true,
+                "description": "Clerk user ID"
+            },
+            "organizationId": {
+                "type": "string",
+                "required": true
+            },
+            "role": {
+                "type": "enum",
+                "values": [
+                    "admin",
+                    "manager",
+                    "worker"
+                ],
+                "required": true
+            },
+            "displayName": {
+                "type": "string",
+                "required": true
+            },
+            "email": {
+                "type": "string",
+                "required": true
+            },
+            "avatarUrl": {
+                "type": "string"
+            },
+            "isActive": {
+                "type": "boolean",
+                "required": true,
+                "default": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            }
+        },
+        "tenantScoped": true
+    }
+}
