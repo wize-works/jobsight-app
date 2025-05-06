@@ -2,12 +2,24 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { getProjectById } from '@/services';
 
 const LogCard = ({ log }) => {
     // Extract properties with fallbacks for missing data
+    const [projectName, setProjectName] = React.useState('Unnamed Project');
+
+    React.useEffect(() => {
+        const getProjectName = async () => {
+            if (log?.projectId) {
+                const project = await getProjectById(log.projectId);
+                setProjectName(project?.name || 'Unnamed Project');
+            }
+        };
+        getProjectName();
+    }, [log?.projectId]);
+
     const {
         _id: id,
-        projectName,
         date,
         author,
         summary,
@@ -46,7 +58,7 @@ const LogCard = ({ log }) => {
 
     return (
         <Link href={`/logs/${id}`} className="block w-full transition-transform duration-300 hover:-translate-y-1">
-            <div className="card bg-white shadow-md hover:shadow-lg transition-all duration-300 h-full">
+            <div className="card bg-base-100 shadow-md hover:shadow-lg transition-all duration-300 h-full">
                 <div className="card-body p-5">
                     <div className="flex justify-between items-start">
                         <div>

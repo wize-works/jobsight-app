@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { fetchTaskById, updateTask } from '@/services/task';
+import { getTaskById, updateTask } from '@/services/task';
 import { useToast } from '@/hooks/use-toast';
 
 // Components for the task detail view
@@ -24,7 +24,7 @@ export default function TaskDetailPage() {
         const loadTask = async () => {
             try {
                 setLoading(true);
-                const taskData = await fetchTaskById(id);
+                const taskData = await getTaskById(id);
                 setTask(taskData);
                 setError(null);
             } catch (err) {

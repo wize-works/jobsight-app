@@ -2,13 +2,13 @@
 // Equipment service for handling equipment-related API calls
 import { findEquipments, findEquipmentById } from '@/models/wize-inventory/queries';
 import { createEquipment, updateEquipment, deleteEquipment } from '@/models/wize-inventory/mutations';
-import { executeGraphQL } from '@/services/execute';
-import { flattenGraphQLFilters } from './utils';
+import { deepClean, executeGraphQL } from '@/utils/execute';
+import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
 
 const service = 'wize-inventory';
 
 /**
- * Fetch equipment items with optional filtering, sorting and pagination
+ * get equipment items with optional filtering, sorting and pagination
  * @param {Object} options - Query options
  * @param {Object} options.filter - Filtering criteria
  * @param {Object} options.sort - Sorting criteria
@@ -26,12 +26,11 @@ export const getEquipments = async (options = {}) => {
         sort,
         paging,
     });
-
     return data.findEquipments;
 }
 
 /**
- * Fetch a single equipment item by ID
+ * get a single equipment item by ID
  * @param {string} id - Equipment ID
  * @returns {Promise<Object>} - Equipment details
  */
@@ -46,6 +45,7 @@ export const getEquipmentById = async (id) => {
  * @returns {Promise<Object>} - Created equipment
  */
 export const createNewEquipment = async (equipmentData) => {
+    await deepClean(equipmentData);
     const data = await executeGraphQL(service, createEquipment, { input: equipmentData });
     return data.createEquipment;
 }
@@ -57,6 +57,7 @@ export const createNewEquipment = async (equipmentData) => {
  * @returns {Promise<Object>} - Updated equipment
  */
 export const updateExistingEquipment = async (id, equipmentData) => {
+    await deepClean(equipmentData);
     const data = await executeGraphQL(service, updateEquipment, { id, input: equipmentData });
     return data.updateEquipment;
 }

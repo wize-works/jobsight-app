@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { updateDailyLog } from '@/services/log';
 
 const LogApproval = ({ log, className = '' }) => {
     const { toast } = useToast();
@@ -10,10 +11,23 @@ const LogApproval = ({ log, className = '' }) => {
         try {
             setLoading(true);
 
-            // In a real app, here would be an API call to update the log approval status
-            // await updateLogApproval(log.id, newStatus);
+            // Use the updateDailyLog service to update the log's approval status
+            const updateData = {
+                approvalStatus: newStatus,
+                approvals: {
+                    ...log.approvals || {},
+                    requested: true,
+                    approved: newStatus === 'approved',
+                    approvedBy: newStatus === 'approved' ? 'Current User' : log.approvals?.approvedBy, // Replace with actual user
+                    approvedAt: newStatus === 'approved' ? new Date().toISOString() : log.approvals?.approvedAt,
+                    rejectedBy: newStatus === 'rejected' ? 'Current User' : log.approvals?.rejectedBy, // Replace with actual user
+                    rejectedAt: newStatus === 'rejected' ? new Date().toISOString() : log.approvals?.rejectedAt,
+                }
+            };
 
-            // For demo purposes, we're just updating the local state
+            await updateDailyLog(log._id, updateData);
+
+            // Update local state after successful API call
             setApprovalState(newStatus);
 
             toast({
@@ -110,13 +124,13 @@ const LogApproval = ({ log, className = '' }) => {
 
                 {approvalState === 'approved' && (
                     <div className="text-sm text-base-content/60">
-                        Approved by {log.approvedBy || 'Project Manager'} on {formatDate(log.approvedAt || new Date())}
+                        Approved by {log.approvals?.approvedBy || 'Project Manager'} on {formatDate(log.approvals?.approvedAt || new Date())}
                     </div>
                 )}
 
                 {approvalState === 'rejected' && (
                     <div className="text-sm text-base-content/60">
-                        Rejected by {log.rejectedBy || 'Project Manager'} on {formatDate(log.rejectedAt || new Date())}
+                        Rejected by {log.approvals?.rejectedBy || 'Project Manager'} on {formatDate(log.approvals?.rejectedAt || new Date())}
                     </div>
                 )}
             </div>

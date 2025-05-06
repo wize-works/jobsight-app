@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { fetchEquipment } from "@/services/equipment";
+import { getEquipments } from "@/services/equipment";
 
 const EquipmentTable = ({
     onManageEquipment = () => { },
@@ -8,19 +8,22 @@ const EquipmentTable = ({
     const [equipment, setEquipment] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    // Updated to fetch real equipment data from the service
+    // Updated to get real equipment data from the service
     useEffect(() => {
         const loadEquipment = async () => {
             setLoading(true);
             try {
-                const equipmentData = await fetchEquipment();
-                setEquipment(equipmentData);
+                const equipmentData = await getEquipments();
+                // Ensure equipment is always an array
+                setEquipment(Array.isArray(equipmentData) ? equipmentData : []);
             } catch (error) {
                 toast({
                     title: "Error",
                     description: "Failed to load equipment",
                     variant: "destructive",
                 });
+                // Set equipment to empty array on error
+                setEquipment([]);
             } finally {
                 setLoading(false);
             }

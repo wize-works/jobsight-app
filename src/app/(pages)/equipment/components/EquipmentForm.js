@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { createEquipment, updateEquipment, fetchEquipment } from '@/services/equipment';
+import { createNewEquipment, updateExistingEquipment, getEquipments } from '@/services/equipment';
 import { useToast } from '@/hooks/use-toast';
 
 const EquipmentForm = ({ equipment, isEditing = false }) => {
@@ -15,18 +15,23 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
     // Form state
     const [formData, setFormData] = useState({
         name: '',
+        serialNumber: '',
+        assignedProjectId: '',
+        assignedProjectName: '',
+        lastCheckDate: null,
+        maintenanceDue: false,
         type: '',
         status: 'available',
         location: '',
-        assignedProject: '',
+        condition: 'good',
         operator: '',
-        purchaseDate: '',
-        purchasePrice: '',
-        condition: 'Good',
-        hoursUsed: '',
+        hoursUsed: 0,
         notes: '',
-        lastMaintenance: '',
-        nextMaintenance: ''
+        purchaseDate: null,
+        purchasePrice: '',
+        lastMaintenanceDate: null,
+        nextMaintenanceDate: null,
+        qrCodeUrl: null,
     });
 
     // Validation errors
@@ -35,18 +40,23 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
     const loadProjects = useCallback(async () => {
         try {
             setLoading(true);
-            const projectsData = await fetchEquipment();
-            setProjects(projectsData);
+            // Note: In a real implementation, this should call a project service
+            // Currently using equipment service as a placeholder
+            const projectsData = await getEquipments();
+            // Ensure projects is always an array before setting state
+            setProjects(Array.isArray(projectsData) ? projectsData : []);
         } catch (error) {
             toast({
                 title: 'Error loading projects',
                 description: error.message || 'Could not load project list',
                 variant: 'destructive',
             });
+            // Set to empty array on error
+            setProjects([]);
         } finally {
             setLoading(false);
         }
-    }, [toast]);
+    }, []); // Remove toast from dependencies
 
     useEffect(() => {
         // If editing, populate the form with existing data
@@ -63,17 +73,23 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
             setFormData({
                 name: equipment.name || '',
                 type: equipment.type || '',
+                serialNumber: equipment.serialNumber || '',
+                assignedProjectId: equipment.assignedProjectId || '',
+                assignedProjectName: equipment.assignedProjectName || '',
+                lastCheckDate: equipment.lastCheckDate || '',
+                maintenanceDue: equipment.maintenanceDue || false,
+                type: equipment.type || '',
                 status: equipment.status || 'available',
                 location: equipment.location || '',
-                assignedProject: equipment.assignedProject || '',
+                condition: equipment.condition || 'good',
                 operator: equipment.operator || '',
-                purchaseDate: formattedPurchaseDate,
-                purchasePrice: equipment.purchasePrice?.toString() || '',
-                condition: equipment.condition || 'Good',
                 hoursUsed: equipment.hoursUsed?.toString() || '',
                 notes: equipment.notes || '',
-                lastMaintenance: formattedLastMaintenance,
-                nextMaintenance: formattedNextMaintenance
+                purchaseDate: formattedPurchaseDate,
+                purchasePrice: equipment.purchasePrice?.toString() || '',
+                lastMaintenanceDate: formattedLastMaintenance,
+                nextMaintenanceDate: formattedNextMaintenance,
+                qrCodeUrl: equipment.qrCodeUrl || null,
             });
         }
 
@@ -146,7 +162,7 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
 
             if (isEditing) {
                 // Update existing equipment
-                await updateEquipment(equipment.id, payloadData);
+                await updateExistingEquipment(equipment.id, payloadData);
                 toast({
                     title: 'Equipment Updated',
                     description: `${formData.name} has been updated successfully`,
@@ -154,7 +170,7 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
                 router.push(`/equipment/${equipment.id}`);
             } else {
                 // Create new equipment
-                const newEquipment = await createEquipment(payloadData);
+                const newEquipment = await createNewEquipment(payloadData);
                 toast({
                     title: 'Equipment Added',
                     description: `${formData.name} has been added successfully`,
@@ -206,6 +222,20 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
 
                             <div className="form-control">
                                 <label className="label">
+                                    <span className="label-text">Serial Number</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="serialNumber"
+                                    value={formData.serialNumber}
+                                    onChange={handleChange}
+                                    className="input input-bordered"
+                                    placeholder="Equipment serial number"
+                                />
+                            </div>
+
+                            <div className="form-control">
+                                <label className="label">
                                     <span className="label-text">Type*</span>
                                 </label>
                                 <select
@@ -215,11 +245,11 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
                                     className={`select select-bordered ${errors.type ? 'select-error' : ''}`}
                                 >
                                     <option value="">Select Type</option>
-                                    <option value="Heavy Machinery">Heavy Machinery</option>
-                                    <option value="Power Equipment">Power Equipment</option>
-                                    <option value="Transportation">Transportation</option>
-                                    <option value="Support Equipment">Support Equipment</option>
-                                    <option value="Access Equipment">Access Equipment</option>
+                                    <option value="heavy_machinery">Heavy Machinery</option>
+                                    <option value="power_equipment">Power Equipment</option>
+                                    <option value="transportation">Transportation</option>
+                                    <option value="support_equipment">Support Equipment</option>
+                                    <option value="access_equipment">Access Equipment</option>
                                 </select>
                                 {errors.type && <p className="text-error text-sm mt-1">{errors.type}</p>}
                             </div>
@@ -236,9 +266,9 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
                                 >
                                     <option value="available">Available</option>
                                     <option value="active">Active</option>
-                                    <option value="in use">In Use</option>
-                                    <option value="maintenance">Maintenance</option>
-                                    <option value="repair">Repair</option>
+                                    <option value="in_use">In Use</option>
+                                    <option value="under_maintenance">Maintenance</option>
+                                    <option value="out_of_service">Out of Service</option>
                                 </select>
                                 {errors.status && <p className="text-error text-sm mt-1">{errors.status}</p>}
                             </div>
@@ -253,10 +283,10 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
                                     onChange={handleChange}
                                     className="select select-bordered"
                                 >
-                                    <option value="Excellent">Excellent</option>
-                                    <option value="Good">Good</option>
-                                    <option value="Fair">Fair</option>
-                                    <option value="Poor">Poor</option>
+                                    <option value="excellent">Excellent</option>
+                                    <option value="good">Good</option>
+                                    <option value="fair">Fair</option>
+                                    <option value="poor">Poor</option>
                                 </select>
                             </div>
                         </div>
@@ -291,6 +321,32 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
                                     className="input input-bordered"
                                 />
                             </div>
+
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Last Check Date</span>
+                                </label>
+                                <input
+                                    type="date"
+                                    name="lastCheckDate"
+                                    value={formData.lastCheckDate}
+                                    onChange={handleChange}
+                                    className="input input-bordered"
+                                />
+                            </div>
+
+                            <div className="form-control">
+                                <label className="label cursor-pointer">
+                                    <span className="label-text">Maintenance Due</span>
+                                    <input
+                                        type="checkbox"
+                                        name="maintenanceDue"
+                                        checked={formData.maintenanceDue}
+                                        onChange={(e) => setFormData({ ...formData, maintenanceDue: e.target.checked })}
+                                        className="checkbox checkbox-primary"
+                                    />
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -313,7 +369,7 @@ const EquipmentForm = ({ equipment, isEditing = false }) => {
                                     disabled={loading}
                                 >
                                     <option value="">Not Assigned</option>
-                                    {projects.map(project => (
+                                    {Array.isArray(projects) && projects.map(project => (
                                         <option key={project.id} value={project.id}>
                                             {project.name}
                                         </option>

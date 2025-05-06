@@ -32,9 +32,9 @@ const EditInvoicePage = ({ params }) => {
         status: 'draft'
     });
 
-    const fetchData = useCallback(async () => {
+    const getData = useCallback(async () => {
         try {
-            // TODO: Implement data fetching
+            // TODO: Implement data geting
             await Promise.all([
                 new Promise(resolve => setTimeout(resolve, 1000)),
                 new Promise(resolve => setTimeout(resolve, 1000)),
@@ -67,7 +67,7 @@ const EditInvoicePage = ({ params }) => {
         } catch (error) {
             toast({
                 title: 'Error',
-                description: 'Failed to fetch data',
+                description: 'Failed to get data',
                 variant: 'destructive'
             });
             setIsLoading(false);
@@ -75,8 +75,8 @@ const EditInvoicePage = ({ params }) => {
     }, [toast]);
 
     useEffect(() => {
-        fetchData();
-    }, [fetchData]);
+        getData();
+    }, [getData]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

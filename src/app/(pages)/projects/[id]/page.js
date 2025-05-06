@@ -6,10 +6,10 @@ export const ProjectDetailPage = async ({ params }) => {
     let project = null;
 
     try {
-        // Server-side data fetching
+        // Server-side data geting
         project = await getProjectById(params.id);
     } catch (error) {
-        console.error("Error fetching project details:", error);
+        console.error("Error geting project details:", error);
     }
 
     // Show not found state if project doesn't exist

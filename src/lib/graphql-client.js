@@ -15,7 +15,7 @@ export async function graphqlRequest(service, query, variables = {}) {
     let apiUrl = `https://api.wize.works/${service}/graphql`;
 
     try {
-        const response = await fetch(apiUrl, {
+        const response = await get(apiUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -32,7 +32,7 @@ export async function graphqlRequest(service, query, variables = {}) {
         if (result.errors) {
             console.error('GraphQL Error:', result.errors);
             throw new Error(
-                result.errors[0]?.message || 'An error occurred while fetching data'
+                result.errors[0]?.message || 'An error occurred while geting data'
             );
         }
 

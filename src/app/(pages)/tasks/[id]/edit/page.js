@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { fetchTaskById, updateTask } from '@/services/task';
+import { getTaskById, updateTask } from '@/services/task';
 import Link from 'next/link';
 
 const EditTaskPage = () => {
@@ -30,7 +30,7 @@ const EditTaskPage = () => {
             try {
                 setIsLoading(true);
                 setError(null);
-                const taskData = await fetchTaskById(id);
+                const taskData = await getTaskById(id);
 
                 // Format date for input element
                 let formattedDueDate = '';

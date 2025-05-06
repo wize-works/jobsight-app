@@ -2,13 +2,13 @@
 // Task service for handling task-related API calls
 import { findTasks, findTaskById } from '@/models/wize-task/queries';
 import { createTask, updateTask, deleteTask } from '@/models/wize-task/mutations';
-import { executeGraphQL } from '@/services/execute';
-import { flattenGraphQLFilters } from './utils';
+import { executeGraphQL, deepClean } from '@/utils/execute';
+import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
 
 const service = 'wize-task';
 
 /**
- * Fetch tasks with optional filtering, sorting and pagination
+ * get tasks with optional filtering, sorting and pagination
  * @param {Object} options - Query options
  * @param {Object} options.filter - Filtering criteria
  * @param {Object} options.sort - Sorting criteria
@@ -31,7 +31,7 @@ export const getTasks = async (options = {}) => {
 }
 
 /**
- * Fetch a single task by ID
+ * get a single task by ID
  * @param {string} id - Task ID
  * @returns {Promise<Object>} - Task details
  */
@@ -46,6 +46,7 @@ export const getTaskById = async (id) => {
  * @returns {Promise<Object>} - Created task
  */
 export const createNewTask = async (taskData) => {
+    await deepClean(taskData);
     const data = await executeGraphQL(service, createTask, { input: taskData });
     return data.createTask;
 }
@@ -57,6 +58,7 @@ export const createNewTask = async (taskData) => {
  * @returns {Promise<Object>} - Updated task
  */
 export const updateExistingTask = async (id, taskData) => {
+    await deepClean(taskData);
     const data = await executeGraphQL(service, updateTask, { id, input: taskData });
     return data.updateTask;
 }
