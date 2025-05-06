@@ -1,3 +1,11 @@
+# [1.12.0](https://github.com/wize-works/jobsight-app/compare/v1.11.0...v1.12.0) (2025-05-06)
+
+
+### Features
+
+* Implement inventory service with equipment operations and inventory statistics ([33ed6eb](https://github.com/wize-works/jobsight-app/commit/33ed6eb4332fff79a1aaa5ed3f2aa0ae3642074e))
+* Update AKS deployment workflow to use kubelogin version and enable admin access ([4cd8dd1](https://github.com/wize-works/jobsight-app/commit/4cd8dd128efd36413cff2db811da16ca224ff939))
+
 # [1.11.0](https://github.com/wize-works/jobsight-app/compare/v1.10.0...v1.11.0) (2025-05-05)
 
 
