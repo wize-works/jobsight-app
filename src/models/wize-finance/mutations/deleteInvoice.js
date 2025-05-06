@@ -4,7 +4,6 @@ export const deleteInvoice = gql`
 mutation DeleteInvoice($id: ID!) {
     deleteInvoice(id: $id) {
           _id
-        id
         projectId
         status
         lineItems

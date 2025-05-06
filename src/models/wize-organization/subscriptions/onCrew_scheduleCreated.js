@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const onCrew_scheduleCreated = gql`
 subscription OnCrew_scheduleCreated {
     onCrew_scheduleCreated {
-          _id
-        id
+        _id
         projectId
         crewId
         shiftStart

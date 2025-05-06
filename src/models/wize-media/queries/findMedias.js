@@ -6,7 +6,6 @@ query FindMedias($filter: MediaFilter!, $sort: MediaSort!, $paging: MediaPaging!
           count
         data {
               _id
-            id
             projectId
             uploadedBy
             type

@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { deleteExistingTask } from '@/services/task';
+import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 const TaskActions = ({
     task,
@@ -7,6 +10,8 @@ const TaskActions = ({
     onStatusChange = () => { }
 }) => {
     const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+    const router = useRouter();
+    const { toast } = useToast();
 
     const statusOptions = [
         { value: 'pending', label: 'Pending' },
@@ -25,9 +30,22 @@ const TaskActions = ({
         setShowDeleteDialog(true);
     };
 
-    const handleDeleteConfirm = () => {
+    const handleDeleteConfirm = async () => {
         setShowDeleteDialog(false);
-        onDelete(task);
+        try {
+            await deleteExistingTask(task._id);
+            toast({
+                title: 'Success',
+                description: 'Task has been deleted',
+            });
+            onDelete(task);
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: 'Failed to delete task',
+                variant: 'destructive',
+            });
+        }
     };
 
     const handleStatusChange = (newStatus) => {

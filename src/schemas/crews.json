@@ -1,0 +1,44 @@
+{
+    "database": "wize-organization",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "crew",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "name": {
+                "type": "string",
+                "required": true
+            },
+            "members": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "description": "user IDs",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

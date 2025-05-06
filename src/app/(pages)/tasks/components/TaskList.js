@@ -108,11 +108,11 @@ const TaskList = ({
                         </tr>
                     </thead>
                     <tbody>
-                        {tasks.map((task) => (
+                        {tasks.map((task, index) => (
                             <tr
-                                key={task.id}
+                                key={index}
                                 className="hover:bg-base-200 cursor-pointer"
-                                onClick={() => onTaskClick(task.id)}
+                                onClick={() => onTaskClick(task._id)}
                             >
                                 {/* Priority indicator */}
                                 <td className="p-0 pl-4">
@@ -194,7 +194,7 @@ const TaskList = ({
                                             className="btn btn-sm btn-ghost btn-square text-success"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                onMarkComplete(task.id);
+                                                onMarkComplete({ id: task._id });
                                             }}
                                             title="Mark as completed"
                                         >
@@ -207,7 +207,7 @@ const TaskList = ({
                     </tbody>
                 </table>
             </div>
-        </div>
+        </div >
     );
 };
 

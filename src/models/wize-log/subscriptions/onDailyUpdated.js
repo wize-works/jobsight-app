@@ -4,7 +4,6 @@ export const onDailyUpdated = gql`
 subscription OnDailyUpdated {
     onDailyUpdated {
           _id
-        id
         projectId
         date
         submittedBy

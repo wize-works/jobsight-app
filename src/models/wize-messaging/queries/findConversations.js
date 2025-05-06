@@ -3,10 +3,9 @@ import { gql } from 'graphql-request';
 export const findConversations = gql`
 query FindConversations($filter: ConversationFilter!, $sort: ConversationSort!, $paging: ConversationPaging!) {
     findConversations(filter: $filter, sort: $sort, paging: $paging) {
-          count
+        count
         data {
-              _id
-            id
+            _id
             type
             name
             participants
@@ -16,7 +15,7 @@ query FindConversations($filter: ConversationFilter!, $sort: ConversationSort!, 
             updatedAt
             createdBy
             updatedBy
-      }
+        }
     }
   }
 `;

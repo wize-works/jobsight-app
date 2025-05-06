@@ -1,0 +1,69 @@
+{
+    "database": "wize-media",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "media",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "projectId": {
+                "type": "string",
+                "required": true
+            },
+            "uploadedBy": {
+                "type": "string",
+                "required": true
+            },
+            "type": {
+                "type": "enum",
+                "values": [
+                    "photo",
+                    "document"
+                ],
+                "required": true
+            },
+            "url": {
+                "type": "string",
+                "required": true
+            },
+            "caption": {
+                "type": "string"
+            },
+            "tags": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "logId": {
+                "type": "string",
+                "description": "FK to daily_logs"
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

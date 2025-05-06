@@ -108,7 +108,7 @@ const getTeamMember = async (id) => {
         }
     ];
 
-    const member = members.find(m => m.id === id);
+    const member = members.find(m => m._id === id);
     if (!member) throw new Error('Team member not found');
 
     return member;
@@ -203,7 +203,7 @@ const getTeamMemberTasks = async (taskIds) => {
         }
     ];
 
-    return allTasks.filter(task => taskIds.includes(task.id));
+    return allTasks.filter(task => taskIds.includes(task._id));
 };
 
 const TeamMemberDetailPage = () => {
@@ -219,7 +219,7 @@ const TeamMemberDetailPage = () => {
         const loadTeamMemberData = async () => {
             try {
                 // get main member data
-                const memberData = await getTeamMember(params.id);
+                const memberData = await getTeamMember(params._id);
                 setMember(memberData);
 
                 // get related project and task data
@@ -242,13 +242,13 @@ const TeamMemberDetailPage = () => {
             }
         };
 
-        if (params.id) {
+        if (params._id) {
             loadTeamMemberData();
         }
-    }, [params.id, toast]);
+    }, [params._id, toast]);
 
     const handleEditMember = () => {
-        router.push(`/team/${params.id}/edit`);
+        router.push(`/team/${params._id}/edit`);
     };
 
     const handleBackToTeam = () => {

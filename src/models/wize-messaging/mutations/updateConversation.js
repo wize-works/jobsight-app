@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const updateConversation = gql`
 mutation UpdateConversation($id: String!, $input: ConversationInputInput!) {
     updateConversation(id: $id, input: $input) {
-          _id
-        id
+        _id
         type
         name
         participants

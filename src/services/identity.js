@@ -16,6 +16,7 @@ import {
 } from '@/models/wize-identity/mutations';
 import { executeGraphQL, deepClean } from '@/utils/execute';
 import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
+import { addDataContext } from '@/utils/userContext';
 
 const service = 'wize-identity';
 
@@ -60,8 +61,18 @@ export const getUserById = async (id) => {
  * @returns {Promise<Object>} - Created user
  */
 export const createNewUser = async (userData) => {
-    await deepClean(userData);
-    const data = await executeGraphQL(service, createUser, { input: userData });
+    // For users, we don't add createdBy since the user might not exist yet
+    // But we still add tenant context and timestamps
+    const now = new Date().toISOString();
+    const enrichedData = {
+        ...userData,
+        createdAt: userData.createdAt || now,
+        updatedAt: now,
+        tenantId: userData.tenantId || process.env.TENANT_ID || '00000000-0000-0000-0000-000000000000'
+    };
+
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createUser, { input: enrichedData });
     return data.createUser;
 }
 
@@ -72,8 +83,10 @@ export const createNewUser = async (userData) => {
  * @returns {Promise<Object>} - Updated user
  */
 export const updateExistingUser = async (id, userData) => {
-    await deepClean(userData);
-    const data = await executeGraphQL(service, updateUser, { id, input: userData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(userData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateUser, { id, input: enrichedData });
     return data.updateUser;
 }
 
@@ -128,8 +141,10 @@ export const getUserPresenceById = async (id) => {
  * @returns {Promise<Object>} - Created user presence
  */
 export const createNewUserPresence = async (userPresenceData) => {
-    await deepClean(userPresenceData);
-    const data = await executeGraphQL(service, createUser_presence, { input: userPresenceData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(userPresenceData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createUser_presence, { input: enrichedData });
     return data.createUser_presence;
 }
 
@@ -140,8 +155,10 @@ export const createNewUserPresence = async (userPresenceData) => {
  * @returns {Promise<Object>} - Updated user presence
  */
 export const updateExistingUserPresence = async (id, userPresenceData) => {
-    await deepClean(userPresenceData);
-    const data = await executeGraphQL(service, updateUser_presence, { id, input: userPresenceData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(userPresenceData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateUser_presence, { id, input: enrichedData });
     return data.updateUser_presence;
 }
 

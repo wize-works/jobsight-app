@@ -4,7 +4,6 @@ export const createMedia = gql`
 mutation CreateMedia($input: MediaInputInput!) {
     createMedia(input: $input) {
           _id
-        id
         projectId
         uploadedBy
         type

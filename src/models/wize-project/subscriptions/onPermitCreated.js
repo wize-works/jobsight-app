@@ -3,7 +3,7 @@ import { gql } from 'graphql-request';
 export const onPermitCreated = gql`
 subscription OnPermitCreated {
     onPermitCreated {
-          id
+        _id
         projectId
         type
         status

@@ -7,7 +7,7 @@ export const ProjectDetailPage = async ({ params }) => {
 
     try {
         // Server-side data geting
-        project = await getProjectById(params.id);
+        project = await getProjectById(params._id);
     } catch (error) {
         console.error("Error geting project details:", error);
     }

@@ -1,0 +1,56 @@
+{
+    "database": "wize-log",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "vector_log",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "logId": {
+                "type": "string",
+                "required": true
+            },
+            "embedding": {
+                "type": "array",
+                "items": {
+                    "type": "number"
+                },
+                "description": "Vector embedding of the content",
+                "required": true
+            },
+            "contentType": {
+                "type": "enum",
+                "values": [
+                    "text",
+                    "image"
+                ],
+                "required": true
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

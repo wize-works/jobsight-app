@@ -4,7 +4,6 @@ export const onInvoiceCreated = gql`
 subscription OnInvoiceCreated {
     onInvoiceCreated {
           _id
-        id
         projectId
         status
         lineItems

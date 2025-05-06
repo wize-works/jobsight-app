@@ -1,0 +1,47 @@
+{
+    "database": "wize-messaging",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "message_draft",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "userId": {
+                "type": "string",
+                "required": true
+            },
+            "conversationId": {
+                "type": "uuid",
+                "required": true
+            },
+            "text": {
+                "type": "text"
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

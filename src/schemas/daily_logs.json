@@ -1,0 +1,179 @@
+{
+    "database": "wize-log",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "daily",
+    "metadata": {
+        "fields": {
+            "projectId": {
+                "type": "string",
+                "required": true
+            },
+            "date": {
+                "type": "date",
+                "required": true
+            },
+            "submittedBy": {
+                "type": "string",
+                "required": true,
+                "description": "Clerk user ID"
+            },
+            "summary": {
+                "type": "string"
+            },
+            "details": {
+                "type": "string"
+            },
+            "hours": {
+                "type": "object",
+                "properties": {
+                    "overtime": {
+                        "type": "number"
+                    },
+                    "regular": {
+                        "type": "number"
+                    }
+                }
+            },
+            "aiTranscription": {
+                "type": "string"
+            },
+            "weather": {
+                "type": "object",
+                "properties": {
+                    "temperature": {
+                        "type": "string"
+                    },
+                    "conditions": {
+                        "type": "string"
+                    },
+                    "windSpeed": {
+                        "type": "string"
+                    }
+                }
+            },
+            "tasks": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "description": {
+                            "type": "string"
+                        },
+                        "status": {
+                            "type": "enum",
+                            "enum": [
+                                "pending",
+                                "in_progress",
+                                "completed",
+                                "delayed",
+                                "cancelled"
+                            ]
+                        }
+                    }
+                }
+            },
+            "safetyIncidents": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "description": {
+                            "type": "string"
+                        },
+                        "severity": {
+                            "type": "enum",
+                            "enum": [
+                                "low",
+                                "medium",
+                                "high"
+                            ]
+                        },
+                        "resolution": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "qualityIssues": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "description": {
+                            "type": "string"
+                        },
+                        "severity": {
+                            "type": "enum",
+                            "enum": [
+                                "low",
+                                "medium",
+                                "high"
+                            ]
+                        },
+                        "resolution": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "personnel": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "role": {
+                            "type": "string"
+                        },
+                        "hours": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "equipment": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                }
+            },
+            "materials": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "hours": {
+                            "type": "number"
+                        },
+                        "notes": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

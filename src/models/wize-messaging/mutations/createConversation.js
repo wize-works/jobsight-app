@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const createConversation = gql`
 mutation CreateConversation($input: ConversationInputInput!) {
     createConversation(input: $input) {
-          _id
-        id
+        _id
         type
         name
         participants

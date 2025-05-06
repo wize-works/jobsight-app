@@ -173,7 +173,7 @@ const NewInvoicePage = () => {
                                     >
                                         <option value="">Select Project</option>
                                         {projects.map(project => (
-                                            <option key={project.id} value={project.id}>
+                                            <option key={project._id} value={project._id}>
                                                 {project.name}
                                             </option>
                                         ))}
@@ -193,7 +193,7 @@ const NewInvoicePage = () => {
                                     >
                                         <option value="">Select Client</option>
                                         {clients.map(client => (
-                                            <option key={client.id} value={client.id}>
+                                            <option key={client._id} value={client._id}>
                                                 {client.name}
                                             </option>
                                         ))}

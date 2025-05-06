@@ -5,8 +5,7 @@ query FindMessages($filter: MessageFilter!, $sort: MessageSort!, $paging: Messag
     findMessages(filter: $filter, sort: $sort, paging: $paging) {
           count
         data {
-              _id
-            id
+            _id
             conversationId
             senderId
             text

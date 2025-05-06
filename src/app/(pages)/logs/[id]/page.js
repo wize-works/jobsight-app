@@ -7,7 +7,7 @@ export const LogDetailPage = async ({ params }) => {
 
     try {
         // Server-side data geting using the log service directly
-        log = await getDailyLogById(params.id);
+        log = await getDailyLogById(params._id);
     } catch (error) {
         console.error("Error geting log details:", error);
     }

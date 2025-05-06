@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const onConversationUpdated = gql`
 subscription OnConversationUpdated {
     onConversationUpdated {
-          _id
-        id
+        _id
         type
         name
         participants

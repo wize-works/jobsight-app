@@ -11,7 +11,7 @@ export const EditProjectPage = async ({ params }) => {
 
     try {
         // Server-side data geting
-        project = await getProjectById(params.id);
+        project = await getProjectById(params._id);
     } catch (err) {
         console.error("Error geting project:", err);
         error = "Failed to load project data. Please try again.";
@@ -33,7 +33,7 @@ export const EditProjectPage = async ({ params }) => {
                 <ul>
                     <li><Link href="/dashboard">Dashboard</Link></li>
                     <li><Link href="/projects">Projects</Link></li>
-                    <li><Link href={`/projects/${params.id}`}>{project.name}</Link></li>
+                    <li><Link href={`/projects/${params._id}`}>{project.name}</Link></li>
                     <li className="text-base-content/70">Edit</li>
                 </ul>
             </div>

@@ -4,7 +4,6 @@ export const createAi_log = gql`
 mutation CreateAi_log($input: Ai_logInputInput!) {
     createAi_log(input: $input) {
           _id
-        id
         userId
         projectId
         inputText

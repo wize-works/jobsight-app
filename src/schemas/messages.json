@@ -1,0 +1,82 @@
+{
+    "database": "wize-messaging",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "message",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "conversationId": {
+                "type": "uuid",
+                "required": true,
+                "description": "Reference to the conversation this message belongs to"
+            },
+            "senderId": {
+                "type": "string",
+                "required": true,
+                "description": "User ID of the sender"
+            },
+            "text": {
+                "type": "text",
+                "required": true
+            },
+            "attachments": {
+                "type": "array",
+                "items": {
+                    "type": "json",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string"
+                        },
+                        "url": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "size": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "isSystemMessage": {
+                "type": "boolean",
+                "default": false,
+                "description": "True for system notifications/alerts"
+            },
+            "metadata": {
+                "type": "json",
+                "description": "Additional data like message formatting, mentions, etc."
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

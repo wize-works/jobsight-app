@@ -1,0 +1,78 @@
+{
+    "database": "wize-project",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "permit",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "projectId": {
+                "type": "string",
+                "required": true
+            },
+            "type": {
+                "type": "enum",
+                "values": [
+                    "inspection",
+                    "zoning",
+                    "fire",
+                    "occupancy"
+                ],
+                "required": true
+            },
+            "status": {
+                "type": "enum",
+                "values": [
+                    "pending",
+                    "approved",
+                    "denied"
+                ],
+                "required": true
+            },
+            "issuedDate": {
+                "type": "date"
+            },
+            "expirationDate": {
+                "type": "date"
+            },
+            "uploadedDocs": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "description": "media IDs"
+            },
+            "inspectorName": {
+                "type": "string"
+            },
+            "notes": {
+                "type": "string"
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

@@ -1,0 +1,53 @@
+{
+    "database": "wize-log",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "ai_log",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "userId": {
+                "type": "string",
+                "required": true
+            },
+            "projectId": {
+                "type": "string"
+            },
+            "inputText": {
+                "type": "text",
+                "required": true
+            },
+            "responseText": {
+                "type": "text",
+                "required": true
+            },
+            "mode": {
+                "type": "enum",
+                "values": [
+                    "voice",
+                    "query",
+                    "summary"
+                ],
+                "required": true
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true
+        },
+        "tenantScoped": true
+    }
+}

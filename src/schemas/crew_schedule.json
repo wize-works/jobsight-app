@@ -1,0 +1,62 @@
+{
+    "database": "wize-organization",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "crew_schedule",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "projectId": {
+                "type": "string",
+                "required": true
+            },
+            "crewId": {
+                "type": "string",
+                "required": true
+            },
+            "shiftStart": {
+                "type": "datetime",
+                "required": true
+            },
+            "shiftEnd": {
+                "type": "datetime",
+                "required": true
+            },
+            "assignedTasks": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "required": true
+            },
+            "notes": {
+                "type": "string"
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

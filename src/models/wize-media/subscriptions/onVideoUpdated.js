@@ -3,7 +3,7 @@ import { gql } from 'graphql-request';
 export const onVideoUpdated = gql`
 subscription OnVideoUpdated {
     onVideoUpdated {
-          _id
+        _id
         fileName
         mimeType
         url

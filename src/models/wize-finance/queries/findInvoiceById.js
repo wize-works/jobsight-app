@@ -4,7 +4,6 @@ export const findInvoiceById = gql`
 query FindInvoiceById($id: ID!) {
     findInvoiceById(id: $id) {
           _id
-        id
         projectId
         status
         lineItems

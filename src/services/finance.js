@@ -4,6 +4,7 @@ import { findInvoices, findInvoiceById } from '@/models/wize-finance/queries';
 import { createInvoice, updateInvoice, deleteInvoice } from '@/models/wize-finance/mutations';
 import { executeGraphQL, deepClean } from '@/utils/execute';
 import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
+import { addDataContext } from '@/utils/userContext';
 
 const service = 'wize-finance';
 
@@ -46,8 +47,10 @@ export const getInvoiceById = async (id) => {
  * @returns {Promise<Object>} - Created invoice
  */
 export const createNewInvoice = async (invoiceData) => {
-    await deepClean(invoiceData);
-    const data = await executeGraphQL(service, createInvoice, { input: invoiceData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(invoiceData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createInvoice, { input: enrichedData });
     return data.createInvoice;
 }
 
@@ -58,8 +61,10 @@ export const createNewInvoice = async (invoiceData) => {
  * @returns {Promise<Object>} - Updated invoice
  */
 export const updateExistingInvoice = async (id, invoiceData) => {
-    await deepClean(invoiceData);
-    const data = await executeGraphQL(service, updateInvoice, { id, input: invoiceData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(invoiceData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateInvoice, { id, input: enrichedData });
     return data.updateInvoice;
 }
 

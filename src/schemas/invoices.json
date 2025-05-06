@@ -1,0 +1,76 @@
+{
+    "database": "wize-finance",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "invoice",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "projectId": {
+                "type": "string",
+                "required": true
+            },
+            "status": {
+                "type": "enum",
+                "values": [
+                    "draft",
+                    "sent",
+                    "paid"
+                ],
+                "required": true
+            },
+            "lineItems": {
+                "type": "array",
+                "items": {
+                    "type": "json",
+                    "properties": {
+                        "label": {
+                            "type": "string"
+                        },
+                        "quantity": {
+                            "type": "number"
+                        },
+                        "unitCost": {
+                            "type": "number"
+                        },
+                        "total": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "sentTo": {
+                "type": "string",
+                "description": "external email"
+            },
+            "pdfUrl": {
+                "type": "string"
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

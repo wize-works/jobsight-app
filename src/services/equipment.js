@@ -4,6 +4,7 @@ import { findEquipments, findEquipmentById } from '@/models/wize-inventory/queri
 import { createEquipment, updateEquipment, deleteEquipment } from '@/models/wize-inventory/mutations';
 import { deepClean, executeGraphQL } from '@/utils/execute';
 import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
+import { addDataContext } from '@/utils/userContext';
 
 const service = 'wize-inventory';
 
@@ -45,8 +46,10 @@ export const getEquipmentById = async (id) => {
  * @returns {Promise<Object>} - Created equipment
  */
 export const createNewEquipment = async (equipmentData) => {
-    await deepClean(equipmentData);
-    const data = await executeGraphQL(service, createEquipment, { input: equipmentData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(equipmentData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createEquipment, { input: enrichedData });
     return data.createEquipment;
 }
 
@@ -57,8 +60,10 @@ export const createNewEquipment = async (equipmentData) => {
  * @returns {Promise<Object>} - Updated equipment
  */
 export const updateExistingEquipment = async (id, equipmentData) => {
-    await deepClean(equipmentData);
-    const data = await executeGraphQL(service, updateEquipment, { id, input: equipmentData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(equipmentData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateEquipment, { id, input: enrichedData });
     return data.updateEquipment;
 }
 

@@ -1,0 +1,64 @@
+{
+    "database": "wize-messaging",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "conversation",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "type": {
+                "type": "enum",
+                "values": [
+                    "direct",
+                    "group"
+                ],
+                "required": true
+            },
+            "name": {
+                "type": "string",
+                "description": "For group conversations only"
+            },
+            "participants": {
+                "type": "array",
+                "items": {
+                    "type": "string"
+                },
+                "required": true,
+                "description": "Array of user IDs participating in the conversation"
+            },
+            "projectId": {
+                "type": "string",
+                "description": "Optional reference to a project this conversation is related to"
+            },
+            "isArchived": {
+                "type": "boolean",
+                "default": false
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

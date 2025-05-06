@@ -62,7 +62,7 @@ const LogForm = ({ log, onSubmit, isEdit = false }) => {
                 if (!isEdit && projectsData.length > 0 && !formData.projectId) {
                     setFormData(prev => ({
                         ...prev,
-                        projectId: projectsData[0].id,
+                        projectId: projectsData[0]._id,
                         projectName: projectsData[0].name
                     }));
                 }

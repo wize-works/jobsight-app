@@ -38,6 +38,7 @@ import {
 
 import { executeGraphQL, deepClean } from '@/utils/execute';
 import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
+import { addDataContext } from '@/utils/userContext';
 
 const service = 'wize-media';
 
@@ -82,8 +83,10 @@ export const getMediaById = async (id) => {
  * @returns {Promise<Object>} - Created media
  */
 export const createNewMedia = async (mediaData) => {
-    await deepClean(mediaData);
-    const data = await executeGraphQL(service, createMedia, { input: mediaData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(mediaData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createMedia, { input: enrichedData });
     return data.createMedia;
 }
 
@@ -94,8 +97,10 @@ export const createNewMedia = async (mediaData) => {
  * @returns {Promise<Object>} - Updated media
  */
 export const updateExistingMedia = async (id, mediaData) => {
-    await deepClean(mediaData);
-    const data = await executeGraphQL(service, updateMedia, { id, input: mediaData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(mediaData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateMedia, { id, input: enrichedData });
     return data.updateMedia;
 }
 
@@ -169,8 +174,10 @@ export const getFileById = async (id) => {
  * @returns {Promise<Object>} - Created file
  */
 export const createNewFile = async (fileData) => {
-    await deepClean(fileData);
-    const data = await executeGraphQL(service, createFile, { input: fileData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(fileData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createFile, { input: enrichedData });
     return data.createFile;
 }
 
@@ -180,8 +187,10 @@ export const createNewFile = async (fileData) => {
  * @returns {Promise<Object>} - Registered file
  */
 export const registerNewFile = async (fileData) => {
-    await deepClean(fileData);
-    const data = await executeGraphQL(service, registerFile, { input: fileData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(fileData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, registerFile, { input: enrichedData });
     return data.registerFile;
 }
 
@@ -192,8 +201,10 @@ export const registerNewFile = async (fileData) => {
  * @returns {Promise<Object>} - Updated file
  */
 export const updateExistingFile = async (id, fileData) => {
-    await deepClean(fileData);
-    const data = await executeGraphQL(service, updateFile, { id, input: fileData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(fileData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateFile, { id, input: enrichedData });
     return data.updateFile;
 }
 
@@ -267,8 +278,10 @@ export const getImageById = async (id) => {
  * @returns {Promise<Object>} - Created image
  */
 export const createNewImage = async (imageData) => {
-    await deepClean(imageData);
-    const data = await executeGraphQL(service, createImage, { input: imageData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(imageData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createImage, { input: enrichedData });
     return data.createImage;
 }
 
@@ -278,8 +291,10 @@ export const createNewImage = async (imageData) => {
  * @returns {Promise<Object>} - Registered image
  */
 export const registerNewImage = async (imageData) => {
-    await deepClean(imageData);
-    const data = await executeGraphQL(service, registerImage, { input: imageData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(imageData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, registerImage, { input: enrichedData });
     return data.registerImage;
 }
 
@@ -290,8 +305,10 @@ export const registerNewImage = async (imageData) => {
  * @returns {Promise<Object>} - Updated image
  */
 export const updateExistingImage = async (id, imageData) => {
-    await deepClean(imageData);
-    const data = await executeGraphQL(service, updateImage, { id, input: imageData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(imageData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateImage, { id, input: enrichedData });
     return data.updateImage;
 }
 
@@ -365,8 +382,10 @@ export const getVideoById = async (id) => {
  * @returns {Promise<Object>} - Created video
  */
 export const createNewVideo = async (videoData) => {
-    await deepClean(videoData);
-    const data = await executeGraphQL(service, createVideo, { input: videoData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(videoData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, createVideo, { input: enrichedData });
     return data.createVideo;
 }
 
@@ -376,8 +395,10 @@ export const createNewVideo = async (videoData) => {
  * @returns {Promise<Object>} - Registered video
  */
 export const registerNewVideo = async (videoData) => {
-    await deepClean(videoData);
-    const data = await executeGraphQL(service, registerVideo, { input: videoData });
+    // Add user and tenant context
+    const enrichedData = await addDataContext(videoData, true);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, registerVideo, { input: enrichedData });
     return data.registerVideo;
 }
 
@@ -388,19 +409,11 @@ export const registerNewVideo = async (videoData) => {
  * @returns {Promise<Object>} - Updated video
  */
 export const updateExistingVideo = async (id, videoData) => {
-    await deepClean(videoData);
-    const data = await executeGraphQL(service, updateVideo, { id, input: videoData });
+    // Add user context (false = update only)
+    const enrichedData = await addDataContext(videoData, false);
+    await deepClean(enrichedData);
+    const data = await executeGraphQL(service, updateVideo, { id, input: enrichedData });
     return data.updateVideo;
-}
-
-/**
- * Delete a video
- * @param {string} id - Video ID to delete
- * @returns {Promise<Object>} - Result of the deletion operation
- */
-export const deleteExistingVideo = async (id) => {
-    const data = await executeGraphQL(service, deleteVideo, { id });
-    return data.deleteVideo;
 }
 
 /* Utility Operations */

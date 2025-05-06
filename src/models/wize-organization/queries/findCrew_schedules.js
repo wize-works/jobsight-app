@@ -5,8 +5,7 @@ query FindCrew_schedules($filter: Crew_scheduleFilter!, $sort: Crew_scheduleSort
     findCrew_schedules(filter: $filter, sort: $sort, paging: $paging) {
           count
         data {
-              _id
-            id
+            _id
             projectId
             crewId
             shiftStart

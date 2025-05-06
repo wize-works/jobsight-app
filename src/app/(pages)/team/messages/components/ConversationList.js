@@ -129,14 +129,14 @@ const ConversationList = ({
     return (
         <div className="flex-1 overflow-y-auto">
             {conversations.map(conversation => {
-                const isSelected = conversation.id === selectedId;
+                const isSelected = conversation._id === selectedId;
                 const displayName = getConversationName(conversation);
                 const avatar = getConversationAvatar(conversation);
                 const lastMessage = conversation.lastMessage;
 
                 return (
                     <div
-                        key={conversation.id}
+                        key={conversation._id}
                         className={`cursor-pointer p-3 flex items-start ${isSelected ? 'bg-primary/10 dark:bg-primary/20' : 'hover:bg-base-200'
                             }`}
                         onClick={() => onSelect(conversation)}

@@ -1,0 +1,114 @@
+{
+    "database": "wize-inventory",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "equipment",
+    "metadata": {
+        "fields": {
+            "name": {
+                "type": "string",
+                "required": true
+            },
+            "serialNumber": {
+                "type": "string"
+            },
+            "assignedProjectId": {
+                "type": "string"
+            },
+            "assignedProjectName": {
+                "type": "string"
+            },
+            "lastCheckDate": {
+                "type": "date",
+                "required": true
+            },
+            "maintenanceDue": {
+                "type": "boolean",
+                "default": false,
+                "required": true
+            },
+            "type": {
+                "type": "enum",
+                "values": [
+                    "heavy_machinery",
+                    "power_equipment",
+                    "transportation",
+                    "support_equipment",
+                    "access_equipment"
+                ],
+                "required": true
+            },
+            "status": {
+                "type": "enum",
+                "values": [
+                    "available",
+                    "active",
+                    "in_use",
+                    "under_maintenance",
+                    "out_of_service"
+                ],
+                "required": true
+            },
+            "location": {
+                "type": "string",
+                "required": true
+            },
+            "condition": {
+                "type": "enum",
+                "values": [
+                    "excellent",
+                    "good",
+                    "fair",
+                    "poor"
+                ],
+                "required": true
+            },
+            "operator": {
+                "type": "string"
+            },
+            "hoursUsed": {
+                "type": "number",
+                "required": true
+            },
+            "notes": {
+                "type": "string"
+            },
+            "purchaseDate": {
+                "type": "date"
+            },
+            "purchasePrice": {
+                "type": "number"
+            },
+            "lastMaintenanceDate": {
+                "type": "date"
+            },
+            "nextMaintenanceDate": {
+                "type": "date"
+            },
+            "qrCodeUrl": {
+                "type": "string"
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

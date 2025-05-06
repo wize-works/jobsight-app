@@ -3,9 +3,9 @@ import { gql } from 'graphql-request';
 export const findMessaging_preferences = gql`
 query FindMessaging_preferences($filter: Messaging_preferenceFilter!, $sort: Messaging_preferenceSort!, $paging: Messaging_preferencePaging!) {
     findMessaging_preferences(filter: $filter, sort: $sort, paging: $paging) {
-          count
+        count
         data {
-              _id
+            _id
             userId
             notificationSettings
             conversationSettings
@@ -13,7 +13,7 @@ query FindMessaging_preferences($filter: Messaging_preferenceFilter!, $sort: Mes
             updatedAt
             createdBy
             updatedBy
-      }
+        }
     }
   }
 `;

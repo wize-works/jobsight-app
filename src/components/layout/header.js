@@ -3,7 +3,7 @@
 import { useSidebar } from "@/components/sidebar/provider";
 import { ThemeToggle } from "@/components/theme/toggle";
 import { useCallback } from "react";
-import Image from "next/image";
+import { SignInButton, SignUpButton, UserButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 export default function Header() {
     const { isCollapsed, toggleSidebar } = useSidebar()
@@ -59,6 +59,24 @@ export default function Header() {
                             <span className="indicator-item badge badge-xs badge-primary"></span>
                         </div>
                     </button>
+
+                    {/* Authentication components */}
+                    <SignedOut>
+                        <SignInButton>
+                            <button className="btn btn-sm btn-primary">
+                                Sign In
+                            </button>
+                        </SignInButton>
+                        <SignUpButton>
+                            <button className="btn btn-sm btn-outline btn-primary">
+                                Sign Up
+                            </button>
+                        </SignUpButton>
+                    </SignedOut>
+
+                    <SignedIn>
+                        <UserButton afterSignOutUrl="/" />
+                    </SignedIn>
                 </div>
             </div>
         </header>

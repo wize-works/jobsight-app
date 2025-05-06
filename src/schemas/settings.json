@@ -1,0 +1,59 @@
+{
+    "database": "wize-organization",
+    "tenantId": "00000000-0000-0000-0000-000000000000",
+    "clientApp": "jobsight-app",
+    "table": "setting",
+    "metadata": {
+        "fields": {
+            "id": {
+                "type": "uuid",
+                "required": true,
+                "primaryKey": true
+            },
+            "organizationId": {
+                "type": "string",
+                "required": true
+            },
+            "timezone": {
+                "type": "string",
+                "required": true
+            },
+            "defaultProjectTemplateId": {
+                "type": "string"
+            },
+            "aiAssistantEnabled": {
+                "type": "boolean",
+                "required": true,
+                "default": true
+            },
+            "notificationPreferences": {
+                "type": "json",
+                "default": {
+                    "email": true,
+                    "sms": false
+                }
+            },
+            "tenantId": {
+                "type": "uuid",
+                "required": true
+            },
+            "createdAt": {
+                "type": "datetime"
+            },
+            "updatedAt": {
+                "type": "datetime"
+            },
+            "createdBy": {
+                "type": "string"
+            },
+            "updatedBy": {
+                "type": "string"
+            }
+        },
+        "subscriptions": {
+            "onCreated": true,
+            "onUpdated": true
+        },
+        "tenantScoped": true
+    }
+}

@@ -35,7 +35,7 @@ export const Toast = ({
             case 'info':
                 return 'bg-info text-white border-info';
             default:
-                return 'bg-background border-border';
+                return 'bg-base-100 border-border';
         }
     };
 
@@ -114,7 +114,7 @@ export const ToastProvider = ({ children }) => {
     };
 
     const removeToast = (id) => {
-        setToasts((prevToasts) => prevToasts.filter(toast => toast.id !== id));
+        setToasts((prevToasts) => prevToasts.filter(toast => toast._id !== id));
     };
 
     const contextValue = {
@@ -127,10 +127,10 @@ export const ToastProvider = ({ children }) => {
         <ToastContext.Provider value={contextValue}>
             {children}
             <div className="fixed top-4 right-4 z-50 flex flex-col items-end space-y-2">
-                {toasts.map(toast => (
+                {toasts.map((toast, index) => (
                     <Toast
-                        key={toast.id}
-                        id={toast.id}
+                        key={index}
+                        id={toast._id}
                         title={toast.title}
                         description={toast.description}
                         variant={toast.variant}

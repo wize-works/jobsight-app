@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const findSettingById = gql`
 query FindSettingById($id: ID!) {
     findSettingById(id: $id) {
-          _id
-        id
+        _id
         organizationId
         timezone
         defaultProjectTemplateId

@@ -3,10 +3,9 @@ import { gql } from 'graphql-request';
 export const findMessage_drafts = gql`
 query FindMessage_drafts($filter: Message_draftFilter!, $sort: Message_draftSort!, $paging: Message_draftPaging!) {
     findMessage_drafts(filter: $filter, sort: $sort, paging: $paging) {
-          count
+        count
         data {
-              _id
-            id
+            _id
             userId
             conversationId
             text
@@ -14,7 +13,7 @@ query FindMessage_drafts($filter: Message_draftFilter!, $sort: Message_draftSort
             updatedAt
             createdBy
             updatedBy
-      }
+        }
     }
   }
 `;

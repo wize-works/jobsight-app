@@ -192,7 +192,7 @@ Okay, let's break down the explicit components, pages, and structure for buildin
 *   **Content:** Use Shadcn `Card`.
     *   `CardHeader`: `CardTitle` (Project Name), `CardDescription` (Client Name/Dates).
     *   `CardContent`: Key info (Status Badge).
-    *   `CardFooter`: Link/Button (`<Link href={`/projects/${project.id}`}>View</Link>`) styled as a button.
+    *   `CardFooter`: Link/Button (`<Link href={`/projects/${project._id}`}>View</Link>`) styled as a button.
 
 ### 8. Create Project Form (`/components/features/projects/CreateProjectForm.tsx`)
 

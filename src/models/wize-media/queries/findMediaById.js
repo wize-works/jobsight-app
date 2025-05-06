@@ -4,7 +4,6 @@ export const findMediaById = gql`
 query FindMediaById($id: ID!) {
     findMediaById(id: $id) {
           _id
-        id
         projectId
         uploadedBy
         type

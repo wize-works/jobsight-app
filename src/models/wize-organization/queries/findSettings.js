@@ -5,8 +5,7 @@ query FindSettings($filter: SettingFilter!, $sort: SettingSort!, $paging: Settin
     findSettings(filter: $filter, sort: $sort, paging: $paging) {
           count
         data {
-              _id
-            id
+            _id
             organizationId
             timezone
             defaultProjectTemplateId

@@ -18,7 +18,7 @@ const InvoiceDetailPage = ({ params }) => {
             // TODO: Implement invoice geting
             await new Promise(resolve => setTimeout(resolve, 1000));
             setInvoice({
-                id: params.id,
+                id: params._id,
                 number: 'INV-001',
                 project: 'Sample Project',
                 client: 'Sample Client',
@@ -49,7 +49,7 @@ const InvoiceDetailPage = ({ params }) => {
             });
             setIsLoading(false);
         }
-    }, [params.id, toast]);
+    }, [params._id, toast]);
 
     useEffect(() => {
         getInvoice();
@@ -195,7 +195,7 @@ const InvoiceDetailPage = ({ params }) => {
                             )}
                         </button>
                         <Link
-                            href={`/invoicing/${invoice.id}/edit`}
+                            href={`/invoicing/${invoice._id}/edit`}
                             className="btn btn-ghost"
                         >
                             <i className="fas fa-edit mr-2"></i>

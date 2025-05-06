@@ -4,7 +4,6 @@ export const onTaskUpdated = gql`
 subscription OnTaskUpdated {
     onTaskUpdated {
           _id
-        id
         projectId
         title
         description

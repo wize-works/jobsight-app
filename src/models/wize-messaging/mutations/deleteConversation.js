@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const deleteConversation = gql`
 mutation DeleteConversation($id: ID!) {
     deleteConversation(id: $id) {
-          _id
-        id
+        _id
         type
         name
         participants

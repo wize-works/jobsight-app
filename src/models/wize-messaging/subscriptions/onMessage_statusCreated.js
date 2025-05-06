@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const onMessage_statusCreated = gql`
 subscription OnMessage_statusCreated {
     onMessage_statusCreated {
-          _id
-        id
+        _id
         messageId
         userId
         isRead

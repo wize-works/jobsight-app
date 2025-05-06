@@ -4,7 +4,6 @@ export const updateInvoice = gql`
 mutation UpdateInvoice($id: String!, $input: InvoiceInputInput!) {
     updateInvoice(id: $id, input: $input) {
           _id
-        id
         projectId
         status
         lineItems

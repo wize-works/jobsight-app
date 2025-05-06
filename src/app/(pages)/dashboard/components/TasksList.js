@@ -92,13 +92,13 @@ const TasksList = ({
                             </tr>
                         ) : (
                             sortedTasks.map((task) => (
-                                <tr key={task.id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
+                                <tr key={task._id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
                                     <td>
                                         <input
                                             type="checkbox"
                                             className="checkbox checkbox-sm"
                                             checked={task.status === 'completed'}
-                                            onChange={() => onMarkComplete(task.id)}
+                                            onChange={() => onMarkComplete(task._id)}
                                         />
                                     </td>
                                     <td className="font-medium">
@@ -117,7 +117,7 @@ const TasksList = ({
                                     <td>
                                         <button
                                             className="btn btn-ghost btn-sm"
-                                            onClick={() => onEdit(task.id)}
+                                            onClick={() => onEdit(task._id)}
                                         >
                                             Edit
                                         </button>

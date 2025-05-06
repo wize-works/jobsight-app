@@ -3,8 +3,7 @@ import { gql } from 'graphql-request';
 export const onSettingUpdated = gql`
 subscription OnSettingUpdated {
     onSettingUpdated {
-          _id
-        id
+        _id
         organizationId
         timezone
         defaultProjectTemplateId
