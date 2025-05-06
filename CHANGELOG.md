@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/wize-works/jobsight-app/compare/v1.13.0...v1.14.0) (2025-05-06)
+
+
+### Features
+
+* Add schemas for media, messaging, organization, project, and task management ([3eb62f9](https://github.com/wize-works/jobsight-app/commit/3eb62f9f1a89a94868abb53a7dfdab86a8932acd))
+
 # [1.13.0](https://github.com/wize-works/jobsight-app/compare/v1.12.0...v1.13.0) (2025-05-06)
 
 
