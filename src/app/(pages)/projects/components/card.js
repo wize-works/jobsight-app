@@ -47,7 +47,7 @@ export const ProjectCard = ({ project }) => {
 
     return (
         <Link href={`/projects/${id}`} className="block w-full max-w-sm transition-transform duration-300 hover:-translate-y-1 mx-auto">
-            <div className="card bg-white shadow-md border-l-4 border-primary hover:shadow-lg transition-all duration-300 h-full">
+            <div className="card bg-base-100 shadow-md border-l-4 border-primary hover:shadow-lg transition-all duration-300 h-full">
                 <div className="card-body p-5">
                     <div className="flex justify-between items-start">
                         <h2 className="card-title text-lg font-semibold mb-1 line-clamp-1">{title || 'Untitled Project'}</h2>

@@ -3,14 +3,13 @@ import { gql } from 'graphql-request';
 export const findDailyById = gql`
 query FindDailyById($id: ID!) {
     findDailyById(id: $id) {
-          _id
+           _id
         projectId
         date
         submittedBy
         summary
         details
-        regularHours
-        overtimeHours
+        hours
         aiTranscription
         weather
         personnel

@@ -32,8 +32,8 @@ const NewInvoicePage = () => {
     });
 
     useEffect(() => {
-        // TODO: Implement projects and clients fetching
-        const fetchData = async () => {
+        // TODO: Implement projects and clients geting
+        const getData = async () => {
             try {
                 // Simulated API calls
                 await Promise.all([
@@ -45,13 +45,13 @@ const NewInvoicePage = () => {
             } catch (error) {
                 toast({
                     title: 'Error',
-                    description: 'Failed to fetch data',
+                    description: 'Failed to get data',
                     variant: 'destructive'
                 });
             }
         };
 
-        fetchData();
+        getData();
     }, [toast]);
 
     const handleInputChange = (e) => {

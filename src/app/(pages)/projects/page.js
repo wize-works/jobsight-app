@@ -5,11 +5,11 @@ export const ProjectsPage = async () => {
     let projects = [];
 
     try {
-        // Server-side data fetching
+        // Server-side data geting
         const { data } = await getProjects();
         projects = data || [];
     } catch (error) {
-        console.error("Error fetching projects:", error);
+        console.error("Error geting projects:", error);
     }
 
     return (

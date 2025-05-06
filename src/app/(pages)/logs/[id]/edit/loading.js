@@ -1,4 +1,4 @@
-// Loading component for the log edit page
+// Loading component for the edit log page
 export default function Loading() {
     return (
         <div className="flex-1 overflow-x-auto p-2 sm:p-4 lg:p-6 bg-base-200">
@@ -9,7 +9,7 @@ export default function Loading() {
                         <li className="bg-base-300 h-4 w-20 rounded"></li>
                         <li className="bg-base-300 h-4 w-16 rounded"></li>
                         <li className="bg-base-300 h-4 w-24 rounded"></li>
-                        <li className="bg-base-300 h-4 w-12 rounded"></li>
+                        <li className="bg-base-300 h-4 w-20 rounded"></li>
                     </ul>
                 </div>
 
@@ -37,18 +37,9 @@ export default function Loading() {
                         <div className="bg-base-300 h-32 w-full rounded"></div>
                     </div>
 
-                    <div className="animate-pulse mb-6">
-                        <div className="bg-base-300 h-4 w-32 rounded mb-2"></div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div className="bg-base-300 h-10 w-full rounded"></div>
-                            <div className="bg-base-300 h-10 w-full rounded"></div>
-                            <div className="bg-base-300 h-10 w-full rounded"></div>
-                        </div>
-                    </div>
-
                     <div className="flex justify-end gap-2">
                         <div className="bg-base-300 h-10 w-24 rounded"></div>
-                        <div className="bg-base-300 h-10 w-24 rounded"></div>
+                        <div className="bg-base-300 h-10 w-32 rounded"></div>
                     </div>
                 </div>
             </div>

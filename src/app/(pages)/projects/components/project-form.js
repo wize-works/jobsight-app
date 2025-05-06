@@ -15,10 +15,11 @@ export const ProjectForm = ({ project, onSubmit, isEdit = false }) => {
         status: 'planning',
         startDate: '',
         endDate: '',
-        budget: '',
-        progress: 0,
         location: '',
-        notes: ''
+        budget: '',
+        currency: 'USD',
+        progress: 0,
+        tags: [],
     });
 
     // If editing an existing project, populate the form
@@ -30,11 +31,12 @@ export const ProjectForm = ({ project, onSubmit, isEdit = false }) => {
                 client: project.client || '',
                 status: project.status || 'planning',
                 startDate: project.startDate ? new Date(project.startDate).toISOString().split('T')[0] : '',
-                endDate: project.endDate ? new Date(project.endDate).toISOString().split('T')[0] : '',
-                budget: project.budget || '',
-                progress: project.progress || project.completion || 0,
+                endDate: project.endDate ? new Date(project.endDate).toISOString().split('T')[0] : null,
                 location: project.location || '',
-                notes: project.notes || ''
+                budget: project.budget || '',
+                currency: project.currency || 'USD',
+                progress: project.progress || project.completion || 0,
+                tags: project.tags || [],
             });
         }
     }, [isEdit, project]);
@@ -237,19 +239,6 @@ export const ProjectForm = ({ project, onSubmit, isEdit = false }) => {
                             className="input input-bordered w-full"
                         />
                     </div>
-                </div>
-
-                <div className="form-control">
-                    <label className="label">
-                        <span className="label-text font-medium">Notes</span>
-                    </label>
-                    <textarea
-                        name="notes"
-                        value={formData.notes}
-                        onChange={handleChange}
-                        placeholder="Additional notes"
-                        className="textarea textarea-bordered h-24"
-                    ></textarea>
                 </div>
 
                 {/* Form Actions */}

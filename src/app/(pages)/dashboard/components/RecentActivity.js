@@ -142,13 +142,21 @@ const RecentActivity = ({ activities = [], onViewAll = () => { }, loading = fals
                                             {getActivityIcon(activity.type)}
                                             <div className="ml-3 sm:ml-4">
                                                 <div className="font-medium text-sm sm:text-base truncate">
-                                                    {activity.action} <span className="font-medium">{activity.subject}</span>
+                                                    {activity.title || activity.action}
+                                                    {activity.subject && <span className="font-medium"> {activity.subject}</span>}
                                                 </div>
+                                                {activity.description && (
+                                                    <div className="text-xs text-muted-foreground truncate max-w-[200px] sm:max-w-[300px]">
+                                                        {activity.description}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     </td>
                                     <td className="hidden sm:table-cell">
-                                        <span className="text-sm font-medium">{activity.user}</span>
+                                        <span className="text-sm font-medium">
+                                            {activity.user?.name || "System User"}
+                                        </span>
                                     </td>
                                     <td className="text-muted-foreground text-xs sm:text-sm hidden md:table-cell">
                                         {formatTimeAgo(activity.timestamp)}

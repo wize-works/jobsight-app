@@ -1,9 +1,52 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { getProjectById } from '@/services/';
 
 const LogTable = ({ logs, loading }) => {
+    const [projectNames, setProjectNames] = useState({});
+    const [loadingProjects, setLoadingProjects] = useState(true);
+
+    // get project names for all logs when the component mounts or logs change
+    useEffect(() => {
+        const getProjectNames = async () => {
+            if (!logs || logs.length === 0) {
+                setLoadingProjects(false);
+                return;
+            }
+
+            try {
+                // Get unique project IDs
+                const projectIds = [...new Set(logs.map(log => log.projectId))];
+
+                // get project data for each unique project ID
+                const projectData = {};
+                await Promise.all(
+                    projectIds.map(async (projectId) => {
+                        if (projectId) {
+                            const project = await getProjectById(projectId);
+                            projectData[projectId] = project?.name || 'Unknown Project';
+                        }
+                    })
+                );
+
+                setProjectNames(projectData);
+            } catch (error) {
+                console.error('Error geting project names:', error);
+            } finally {
+                setLoadingProjects(false);
+            }
+        };
+
+        if (logs && logs.length > 0) {
+            setLoadingProjects(true);
+            getProjectNames();
+        } else {
+            setLoadingProjects(false);
+        }
+    }, [logs]);
+
     // Format date
     const formatDate = (dateString) => {
         if (!dateString) return 'Not set';
@@ -27,7 +70,7 @@ const LogTable = ({ logs, loading }) => {
     };
 
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto card bg-base-100 shadow-md">
             <table className="table table-zebra w-full">
                 <thead>
                     <tr>
@@ -54,9 +97,13 @@ const LogTable = ({ logs, loading }) => {
                             <tr key={log._id} className="hover:bg-base-200 hover:shadow-md transition-colors duration-200">
                                 <td className="font-medium whitespace-nowrap">{formatDate(log.date)}</td>
                                 <td>
-                                    <Link href={`/projects/${log.projectId}`} className="hover:text-primary transition-colors">
-                                        {log.projectName || 'Unnamed Project'}
-                                    </Link>
+                                    {loadingProjects ? (
+                                        <span className="loading loading-spinner loading-xs"></span>
+                                    ) : (
+                                        <Link href={`/projects/${log.projectId}`} className="hover:text-primary transition-colors">
+                                            {projectNames[log.projectId] || 'Unnamed Project'}
+                                        </Link>
+                                    )}
                                 </td>
                                 <td className="hidden sm:table-cell">{log.author}</td>
                                 <td className="hidden md:table-cell">

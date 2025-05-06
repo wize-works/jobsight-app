@@ -3,8 +3,9 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { getProjects } from '@/services/project';
+import { getProjects, getProjectById } from '@/services/project';
 import { getDailyLogs } from '@/services/log';
+import { debugData, logEvent, captureError } from '@/utils/client-debug';
 import LogTable from './LogTable';
 import LogCard from './LogCard';
 
@@ -13,10 +14,10 @@ const LogsList = ({ initialLogs = [] }) => {
     const searchParams = useSearchParams();
 
     // State management
-    const [logs, setLogs] = useState(initialLogs);
+    const [logs, setLogs] = useState(() => debugData(initialLogs));
     const [projects, setProjects] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [viewMode, setViewMode] = useState('table'); // 'table' or 'grid'
+    const [viewMode, setViewMode] = useState('grid'); // 'table' or 'grid'
 
     // Filter state
     const [filters, setFilters] = useState({
@@ -31,9 +32,9 @@ const LogsList = ({ initialLogs = [] }) => {
         const loadProjects = async () => {
             try {
                 const projectsData = await getProjects();
-                setProjects(projectsData?.data || []);
+                setProjects(debugData(projectsData?.data || []));
             } catch (error) {
-                console.error("Error loading projects:", error);
+                captureError(error, { context: "Loading projects in LogsList" });
             }
         };
 
@@ -43,6 +44,8 @@ const LogsList = ({ initialLogs = [] }) => {
     // Handle filter changes with debouncing
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
+        logEvent('filter_changed', { name, value });
+
         setFilters(prev => ({
             ...prev,
             [name]: value
@@ -60,6 +63,8 @@ const LogsList = ({ initialLogs = [] }) => {
 
     // Clear all filters
     const handleClearFilters = () => {
+        logEvent('filters_cleared');
+
         setFilters({
             projectId: '',
             dateFrom: '',
@@ -97,11 +102,13 @@ const LogsList = ({ initialLogs = [] }) => {
                 filterOptions.filter.author = { contains: filters.author };
             }
 
-            // Use the log service directly, same as how we'd use it server-side
+            logEvent('loading_filtered_logs', filterOptions);
+
+            // Use the log service directly, but wrap with debugData to enable breakpoints
             const logsData = await getDailyLogs(filterOptions);
-            setLogs(logsData || []);
+            setLogs(debugData(logsData || []));
         } catch (error) {
-            console.error("Error loading logs:", error);
+            captureError(error, { context: "Loading filtered logs", filters });
         } finally {
             setIsLoading(false);
         }
@@ -112,12 +119,13 @@ const LogsList = ({ initialLogs = [] }) => {
         if (filters.projectId || filters.dateFrom || filters.dateTo || filters.author) {
             loadFilteredLogs();
         } else {
-            setLogs(initialLogs); // Reset to initial logs if no filters
+            setLogs(debugData(initialLogs)); // Reset to initial logs if no filters
         }
     }, [loadFilteredLogs, filters, initialLogs]);
 
     // Handle log navigation
     const handleViewLog = (logId) => {
+        logEvent('log_selected', { logId });
         router.push(`/logs/${logId}`);
     };
 
@@ -162,16 +170,16 @@ const LogsList = ({ initialLogs = [] }) => {
                 <div className="flex items-center gap-2">
                     <div className="btn-group hidden sm:flex">
                         <button
-                            className={`btn ${viewMode === 'table' ? 'btn-active' : ''}`}
-                            onClick={() => setViewMode('table')}
-                        >
-                            <i className="fas fa-list"></i>
-                        </button>
-                        <button
                             className={`btn ${viewMode === 'grid' ? 'btn-active' : ''}`}
                             onClick={() => setViewMode('grid')}
                         >
                             <i className="fas fa-th-large"></i>
+                        </button>
+                        <button
+                            className={`btn ${viewMode === 'table' ? 'btn-active' : ''}`}
+                            onClick={() => setViewMode('table')}
+                        >
+                            <i className="fas fa-list"></i>
                         </button>
                     </div>
                     <Link href="/logs/new" className="btn btn-primary">

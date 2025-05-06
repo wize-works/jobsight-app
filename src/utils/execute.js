@@ -78,6 +78,8 @@ export const deepClean = async (value) => {
  */
 export const executeGraphQL = async (service, query, variables = {}) => {
     try {
+        //console.log(`📡 API Request to ${service}:`, { query, variables });
+
         let API_URL = `https://api.wize.works/${service}/graphql`;
         // if (service === 'wize-log') {
         //     API_URL = `http://localhost:3001/graphql`;
@@ -86,7 +88,8 @@ export const executeGraphQL = async (service, query, variables = {}) => {
             query: query,
             variables: variables, //deepClean(variables),
         });
-        console.log('Body', body);
+
+        console.log('🚀 Request sent to:', API_URL);
 
         const response = await fetch(API_URL, {
             method: 'POST',
@@ -97,18 +100,26 @@ export const executeGraphQL = async (service, query, variables = {}) => {
             body: body,
         });
 
+        //console.log('📥 Response status:', response.status);
+
         if (!response.ok) {
             const errorData = await response.json();
+            console.error('❌ API Error:', errorData);
             throw new Error(errorData.message || 'Project API request failed');
         }
-        const { data, errors } = await response.json();
+
+        const responseJson = await response.json();
+        const { data, errors } = responseJson;
+
         if (errors && errors.length > 0) {
+            console.error('❌ GraphQL Errors:', errors);
             throw new Error(errors[0].message || 'GraphQL operation failed');
         }
 
+        //console.log('✅ API Success:', { service, data });
         return data;
     } catch (error) {
-        console.error('Project service error:', error);
+        console.error(`❌ ${service} service error:`, error);
         throw error;
     }
 }

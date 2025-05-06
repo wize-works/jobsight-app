@@ -19,8 +19,8 @@ import {
     updateVector_log,
     deleteVector_log
 } from '@/models/wize-log/mutations';
-import { deepClean, executeGraphQL } from '@/services/execute';
-import { flattenGraphQLFilters } from './utils';
+import { deepClean, executeGraphQL } from '@/utils/execute';
+import { flattenGraphQLFilters } from '@/utils/flattenGraphQLFilters';
 
 const service = 'wize-log';
 
@@ -29,7 +29,7 @@ const service = 'wize-log';
  */
 
 /**
- * Fetch daily logs with optional filtering, sorting and pagination
+ * get daily logs with optional filtering, sorting and pagination
  * @param {Object} options - Query options
  * @param {Object} options.filter - Filtering criteria
  * @param {Object} options.sort - Sorting criteria
@@ -53,7 +53,7 @@ export const getDailyLogs = async (options = {}) => {
 }
 
 /**
- * Fetch a single daily log by ID
+ * get a single daily log by ID
  * @param {string} id - Daily log ID
  * @returns {Promise<Object>} - Daily log details
  */
@@ -80,6 +80,7 @@ export const createDailyLog = async (dailyLogData) => {
  * @returns {Promise<Object>} - Updated daily log
  */
 export const updateDailyLog = async (id, dailyLogData) => {
+    await deepClean(dailyLogData);
     const data = await executeGraphQL(service, updateDaily, { id, input: dailyLogData });
     return data.updateDaily;
 }
@@ -99,7 +100,7 @@ export const deleteDailyLog = async (id) => {
  */
 
 /**
- * Fetch AI logs with optional filtering, sorting and pagination
+ * get AI logs with optional filtering, sorting and pagination
  * @param {Object} options - Query options
  * @param {Object} options.filter - Filtering criteria
  * @param {Object} options.sort - Sorting criteria
@@ -121,7 +122,7 @@ export const getAiLogs = async (options = {}) => {
 }
 
 /**
- * Fetch a single AI log by ID
+ * get a single AI log by ID
  * @param {string} id - AI log ID
  * @returns {Promise<Object>} - AI log details
  */
@@ -166,7 +167,7 @@ export const deleteAiLog = async (id) => {
  */
 
 /**
- * Fetch vector logs with optional filtering, sorting and pagination
+ * get vector logs with optional filtering, sorting and pagination
  * @param {Object} options - Query options
  * @param {Object} options.filter - Filtering criteria
  * @param {Object} options.sort - Sorting criteria
@@ -188,7 +189,7 @@ export const getVectorLogs = async (options = {}) => {
 }
 
 /**
- * Fetch a single vector log by ID
+ * get a single vector log by ID
  * @param {string} id - Vector log ID
  * @returns {Promise<Object>} - Vector log details
  */

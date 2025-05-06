@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchEquipment } from '@/services/equipment';
+import { getEquipments } from '@/services/equipment';
 import { useToast } from '@/hooks/use-toast';
 import EquipmentCard from './components/EquipmentCard';
 
@@ -22,18 +22,23 @@ export default function EquipmentPage() {
     const loadEquipment = useCallback(async () => {
         try {
             setLoading(true);
-            const data = await fetchEquipment(filters);
-            setEquipment(data);
+            const { data } = await getEquipments(filters);
+            console.log('Fetched equipment data:', data); // Debugging line
+            // Ensure equipment is always an array
+            setEquipment(Array.isArray(data) ? data : []);
         } catch (error) {
+            // Using toast inside the function without dependency
             toast({
                 title: 'Error loading equipment',
                 description: error.message || 'Could not load equipment data',
                 variant: 'destructive',
             });
+            // Set equipment to empty array on error
+            setEquipment([]);
         } finally {
             setLoading(false);
         }
-    }, [filters, toast]);
+    }, [filters]); // Remove toast from dependencies
 
     useEffect(() => {
         loadEquipment();
@@ -53,12 +58,15 @@ export default function EquipmentPage() {
 
     // Calculate status counts for the summary cards
     const getStatusCounts = () => {
+        // Ensure we're working with an array
+        const equipmentArray = Array.isArray(equipment) ? equipment : [];
+
         const counts = {
-            active: equipment.filter(e => e.status === 'active' || e.status === 'available').length,
-            inUse: equipment.filter(e => e.status === 'in use').length,
-            maintenance: equipment.filter(e => e.status === 'maintenance').length,
-            repair: equipment.filter(e => e.status === 'repair').length,
-            total: equipment.length
+            active: equipmentArray.filter(e => e?.status === 'active' || e?.status === 'available').length,
+            inUse: equipmentArray.filter(e => e?.status === 'in use').length,
+            maintenance: equipmentArray.filter(e => e?.status === 'maintenance').length,
+            repair: equipmentArray.filter(e => e?.status === 'repair').length,
+            total: equipmentArray.length
         };
         return counts;
     };

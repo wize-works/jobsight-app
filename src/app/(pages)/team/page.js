@@ -7,7 +7,7 @@ import TeamStatsSummary from './components/TeamStatsSummary';
 import TeamFilter from './components/TeamFilter';
 
 // Mock team service (will be replaced with actual API integration)
-const fetchTeamMembers = async () => {
+const getTeamMembers = async () => {
     // Simulated API delay
     await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -98,12 +98,12 @@ const TeamPage = () => {
     useEffect(() => {
         const loadTeamMembers = async () => {
             try {
-                const data = await fetchTeamMembers();
+                const data = await getTeamMembers();
                 setTeamMembers(data);
                 setFilteredMembers(data);
                 setIsLoading(false);
             } catch (error) {
-                console.error("Error fetching team members:", error);
+                console.error("Error geting team members:", error);
                 toast({
                     title: "Error",
                     description: "Failed to load team members",

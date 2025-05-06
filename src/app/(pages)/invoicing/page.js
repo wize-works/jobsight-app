@@ -32,7 +32,7 @@ const InvoicingPage = () => {
         { value: 'year', label: 'This Year' }
     ];
 
-    const fetchInvoices = useCallback(async () => {
+    const getInvoices = useCallback(async () => {
         try {
             // Simulated API call
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -41,7 +41,7 @@ const InvoicingPage = () => {
         } catch (error) {
             toast({
                 title: 'Error',
-                description: 'Failed to fetch invoices',
+                description: 'Failed to get invoices',
                 variant: 'destructive'
             });
             setIsLoading(false);
@@ -49,9 +49,9 @@ const InvoicingPage = () => {
     }, [toast]);
 
     useEffect(() => {
-        // TODO: Implement invoice fetching
-        fetchInvoices();
-    }, [fetchInvoices]);
+        // TODO: Implement invoice geting
+        getInvoices();
+    }, [getInvoices]);
 
     const handleCreateInvoice = () => {
         router.push('/invoicing/new');
@@ -214,10 +214,10 @@ const InvoicingPage = () => {
                                                 <td>${invoice.amount}</td>
                                                 <td>
                                                     <span className={`badge ${invoice.status === 'paid' ? 'badge-success' :
-                                                            invoice.status === 'overdue' ? 'badge-error' :
-                                                                invoice.status === 'sent' ? 'badge-info' :
-                                                                    invoice.status === 'draft' ? 'badge-warning' :
-                                                                        'badge-neutral'
+                                                        invoice.status === 'overdue' ? 'badge-error' :
+                                                            invoice.status === 'sent' ? 'badge-info' :
+                                                                invoice.status === 'draft' ? 'badge-warning' :
+                                                                    'badge-neutral'
                                                         }`}>
                                                         {invoice.status}
                                                     </span>

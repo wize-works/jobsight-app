@@ -6,10 +6,10 @@ export const LogDetailPage = async ({ params }) => {
     let log = null;
 
     try {
-        // Server-side data fetching using the log service directly
+        // Server-side data geting using the log service directly
         log = await getDailyLogById(params.id);
     } catch (error) {
-        console.error("Error fetching log details:", error);
+        console.error("Error geting log details:", error);
     }
 
     // Show not found state if log doesn't exist

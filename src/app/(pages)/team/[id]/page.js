@@ -8,8 +8,8 @@ import TeamMemberProjects from './components/TeamMemberProjects';
 import TeamMemberTasks from './components/TeamMemberTasks';
 import TeamMemberActivities from './components/TeamMemberActivities';
 
-// Mock API function to fetch team member details
-const fetchTeamMember = async (id) => {
+// Mock API function to get team member details
+const getTeamMember = async (id) => {
     // Simulated API delay
     await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -114,8 +114,8 @@ const fetchTeamMember = async (id) => {
     return member;
 };
 
-// Mock API function to fetch project details for a team member
-const fetchTeamMemberProjects = async (projectIds) => {
+// Mock API function to get project details for a team member
+const getTeamMemberProjects = async (projectIds) => {
     // Simulated API delay
     await new Promise(resolve => setTimeout(resolve, 300));
 
@@ -129,8 +129,8 @@ const fetchTeamMemberProjects = async (projectIds) => {
     return allProjects.filter(project => projectIds.includes(project._id));
 };
 
-// Mock API function to fetch task details for a team member
-const fetchTeamMemberTasks = async (taskIds) => {
+// Mock API function to get task details for a team member
+const getTeamMemberTasks = async (taskIds) => {
     // Simulated API delay
     await new Promise(resolve => setTimeout(resolve, 300));
 
@@ -218,21 +218,21 @@ const TeamMemberDetailPage = () => {
     useEffect(() => {
         const loadTeamMemberData = async () => {
             try {
-                // Fetch main member data
-                const memberData = await fetchTeamMember(params.id);
+                // get main member data
+                const memberData = await getTeamMember(params.id);
                 setMember(memberData);
 
-                // Fetch related project and task data
+                // get related project and task data
                 const [projectsData, tasksData] = await Promise.all([
-                    fetchTeamMemberProjects(memberData.projects || []),
-                    fetchTeamMemberTasks(memberData.tasks || [])
+                    getTeamMemberProjects(memberData.projects || []),
+                    getTeamMemberTasks(memberData.tasks || [])
                 ]);
 
                 setProjects(projectsData);
                 setTasks(tasksData);
                 setIsLoading(false);
             } catch (error) {
-                console.error("Error fetching team member:", error);
+                console.error("Error geting team member:", error);
                 toast({
                     title: "Error",
                     description: "Failed to load team member data",

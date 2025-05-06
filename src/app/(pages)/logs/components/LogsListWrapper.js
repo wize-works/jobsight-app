@@ -55,7 +55,7 @@ export default function LogsListWrapper({ initialLogs }) {
                 const logsData = await getDailyLogs(filterOptions);
                 setLogs(logsData || []);
             } catch (error) {
-                console.error("Error fetching filtered logs:", error);
+                console.error("Error geting filtered logs:", error);
                 toast({
                     title: "Error",
                     description: "Could not load filtered logs",

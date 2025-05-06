@@ -7,7 +7,7 @@ import MessagePanel from './components/MessagePanel';
 import MessageEmpty from './components/MessageEmpty';
 
 // Mock data for conversations - will be replaced with API calls later
-const fetchConversations = async () => {
+const getConversations = async () => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -99,7 +99,7 @@ const fetchConversations = async () => {
 };
 
 // Mock data for messages within a conversation - will be replaced with API calls later
-const fetchMessages = async (conversationId) => {
+const getMessages = async (conversationId) => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 300));
 
@@ -274,12 +274,12 @@ const TeamMessagesPage = () => {
     const [isLoadingMessages, setIsLoadingMessages] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
-    // Fetch conversations on initial load
+    // get conversations on initial load
     useEffect(() => {
         const loadConversations = async () => {
             setIsLoadingConversations(true);
             try {
-                const data = await fetchConversations();
+                const data = await getConversations();
                 const sortedData = [...data].sort((a, b) => {
                     return new Date(b.lastMessage?.timestamp || 0) - new Date(a.lastMessage?.timestamp || 0);
                 });
@@ -298,14 +298,14 @@ const TeamMessagesPage = () => {
         loadConversations();
     }, []);
 
-    // Fetch messages when a conversation is selected
+    // get messages when a conversation is selected
     useEffect(() => {
         if (!selectedConversation) return;
 
         const loadMessages = async () => {
             setIsLoadingMessages(true);
             try {
-                const data = await fetchMessages(selectedConversation.id);
+                const data = await getMessages(selectedConversation.id);
                 setMessages(data);
                 setIsLoadingMessages(false);
 
@@ -318,7 +318,7 @@ const TeamMessagesPage = () => {
                     )
                 );
             } catch (error) {
-                console.error("Error fetching messages:", error);
+                console.error("Error geting messages:", error);
                 toast({
                     title: "Error",
                     description: "Failed to load messages",

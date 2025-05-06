@@ -4,16 +4,16 @@ import EditProjectForm from './components/EditProjectForm';
 import EditPageLoading from './components/EditPageLoading';
 import EditPageError from './components/EditPageError';
 
-// This is a server component that fetches data server-side
+// This is a server component that getes data server-side
 export const EditProjectPage = async ({ params }) => {
     let project = null;
     let error = null;
 
     try {
-        // Server-side data fetching
+        // Server-side data geting
         project = await getProjectById(params.id);
     } catch (err) {
-        console.error("Error fetching project:", err);
+        console.error("Error geting project:", err);
         error = "Failed to load project data. Please try again.";
     }
 

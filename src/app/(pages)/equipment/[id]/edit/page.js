@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { fetchEquipmentById } from '@/services/equipment';
+import { getEquipmentById } from '@/services/equipment';
 import { useToast } from '@/hooks/use-toast';
 import EquipmentForm from '../../components/EquipmentForm';
 
@@ -17,7 +17,7 @@ export default function EditEquipmentPage({ params }) {
         const loadEquipment = async () => {
             try {
                 setLoading(true);
-                const data = await fetchEquipmentById(id);
+                const data = await getEquipmentById(id);
                 setEquipment(data);
             } catch (error) {
                 toast({

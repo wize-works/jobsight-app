@@ -1,15 +1,15 @@
 import { getDailyLogById } from '@/services/log';
-import LogEditForm from './components/LogEditForm';
+import EditLogForm from './components/EditLogForm';
 import LogNotFound from '../components/LogNotFound';
 
 export const EditLogPage = async ({ params }) => {
     let log = null;
 
     try {
-        // Server-side data fetching using the log service directly
+        // Server-side data geting using the log service directly
         log = await getDailyLogById(params.id);
     } catch (error) {
-        console.error("Error fetching log details:", error);
+        console.error("Error geting log details for editing:", error);
     }
 
     // Show not found state if log doesn't exist
@@ -23,7 +23,7 @@ export const EditLogPage = async ({ params }) => {
 
     return (
         <main className="flex-1 overflow-x-auto p-2 sm:p-4 lg:p-6 bg-base-200">
-            <LogEditForm log={log} />
+            <EditLogForm log={log} />
         </main>
     );
 };

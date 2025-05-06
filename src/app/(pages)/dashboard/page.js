@@ -10,13 +10,13 @@ import FinancialOverview from "./components/FinancialOverview";
 import AIAssistant from "./components/AIAssistant";
 import RecentActivity from "./components/RecentActivity";
 import {
-    fetchProjects,
-    fetchTasks,
-    fetchEquipment,
-    fetchFinancialSummary,
-    fetchActivities,
-    fetchAiSuggestions,
-    updateTask
+    getProjects,
+    getTasks,
+    getEquipments,
+    getFinancialSummary,
+    getActivities,
+    getAiSuggestions,
+    updateExistingTask
 } from "@/services";
 import { useToast } from "@/hooks/use-toast";
 
@@ -53,23 +53,23 @@ const Dashboard = () => {
                     activitiesData,
                     suggestionsData
                 ] = await Promise.all([
-                    fetchProjects(),
-                    fetchTasks(),
-                    fetchEquipment(),
-                    fetchFinancialSummary(),
-                    fetchActivities(4),
-                    fetchAiSuggestions()
+                    getProjects().then(data => data || []),
+                    getTasks().then(data => data || []),
+                    getEquipments().then(data => data || []),
+                    getFinancialSummary().then(data => data || { revenue: 0, expenses: 0, profit: 0 }),
+                    getActivities(4).then(data => data || []),
+                    getAiSuggestions().then(data => data || [])
                 ]);
 
                 // Only update state if component is still mounted
                 if (mounted) {
                     setDashboardData({
-                        projects: projectsData,
-                        tasks: tasksData,
-                        equipment: equipmentData,
-                        financialSummary: financialData,
-                        activities: activitiesData,
-                        aiSuggestions: suggestionsData
+                        projects: projectsData || [],
+                        tasks: tasksData || [],
+                        equipment: equipmentData || [],
+                        financialSummary: financialData || { revenue: 0, expenses: 0, profit: 0 },
+                        activities: activitiesData || [],
+                        aiSuggestions: suggestionsData || []
                     });
 
                     setIsLoading(false);
@@ -77,11 +77,6 @@ const Dashboard = () => {
             } catch (error) {
                 console.error("Error fetching dashboard data:", error);
                 if (mounted) {
-                    toast({
-                        title: "Error",
-                        description: "Failed to load dashboard data",
-                        variant: "destructive",
-                    });
                     setIsLoading(false);
                 }
             }
@@ -93,10 +88,17 @@ const Dashboard = () => {
         return () => {
             mounted = false;
         };
-    }, [toast]);
+    }, []);
 
-    // Destructure data for easier access
-    const { projects, tasks, equipment, financialSummary, activities, aiSuggestions } = dashboardData;
+    // Destructure data for easier access and ensure they are arrays
+    const {
+        projects = [],
+        tasks = [],
+        equipment = [],
+        financialSummary = { revenue: 0, expenses: 0, profit: 0 },
+        activities = [],
+        aiSuggestions = []
+    } = dashboardData;
 
     // Get today's tasks
     const todayStart = new Date();
@@ -105,42 +107,45 @@ const Dashboard = () => {
     const todayEnd = new Date();
     todayEnd.setHours(23, 59, 59, 999);
 
-    const tasksDueToday = tasks.filter(task => {
-        if (!task.dueDate) return false;
+    const tasksDueToday = Array.isArray(tasks) ? tasks.filter(task => {
+        if (!task?.dueDate) return false;
         const dueDate = new Date(task.dueDate);
         return dueDate >= todayStart && dueDate <= todayEnd;
-    });
+    }) : [];
 
     // Calculate equipment status percentage
-    const activeEquipment = equipment.filter(item => item.status === 'active' || item.status === 'available').length;
-    const equipmentStatusPercentage = equipment.length > 0
+    const activeEquipment = Array.isArray(equipment) ? equipment.filter(item => item?.status === 'active' || item?.status === 'available').length : 0;
+    const equipmentStatusPercentage = Array.isArray(equipment) && equipment.length > 0
         ? Math.round((activeEquipment / equipment.length) * 100)
         : 0;
 
     // Financial data for overview
     const financialData = {
-        revenue: financialSummary.revenue || 0,
-        expenses: financialSummary.expenses || 0,
-        profit: financialSummary.profit || 0,
+        revenue: financialSummary?.revenue || 0,
+        expenses: financialSummary?.expenses || 0,
+        profit: financialSummary?.profit || 0,
         revenueChange: 14, // Mock data for UI presentation
         expensesChange: 7,  // Mock data for UI presentation
         profitChange: 23    // Mock data for UI presentation
     };
 
+    // Get first 4 equipment items safely
+    const displayEquipment = Array.isArray(equipment) ? equipment.slice(0, 4) : [];
+
     // Task handling
     const handleMarkCompleteTask = async (taskId) => {
         try {
-            await updateTask(taskId, { status: 'completed' });
+            await updateExistingTask(taskId, { status: 'completed' });
             toast({
                 title: "Task completed",
                 description: "The task has been marked as completed",
             });
 
-            // Only update the tasks without triggering a full reload
-            const updatedTasks = await fetchTasks();
+            // Update tasks after marking one as complete
+            const updatedTasksData = await getTasks().then(data => data || []);
             setDashboardData(prevData => ({
                 ...prevData,
-                tasks: updatedTasks
+                tasks: updatedTasksData
             }));
         } catch (error) {
             toast({
@@ -173,7 +178,7 @@ const Dashboard = () => {
     };
 
     const navigateToFinances = () => {
-        router.push("/finances");
+        router.push("/invoicing");
     };
 
     return (
@@ -196,8 +201,8 @@ const Dashboard = () => {
                         icon={<i className="far fa-tasks fa-lg" />}
                     />
                     <StatCard
-                        title="Equipment Issues"
-                        value={isLoading ? "-" : `${Math.round((equipment.filter(e => e.inUse).length / equipment.length) * 100)}%`}
+                        title="Equipment Status"
+                        value={isLoading ? "-" : `${equipmentStatusPercentage}%`}
                         change={5}
                         color="accent"
                         icon={<i className="far fa-tools fa-lg" />}
@@ -213,7 +218,7 @@ const Dashboard = () => {
 
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 p-3 sm:p-4 bg-base-200 rounded-t-lg">
                     <h2 className="text-base sm:text-lg font-semibold">Recent Projects</h2>
-                    <button className="btn btn-primary btn-sm w-full sm:w-auto" onClick={() => alert('Add new project functionality here!')}>Add New Project</button>
+                    <button className="btn btn-primary btn-sm w-full sm:w-auto" onClick={navigateToNewProject}>Add New Project</button>
                 </div>
                 <div className="card bg-base-100 shadow-lg mb-4 sm:mb-6">
                     <div className="card-body p-3 sm:p-4 lg:p-6">
@@ -234,7 +239,7 @@ const Dashboard = () => {
                     />
 
                     <EquipmentTable
-                        equipment={equipment.slice(0, 4)}
+                        equipment={displayEquipment}
                         onManageEquipment={navigateToEquipment}
                         loading={isLoading}
                     />
@@ -248,7 +253,7 @@ const Dashboard = () => {
 
                     <RecentActivity
                         activities={activities}
-                        onViewAll={() => console.log("View all activities")}
+                        onViewAll={() => router.push("/logs")}
                         loading={isLoading}
                     />
 

@@ -5,11 +5,11 @@ export const LogsPage = async () => {
     let logs = [];
 
     try {
-        // Server-side data fetching using the log service directly, same as projects page
+        // Server-side data geting using the log service directly, same as projects page
         const { data } = await getDailyLogs();
         logs = data || []; // Ensure logs is an array
     } catch (error) {
-        console.error("Error fetching logs:", error);
+        console.error("Error geting logs:", error);
     }
 
     return (

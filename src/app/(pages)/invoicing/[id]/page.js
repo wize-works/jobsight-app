@@ -13,9 +13,9 @@ const InvoiceDetailPage = ({ params }) => {
     const [isSending, setIsSending] = useState(false);
     const [isMarkingPaid, setIsMarkingPaid] = useState(false);
 
-    const fetchInvoice = useCallback(async () => {
+    const getInvoice = useCallback(async () => {
         try {
-            // TODO: Implement invoice fetching
+            // TODO: Implement invoice geting
             await new Promise(resolve => setTimeout(resolve, 1000));
             setInvoice({
                 id: params.id,
@@ -44,7 +44,7 @@ const InvoiceDetailPage = ({ params }) => {
         } catch (error) {
             toast({
                 title: 'Error',
-                description: 'Failed to fetch invoice',
+                description: 'Failed to get invoice',
                 variant: 'destructive'
             });
             setIsLoading(false);
@@ -52,8 +52,8 @@ const InvoiceDetailPage = ({ params }) => {
     }, [params.id, toast]);
 
     useEffect(() => {
-        fetchInvoice();
-    }, [fetchInvoice]);
+        getInvoice();
+    }, [getInvoice]);
 
     const handleSendInvoice = async () => {
         setIsSending(true);
@@ -222,10 +222,10 @@ const InvoiceDetailPage = ({ params }) => {
                                     <div>
                                         <h2 className="text-lg font-semibold mb-2">Status</h2>
                                         <span className={`badge ${invoice.status === 'paid' ? 'badge-success' :
-                                                invoice.status === 'overdue' ? 'badge-error' :
-                                                    invoice.status === 'sent' ? 'badge-info' :
-                                                        invoice.status === 'draft' ? 'badge-warning' :
-                                                            'badge-neutral'
+                                            invoice.status === 'overdue' ? 'badge-error' :
+                                                invoice.status === 'sent' ? 'badge-info' :
+                                                    invoice.status === 'draft' ? 'badge-warning' :
+                                                        'badge-neutral'
                                             }`}>
                                             {invoice.status}
                                         </span>

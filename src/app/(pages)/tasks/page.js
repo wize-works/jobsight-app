@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback, useRef, memo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-import { fetchTasks, updateTask } from '@/services/task';
+import { getTasks, updateTask } from '@/services/task';
 import TaskList from './components/TaskList';
 import TaskFilter from './components/TaskFilter';
 import TaskStatsSummary from './components/TaskStatsSummary';
@@ -109,7 +109,7 @@ const TasksPage = memo(() => {
             setIsLoading(true);
             console.log("TasksPage - Loading tasks...");
 
-            const data = await fetchTasks();
+            const data = await getTasks();
             console.log("TasksPage - Tasks loaded:", data.length);
 
             tasksRef.current = data;
@@ -119,7 +119,7 @@ const TasksPage = memo(() => {
             setFilteredTasks(filterAndSortTasks());
             setIsLoading(false);
         } catch (error) {
-            console.error("Error fetching tasks:", error);
+            console.error("Error geting tasks:", error);
             toast({
                 title: "Error",
                 description: "Failed to load tasks",
@@ -314,7 +314,7 @@ const TasksPage = memo(() => {
                             onClick={() => handleTaskClick(task.id)}
                             className={`cursor-pointer transition-transform duration-300 hover:-translate-y-1 w-full mx-auto`}
                         >
-                            <div className={`card bg-white shadow-md border-l-4 ${getPriorityBorderColor(task.priority)} hover:shadow-lg transition-all duration-300 h-full ${overdueClass}`}>
+                            <div className={`card bg-base-100 shadow-md border-l-4 ${getPriorityBorderColor(task.priority)} hover:shadow-lg transition-all duration-300 h-full ${overdueClass}`}>
                                 <div className="card-body p-5">
                                     <div className="flex justify-between items-start">
                                         <h2 className={`card-title text-lg font-semibold mb-1 line-clamp-1 ${task.status === 'completed' ? 'line-through text-base-content/60' : ''}`}>
