@@ -145,6 +145,7 @@ jobs:
           ACR_NAME: ${{ secrets.ACR_NAME }}
           FONT_AWESOME_NPM_TOKEN: ${{ secrets.FONT_AWESOME_NPM_TOKEN }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          WIZE_API_KEY: ${{ secrets.WIZE_API_KEY }}
 
       - name: Deploy to AKS
         run: |
