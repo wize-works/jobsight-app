@@ -44,7 +44,7 @@ export const metadata = {
 export default async function RootLayout({ children }) {
     // Sync the user with database for authenticated users
     await syncUserWithDatabase();
-    
+
     return (
         <html lang="en" suppressHydrationWarning>
             <Script src="https://kit.fontawesome.com/40c3b5129c.js" crossOrigin="anonymous" />

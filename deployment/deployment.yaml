@@ -32,10 +32,24 @@ spec:
           value: "${MONGO_URI}"
         - name: SENTRY_DSN
           value: "${SENTRY_DSN}"
+        - name: NEXT_PUBLIC_SENTRY_DSN
+          value: "${NEXT_PUBLIC_SENTRY_DSN}"
         - name: DB_NAME
           value: "${DB_NAME}"
         - name: WIZE_API_KEY
           value: "${WIZE_API_KEY}"
+        - name: CLERK_SECRET_KEY
+          value: "${CLERK_SECRET_KEY}"
+        - name: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+          value: "${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}"
+        - name: NEXT_PUBLIC_CLERK_SIGN_IN_URL
+          value: "${NEXT_PUBLIC_CLERK_SIGN_IN_URL}"
+        - name: NEXT_PUBLIC_CLERK_SIGN_UP_URL
+          value: "${NEXT_PUBLIC_CLERK_SIGN_UP_URL}"
+        - name: NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL
+          value: "${NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL}"
+        - name: NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL
+          value: "${NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL}"
         resources:
           requests:
             memory: "128Mi"
