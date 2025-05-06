@@ -1,3 +1,11 @@
+# [1.13.0](https://github.com/wize-works/jobsight-app/compare/v1.12.0...v1.13.0) (2025-05-06)
+
+
+### Features
+
+* Add WIZE_API_KEY environment variable to deployment configuration ([501e730](https://github.com/wize-works/jobsight-app/commit/501e73013bff63da9aaf0c8035b0a2b0dd4d7922))
+* Add WIZE_API_KEY to deployment secrets in AKS workflow ([9dd03ed](https://github.com/wize-works/jobsight-app/commit/9dd03ed22d22250d2dfd61c77cc06805fb29c7ae))
+
 # [1.12.0](https://github.com/wize-works/jobsight-app/compare/v1.11.0...v1.12.0) (2025-05-06)
 
 
